@@ -1,0 +1,9 @@
+services:
+  backend:
+    image: 729049749833.dkr.ecr.us-east-1.amazonaws.com/portfolio-backend:latest
+    container_name: portfolio-backend
+    env_file:
+      - .env
+    ports:
+      - "80:8000"
+    restart: unless-stopped
