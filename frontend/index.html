@@ -107,6 +107,25 @@
             border-radius: 6px;
             padding: 0.9rem;
         }
+        .detail-dialog::backdrop {
+            background: rgba(0, 0, 0, 0.78);
+        }
+        .detail-dialog[open] {
+            animation: detail-in 150ms ease-out;
+        }
+        .detail-copy {
+            white-space: pre-wrap;
+        }
+        @keyframes detail-in {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 <body class="font-sans antialiased selection:bg-white selection:text-black">
@@ -246,6 +265,24 @@
         </section>
     </main>
 
+    <dialog id="detail-dialog" class="detail-dialog m-auto w-[min(760px,calc(100%-2rem))] max-h-[calc(100vh-2rem)] overflow-y-auto rounded-lg border border-matte-700 bg-matte-950 p-0 text-gray-400 shadow-2xl">
+        <article class="p-6 sm:p-8">
+            <div class="mb-6 flex items-start justify-between gap-6">
+                <div>
+                    <p id="detail-kind" class="mb-3 font-mono text-xs uppercase text-accent-400"></p>
+                    <h2 id="detail-title" class="text-2xl font-semibold text-white"></h2>
+                </div>
+                <button id="detail-close" type="button" aria-label="Close detail" class="flex h-10 w-10 shrink-0 items-center justify-center rounded border border-matte-800 text-gray-400 hover:border-accent-500 hover:text-white transition-colors">
+                    <i class="fas fa-xmark"></i>
+                </button>
+            </div>
+            <p id="detail-short-description" class="mb-5 text-base leading-relaxed text-gray-300"></p>
+            <div id="detail-meta" class="mb-5 flex flex-wrap gap-2"></div>
+            <div id="detail-links" class="mb-6 flex flex-wrap gap-3"></div>
+            <div id="detail-long-description" class="border-t border-matte-800 pt-6 text-sm leading-relaxed"></div>
+        </article>
+    </dialog>
+
     <section id="contact" class="py-24 bg-matte-950 border-t border-matte-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
@@ -261,7 +298,7 @@
                             </div>
                             <div>
                                 <h4 class="text-white font-medium">Email</h4>
-                                <p class="text-gray-400 text-sm">hello@devportfolio.com</p>
+                                <p class="text-gray-400 text-sm">obsks23@gmail.com</p>
                             </div>
                         </div>
                         <div class="flex items-center">
@@ -270,7 +307,7 @@
                             </div>
                             <div>
                                 <h4 class="text-white font-medium">Location</h4>
-                                <p class="text-gray-400 text-sm">Remote / Worldwide</p>
+                                <p class="text-gray-400 text-sm">Remote / Lahore</p>
                             </div>
                         </div>
                     </div>
@@ -281,9 +318,7 @@
                         <a href="https://www.linkedin.com/in/saadwaseemcloud/" class="w-12 h-12 bg-matte-900 border border-matte-800 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:border-accent-500 transition-all" aria-label="LinkedIn">
                             <i class="fab fa-linkedin-in text-xl"></i>
                         </a>
-                        <a href="#" class="w-12 h-12 bg-matte-900 border border-matte-800 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:border-accent-500 transition-all" aria-label="Twitter">
-                            <i class="fab fa-twitter text-xl"></i>
-                        </a>
+                        
                         <a href="#" class="w-12 h-12 bg-matte-900 border border-matte-800 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:border-accent-500 transition-all" aria-label="DEV">
                             <i class="fab fa-dev text-xl"></i>
                         </a>
@@ -334,12 +369,14 @@
         const experienceList = document.getElementById('experience-list');
         const projectList = document.getElementById('project-list');
         const blogList = document.getElementById('blog-list');
-
-        const dateOptions = {
-            month: 'short',
-            day: '2-digit',
-            year: 'numeric',
-        };
+        const detailDialog = document.getElementById('detail-dialog');
+        const detailClose = document.getElementById('detail-close');
+        const detailKind = document.getElementById('detail-kind');
+        const detailTitle = document.getElementById('detail-title');
+        const detailShortDescription = document.getElementById('detail-short-description');
+        const detailMeta = document.getElementById('detail-meta');
+        const detailLinks = document.getElementById('detail-links');
+        const detailLongDescription = document.getElementById('detail-long-description');
 
         function replaceChildren(container, children) {
             container.replaceChildren(...children);
@@ -372,10 +409,6 @@
             return new Date(`${dateValue}T00:00:00`).getFullYear();
         }
 
-        function formatPostDate(dateValue) {
-            return new Intl.DateTimeFormat('en', dateOptions).format(new Date(dateValue));
-        }
-
         function technologyNames(value) {
             return (value || '')
                 .split(/[,;]/)
@@ -393,71 +426,133 @@
             return response.json();
         }
 
+        function previewButton(className, item, kind, richText = false) {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = className;
+            button.addEventListener('click', () => openDetail(item, kind, richText));
+            return button;
+        }
+
+        function stackNode(value, className) {
+            const names = technologyNames(value);
+
+            if (!names.length) {
+                return null;
+            }
+
+            const stack = document.createElement('div');
+            stack.className = className;
+            replaceChildren(stack, names.map(name => textElement('span', 'rounded border border-matte-800 bg-matte-900 px-2 py-1', name)));
+            return stack;
+        }
+
+        function detailLink(url, label, iconName) {
+            const link = document.createElement('a');
+            link.className = 'inline-flex items-center gap-2 rounded border border-matte-700 px-3 py-2 text-sm text-white hover:border-accent-500 hover:text-accent-400 transition-colors';
+            link.href = url;
+            link.target = '_blank';
+            link.rel = 'noreferrer';
+
+            const icon = document.createElement('i');
+            icon.className = iconName;
+            link.append(icon, document.createTextNode(label));
+            return link;
+        }
+
+        function openDetail(item, kind, richText) {
+            detailKind.textContent = kind;
+            detailTitle.textContent = item.title;
+            detailShortDescription.textContent = item.short_description;
+            detailShortDescription.hidden = !item.short_description;
+            replaceChildren(detailMeta, []);
+            replaceChildren(detailLinks, []);
+            replaceChildren(detailLongDescription, []);
+
+            const stack = stackNode(item.tech_stack, 'flex flex-wrap gap-2 text-xs font-mono text-gray-400');
+            if (stack) {
+                detailMeta.append(stack);
+            }
+
+            if (kind === 'Experience' && item.company_name) {
+                detailMeta.append(textElement('span', 'rounded border border-matte-800 bg-matte-900 px-2 py-1 text-xs font-mono text-accent-400', item.company_name));
+            }
+
+            if (kind === 'Experience' && (item.start_date || item.end_date)) {
+                detailMeta.append(textElement(
+                    'span',
+                    'rounded border border-matte-800 bg-matte-900 px-2 py-1 text-xs font-mono text-gray-400',
+                    `${formatYear(item.start_date)} - ${formatYear(item.end_date)}`,
+                ));
+            }
+
+            if (item.live_url) {
+                detailLinks.append(detailLink(item.live_url, 'Live site', 'fas fa-arrow-up-right-from-square'));
+            }
+
+            if (item.github_link) {
+                detailLinks.append(detailLink(item.github_link, 'GitHub', 'fab fa-github'));
+            }
+
+            if (item.long_description) {
+                detailLongDescription.className = richText
+                    ? 'rich-blog border-t border-matte-800 pt-6 text-sm'
+                    : 'detail-copy border-t border-matte-800 pt-6 text-sm leading-relaxed text-gray-400';
+
+                if (richText) {
+                    detailLongDescription.innerHTML = item.long_description;
+                } else {
+                    detailLongDescription.textContent = item.long_description;
+                }
+            } else {
+                detailLongDescription.className = 'border-t border-matte-800 pt-6 text-sm text-gray-500';
+                detailLongDescription.textContent = 'No long description has been added yet.';
+            }
+
+            detailDialog.showModal();
+        }
+
         function experienceNode(experience) {
-            const row = document.createElement('div');
-            row.className = 'grid grid-cols-1 sm:grid-cols-4 gap-2 sm:gap-4';
-
-            const dates = textElement(
-                'div',
-                'sm:col-span-1 text-sm font-mono text-gray-500 mt-1',
-                `${formatYear(experience.start_date)} - ${formatYear(experience.end_date)}`,
+            const item = previewButton(
+                'group block w-full border-b border-matte-800 pb-6 text-left hover:border-accent-400 transition-colors',
+                experience,
+                'Experience',
             );
-            const details = document.createElement('div');
-            details.className = 'sm:col-span-3';
-            details.append(
-                textElement('h3', 'text-lg font-medium text-white', experience.position),
-                textElement('div', 'text-sm text-accent-400 mb-3', experience.company_name || 'Private'),
+            item.append(
+                textElement('h3', 'mb-2 text-lg font-medium text-white group-hover:text-accent-400 transition-colors', experience.title),
+                textElement('p', 'mb-3 max-w-xl text-sm leading-relaxed text-gray-400', experience.short_description),
             );
 
-            if (experience.description) {
-                details.append(textElement('p', 'text-sm text-gray-400 leading-relaxed', experience.description));
+            const stack = stackNode(experience.tech_stack, 'flex flex-wrap gap-2 text-xs font-mono text-gray-500');
+            if (stack) {
+                item.append(stack);
             }
 
-            const tools = technologyNames(experience.tool_stack);
-
-            if (tools.length) {
-                const stack = document.createElement('div');
-                stack.className = 'flex flex-wrap gap-3 mt-3 text-xs font-mono text-gray-500';
-                replaceChildren(stack, tools.map(tool => textElement('span', '', tool)));
-                details.append(stack);
-            }
-
-            row.append(dates, details);
-            return row;
+            return item;
         }
 
         function projectNode(project) {
-            const item = document.createElement(project.live_link || project.github_link ? 'a' : 'article');
-            const link = project.live_link || project.github_link;
-            item.className = 'group block border-b border-matte-800 pb-6 hover:border-accent-400 transition-colors';
-
-            if (link) {
-                item.href = link;
-                item.target = '_blank';
-                item.rel = 'noreferrer';
-            }
+            const item = previewButton(
+                'group block w-full border-b border-matte-800 pb-6 text-left hover:border-accent-400 transition-colors',
+                project,
+                'Project',
+            );
 
             const headingRow = document.createElement('div');
             headingRow.className = 'flex justify-between items-start gap-4 mb-2';
             headingRow.append(textElement('h3', 'text-lg font-medium text-white group-hover:text-accent-400 transition-colors', project.title));
 
-            if (link) {
-                const icon = document.createElement('i');
-                icon.className = 'fas fa-arrow-right text-gray-600 -rotate-45 group-hover:text-accent-400 transition-all';
-                headingRow.append(icon);
-            }
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-arrow-right text-gray-600 group-hover:text-accent-400 transition-all';
+            headingRow.append(icon);
 
             item.append(
                 headingRow,
-                textElement('p', 'text-sm text-gray-400 mb-3 max-w-xl', project.description),
+                textElement('p', 'text-sm text-gray-400 mb-3 max-w-xl', project.short_description),
             );
 
-            const technologies = technologyNames(project.technologies);
-
-            if (technologies.length) {
-                const stack = document.createElement('div');
-                stack.className = 'flex flex-wrap gap-3 text-xs font-mono text-gray-500';
-                replaceChildren(stack, technologies.map(technology => textElement('span', '', technology)));
+            const stack = stackNode(project.tech_stack, 'flex flex-wrap gap-2 text-xs font-mono text-gray-500');
+            if (stack) {
                 item.append(stack);
             }
 
@@ -467,26 +562,17 @@
         function blogNode(blog) {
             const item = document.createElement('li');
             item.className = 'border-b border-matte-800 pb-4';
-
-            const heading = document.createElement('div');
-            heading.className = 'flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 py-2';
-            heading.append(
-                textElement('span', 'text-white font-medium', blog.title),
-                textElement('span', 'text-sm font-mono text-gray-500', formatPostDate(blog.created_at)),
+            const button = previewButton(
+                'group block w-full py-2 text-left',
+                blog,
+                'Writing',
+                true,
             );
-
-            item.append(heading);
-
-            if (blog.content) {
-                const content = document.createElement('div');
-                content.className = 'rich-blog text-sm';
-                content.innerHTML = blog.content;
-                item.append(content);
-            }
-
-            if (blog.category) {
-                item.append(textElement('span', 'inline-block mt-3 text-xs font-mono text-accent-400', blog.category));
-            }
+            button.append(
+                textElement('h3', 'mb-2 text-base font-medium text-white group-hover:text-accent-400 transition-colors', blog.title),
+                textElement('p', 'max-w-xl text-sm leading-relaxed text-gray-400', blog.short_description),
+            );
+            item.append(button);
 
             return item;
         }
@@ -542,6 +628,16 @@
             link.addEventListener('click', () => {
                 menu.classList.add('hidden');
             });
+        });
+
+        detailClose.addEventListener('click', () => {
+            detailDialog.close();
+        });
+
+        detailDialog.addEventListener('click', event => {
+            if (event.target === detailDialog) {
+                detailDialog.close();
+            }
         });
 
         loadPortfolioData();

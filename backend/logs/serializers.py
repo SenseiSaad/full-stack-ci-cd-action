@@ -4,11 +4,11 @@ from .sanitizers import sanitize_rich_text
 
 # Serializer converts Log data to/from JSON
 class LogSerializer(serializers.ModelSerializer):
-    content = serializers.SerializerMethodField()
-
     class Meta:
         model = Log
         fields = '__all__'
 
-    def get_content(self, log):
-        return sanitize_rich_text(log.content)
+    def to_representation(self, log):
+        data = super().to_representation(log)
+        data['long_description'] = sanitize_rich_text(log.long_description)
+        return data

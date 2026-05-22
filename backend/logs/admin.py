@@ -17,7 +17,7 @@ class LogAdminForm(forms.ModelForm):
         model = Log
         fields = '__all__'
         widgets = {
-            'content': RichTextContentWidget(
+            'long_description': RichTextContentWidget(
                 attrs={
                     'class': 'rich-text-source',
                     'rows': 18,
@@ -31,4 +31,4 @@ class LogAdmin(admin.ModelAdmin):
     form = LogAdminForm
     list_display = ('title', 'category', 'created_at', 'updated_at')
     list_filter = ('category', 'created_at')
-    search_fields = ('title', 'category', 'content')
+    search_fields = ('title', 'category', 'short_description', 'long_description', 'tech_stack')
