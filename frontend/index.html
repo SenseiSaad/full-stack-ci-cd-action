@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Portfolio | Simple Matte Black</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        matte: {
+                            950: '#0a0a0a',
+                            900: '#121212',
+                            800: '#1e1e1e',
+                            700: '#2d2d2d',
+                        },
+                        accent: {
+                            400: '#2dd4bf',
+                            500: '#14b8a6',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #a3a3a3;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d2d2d;
+            border-radius: 3px;
+        }
+        .nav-blur {
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-white selection:text-black">
+    <nav class="fixed w-full z-50 nav-blur border-b border-matte-800/50 transition-all duration-300">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="flex items-center justify-between h-16">
+                <a href="#" class="text-xl font-bold text-white tracking-tight">DEV<span class="text-accent-400">.</span></a>
+                <div class="hidden md:flex space-x-6 text-sm font-medium">
+                    <a href="#about" class="text-gray-400 hover:text-white transition-colors">About</a>
+                    <a href="#focus" class="text-gray-400 hover:text-white transition-colors">Focus</a>
+                    <a href="#experience" class="text-gray-400 hover:text-white transition-colors">Experience</a>
+                    <a href="#projects" class="text-gray-400 hover:text-white transition-colors">Work</a>
+                    <a href="#contact" class="text-white hover:text-accent-400 transition-colors">Contact</a>
+                </div>
+                <button id="mobile-menu-btn" type="button" aria-label="Open navigation menu" class="md:hidden text-gray-400 hover:text-white focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-matte-950 border-b border-matte-800">
+            <div class="px-6 py-4 flex flex-col space-y-4">
+                <a href="#about" class="text-gray-400 hover:text-white text-sm font-medium">About</a>
+                <a href="#focus" class="text-gray-400 hover:text-white text-sm font-medium">Focus</a>
+                <a href="#experience" class="text-gray-400 hover:text-white text-sm font-medium">Experience</a>
+                <a href="#projects" class="text-gray-400 hover:text-white text-sm font-medium">Work</a>
+                <a href="#contact" class="text-white text-sm font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-6 pt-32 pb-24 space-y-32">
+        <section id="hero" class="pt-10 md:pt-20">
+            <div class="max-w-3xl">
+                <p class="font-mono text-accent-400 text-sm mb-4">Hello, my name is Alex.</p>
+                <h1 class="text-4xl md:text-6xl font-bold text-white leading-tight mb-6 tracking-tight">
+                    I build scalable backends and robust cloud infrastructure.
+                </h1>
+                <p class="text-lg md:text-xl text-gray-400 leading-relaxed mb-10 max-w-2xl">
+                    Specializing in Django, AWS, and DevOps automation. I turn complex requirements into clean, efficient, and highly available systems.
+                </p>
+                <div class="flex items-center space-x-6">
+                    <a href="#contact" class="text-white font-medium border-b border-accent-400 pb-1 hover:text-accent-400 transition-colors">Get in touch</a>
+                    <a href="#projects" class="text-gray-500 font-medium hover:text-white transition-colors">View projects &rarr;</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="border-t border-matte-800 pt-16">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
+                <div class="md:col-span-4">
+                    <h2 class="text-lg font-semibold text-white tracking-wide uppercase">About & Skills</h2>
+                </div>
+                <div class="md:col-span-8">
+                    <div class="prose prose-invert mb-8 text-gray-400 leading-relaxed">
+                        <p class="mb-4">
+                            I am a software engineer focused heavily on the backend. I believe in mastering the core logic and infrastructure that powers applications, rather than spreading myself thin across every new frontend framework.
+                        </p>
+                        <p>
+                            With years of experience handling server architecture, I ensure that everything behind the scenes runs flawlessly, securely, and scales efficiently.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-matte-900 border border-matte-800 rounded text-xs font-mono text-gray-300">Python</span>
+                        <span class="px-3 py-1 bg-matte-900 border border-matte-800 rounded text-xs font-mono text-gray-300">Django / DRF</span>
+                        <span class="px-3 py-1 bg-matte-900 border border-matte-800 rounded text-xs font-mono text-gray-300">AWS</span>
+                        <span class="px-3 py-1 bg-matte-900 border border-matte-800 rounded text-xs font-mono text-gray-300">Docker & K8s</span>
+                        <span class="px-3 py-1 bg-matte-900 border border-matte-800 rounded text-xs font-mono text-gray-300">PostgreSQL</span>
+                        <span class="px-3 py-1 bg-matte-900 border border-matte-800 rounded text-xs font-mono text-gray-300">CI/CD</span>
+                        <span class="px-3 py-1 bg-matte-900 border border-matte-800 rounded text-xs font-mono text-gray-300">Linux</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="focus" class="border-t border-matte-800 pt-16">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
+                <div class="md:col-span-4">
+                    <h2 class="text-lg font-semibold text-white tracking-wide uppercase">Core Focus</h2>
+                </div>
+                <div class="md:col-span-8 space-y-10">
+                    <div>
+                        <h3 class="text-xl font-medium text-white mb-2">Django Engineering</h3>
+                        <p class="text-gray-400 leading-relaxed">Architecting secure REST APIs, optimizing complex ORM queries, and building scalable monolithic and microservice architectures.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-medium text-white mb-2">DevOps & Cloud (AWS)</h3>
+                        <p class="text-gray-400 leading-relaxed">End-to-end infrastructure management via IaC (Terraform). Deep expertise in EC2, S3, RDS, Lambda, and automated CI/CD pipelines.</p>
+                    </div>
+                    <div class="p-5 border border-matte-800 bg-matte-900/50 rounded-lg">
+                        <div class="flex items-center mb-2">
+                            <h3 class="text-xl font-medium text-white">Freelance Services</h3>
+                            <span class="ml-3 px-2 py-0.5 bg-matte-800 text-gray-400 text-[10px] uppercase font-bold tracking-wider rounded">Bonus</span>
+                        </div>
+                        <p class="text-gray-400 leading-relaxed text-sm">Beyond backend and infrastructure, I take on select freelance projects offering full-stack capabilities, bridging my deep backend knowledge with clean frontend execution.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="border-t border-matte-800 pt-16">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
+                <div class="md:col-span-4">
+                    <h2 class="text-lg font-semibold text-white tracking-wide uppercase">Experience</h2>
+                </div>
+                <div id="experience-list" class="md:col-span-8 space-y-12" aria-live="polite">
+                    <p class="text-sm text-gray-500">Loading experience...</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="border-t border-matte-800 pt-16">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
+                <div class="md:col-span-4">
+                    <h2 class="text-lg font-semibold text-white tracking-wide uppercase">Selected Work</h2>
+                </div>
+                <div class="md:col-span-8">
+                    <div id="project-list" class="flex flex-col space-y-6" aria-live="polite">
+                        <p class="text-sm text-gray-500">Loading projects...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="blogs" class="border-t border-matte-800 pt-16">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
+                <div class="md:col-span-4">
+                    <h2 class="text-lg font-semibold text-white tracking-wide uppercase">Writings</h2>
+                </div>
+                <div class="md:col-span-8">
+                    <ul id="blog-list" class="space-y-4" aria-live="polite">
+                        <li class="text-sm text-gray-500">Loading writings...</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <section id="contact" class="py-24 bg-matte-950 border-t border-matte-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Let's Connect</h2>
+                    <p class="text-gray-400 mb-10 leading-relaxed">
+                        Whether you need a scalable backend solution, want to optimize your cloud architecture, or have a freelance project in mind, I'm ready to talk code.
+                    </p>
+                    <div class="space-y-6 mb-12">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-matte-900 border border-matte-800 rounded-full flex items-center justify-center mr-4 text-accent-400">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-medium">Email</h4>
+                                <p class="text-gray-400 text-sm">hello@devportfolio.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-matte-900 border border-matte-800 rounded-full flex items-center justify-center mr-4 text-accent-400">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-medium">Location</h4>
+                                <p class="text-gray-400 text-sm">Remote / Worldwide</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-12 h-12 bg-matte-900 border border-matte-800 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:border-accent-500 transition-all" aria-label="GitHub">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                        <a href="#" class="w-12 h-12 bg-matte-900 border border-matte-800 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:border-accent-500 transition-all" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in text-xl"></i>
+                        </a>
+                        <a href="#" class="w-12 h-12 bg-matte-900 border border-matte-800 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:border-accent-500 transition-all" aria-label="Twitter">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="w-12 h-12 bg-matte-900 border border-matte-800 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:border-accent-500 transition-all" aria-label="DEV">
+                            <i class="fab fa-dev text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="bg-matte-900 p-8 rounded-xl border border-matte-800 shadow-xl">
+                    <form id="contact-form">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-400 mb-2">Name</label>
+                                <input type="text" id="name" name="name" class="w-full bg-matte-950 border border-matte-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent-500 transition-colors" placeholder="John Doe" required>
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-400 mb-2">Email</label>
+                                <input type="email" id="email" name="email" class="w-full bg-matte-950 border border-matte-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent-500 transition-colors" placeholder="john@example.com" required>
+                            </div>
+                        </div>
+                        <div class="mb-6">
+                            <label for="subject" class="block text-sm font-medium text-gray-400 mb-2">Subject</label>
+                            <input type="text" id="subject" name="subject" class="w-full bg-matte-950 border border-matte-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent-500 transition-colors" placeholder="Backend Architecture Project" required>
+                        </div>
+                        <div class="mb-6">
+                            <label for="message" class="block text-sm font-medium text-gray-400 mb-2">Message</label>
+                            <textarea id="message" name="message" rows="5" class="w-full bg-matte-950 border border-matte-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent-500 transition-colors resize-none" placeholder="Tell me about your project requirements..." required></textarea>
+                        </div>
+                        <p id="contact-status" class="min-h-6 mb-4 text-sm text-gray-400" aria-live="polite"></p>
+                        <button id="contact-submit" type="submit" class="w-full bg-white text-matte-950 font-bold py-3 px-4 rounded-lg hover:bg-gray-200 disabled:cursor-wait disabled:bg-gray-400 transition-colors">
+                            Send Message <i class="fas fa-paper-plane ml-2"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-matte-950 py-8 border-t border-matte-800 text-center">
+        <p class="text-gray-500 text-sm">
+            &copy; 2026 Developer Portfolio. Simple Matte Black Edition.
+        </p>
+    </footer>
+
+    <script>
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const form = document.getElementById('contact-form');
+        const status = document.getElementById('contact-status');
+        const submit = document.getElementById('contact-submit');
+        const experienceList = document.getElementById('experience-list');
+        const projectList = document.getElementById('project-list');
+        const blogList = document.getElementById('blog-list');
+
+        const dateOptions = {
+            month: 'short',
+            day: '2-digit',
+            year: 'numeric',
+        };
+
+        function replaceChildren(container, children) {
+            container.replaceChildren(...children);
+        }
+
+        function textElement(tagName, className, text) {
+            const element = document.createElement(tagName);
+            element.className = className;
+            element.textContent = text;
+            return element;
+        }
+
+        function emptyState(message) {
+            return textElement('p', 'text-sm text-gray-500', message);
+        }
+
+        function emptyListState(message) {
+            return textElement('li', 'text-sm text-gray-500', message);
+        }
+
+        function apiError(message) {
+            return textElement('p', 'text-sm text-red-400', message);
+        }
+
+        function formatYear(dateValue) {
+            if (!dateValue) {
+                return 'Present';
+            }
+
+            return new Date(`${dateValue}T00:00:00`).getFullYear();
+        }
+
+        function formatPostDate(dateValue) {
+            return new Intl.DateTimeFormat('en', dateOptions).format(new Date(dateValue));
+        }
+
+        function technologyNames(value) {
+            return (value || '')
+                .split(/[,;]/)
+                .map(name => name.trim())
+                .filter(Boolean);
+        }
+
+        async function fetchList(path) {
+            const response = await fetch(path);
+
+            if (!response.ok) {
+                throw new Error(`Could not load ${path}.`);
+            }
+
+            return response.json();
+        }
+
+        function experienceNode(experience) {
+            const row = document.createElement('div');
+            row.className = 'grid grid-cols-1 sm:grid-cols-4 gap-2 sm:gap-4';
+
+            const dates = textElement(
+                'div',
+                'sm:col-span-1 text-sm font-mono text-gray-500 mt-1',
+                `${formatYear(experience.start_date)} - ${formatYear(experience.end_date)}`,
+            );
+            const details = document.createElement('div');
+            details.className = 'sm:col-span-3';
+            details.append(
+                textElement('h3', 'text-lg font-medium text-white', experience.position),
+                textElement('div', 'text-sm text-accent-400 mb-3', experience.company_name || 'Private'),
+            );
+
+            if (experience.description) {
+                details.append(textElement('p', 'text-sm text-gray-400 leading-relaxed', experience.description));
+            }
+
+            const tools = technologyNames(experience.tool_stack);
+
+            if (tools.length) {
+                const stack = document.createElement('div');
+                stack.className = 'flex flex-wrap gap-3 mt-3 text-xs font-mono text-gray-500';
+                replaceChildren(stack, tools.map(tool => textElement('span', '', tool)));
+                details.append(stack);
+            }
+
+            row.append(dates, details);
+            return row;
+        }
+
+        function projectNode(project) {
+            const item = document.createElement(project.live_link || project.github_link ? 'a' : 'article');
+            const link = project.live_link || project.github_link;
+            item.className = 'group block border-b border-matte-800 pb-6 hover:border-accent-400 transition-colors';
+
+            if (link) {
+                item.href = link;
+                item.target = '_blank';
+                item.rel = 'noreferrer';
+            }
+
+            const headingRow = document.createElement('div');
+            headingRow.className = 'flex justify-between items-start gap-4 mb-2';
+            headingRow.append(textElement('h3', 'text-lg font-medium text-white group-hover:text-accent-400 transition-colors', project.title));
+
+            if (link) {
+                const icon = document.createElement('i');
+                icon.className = 'fas fa-arrow-right text-gray-600 -rotate-45 group-hover:text-accent-400 transition-all';
+                headingRow.append(icon);
+            }
+
+            item.append(
+                headingRow,
+                textElement('p', 'text-sm text-gray-400 mb-3 max-w-xl', project.description),
+            );
+
+            const technologies = technologyNames(project.technologies);
+
+            if (technologies.length) {
+                const stack = document.createElement('div');
+                stack.className = 'flex flex-wrap gap-3 text-xs font-mono text-gray-500';
+                replaceChildren(stack, technologies.map(technology => textElement('span', '', technology)));
+                item.append(stack);
+            }
+
+            return item;
+        }
+
+        function blogNode(blog) {
+            const item = document.createElement('li');
+            item.className = 'border-b border-matte-800 pb-4';
+
+            const heading = document.createElement('div');
+            heading.className = 'flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 py-2';
+            heading.append(
+                textElement('span', 'text-white font-medium', blog.title),
+                textElement('span', 'text-sm font-mono text-gray-500', formatPostDate(blog.created_at)),
+            );
+
+            item.append(heading);
+
+            if (blog.content) {
+                const preview = blog.content.length > 180 ? `${blog.content.slice(0, 177)}...` : blog.content;
+                item.append(textElement('p', 'text-sm text-gray-400 leading-relaxed', preview));
+            }
+
+            if (blog.category) {
+                item.append(textElement('span', 'inline-block mt-3 text-xs font-mono text-accent-400', blog.category));
+            }
+
+            return item;
+        }
+
+        async function loadExperience() {
+            try {
+                const experiences = await fetchList('/api/experience/');
+                experiences.sort((left, right) => (right.start_date || '').localeCompare(left.start_date || ''));
+                replaceChildren(
+                    experienceList,
+                    experiences.length ? experiences.map(experienceNode) : [emptyState('No experience added yet.')],
+                );
+            } catch (error) {
+                replaceChildren(experienceList, [apiError('Experience is unavailable right now.')]);
+            }
+        }
+
+        async function loadProjects() {
+            try {
+                const projects = await fetchList('/api/projects/');
+                replaceChildren(
+                    projectList,
+                    projects.length ? projects.map(projectNode) : [emptyState('No projects added yet.')],
+                );
+            } catch (error) {
+                replaceChildren(projectList, [apiError('Projects are unavailable right now.')]);
+            }
+        }
+
+        async function loadBlogs() {
+            try {
+                const blogs = await fetchList('/api/logs/');
+                replaceChildren(
+                    blogList,
+                    blogs.length ? blogs.map(blogNode) : [emptyListState('No writings added yet.')],
+                );
+            } catch (error) {
+                replaceChildren(blogList, [textElement('li', 'text-sm text-red-400', 'Writings are unavailable right now.')]);
+            }
+        }
+
+        function loadPortfolioData() {
+            loadExperience();
+            loadProjects();
+            loadBlogs();
+        }
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+
+        loadPortfolioData();
+        window.addEventListener('focus', loadPortfolioData);
+
+        form.addEventListener('submit', async event => {
+            event.preventDefault();
+            submit.disabled = true;
+            status.textContent = 'Sending...';
+            status.className = 'min-h-6 mb-4 text-sm text-gray-400';
+
+            try {
+                const response = await fetch('/api/messages/create/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(Object.fromEntries(new FormData(form))),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Message could not be sent.');
+                }
+
+                form.reset();
+                status.textContent = 'Message saved. I will get back to you soon.';
+                status.className = 'min-h-6 mb-4 text-sm text-accent-400';
+            } catch (error) {
+                status.textContent = error.message;
+                status.className = 'min-h-6 mb-4 text-sm text-red-400';
+            } finally {
+                submit.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

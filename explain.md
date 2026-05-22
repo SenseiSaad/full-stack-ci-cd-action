@@ -1,12 +1,12 @@
 # Deployment Shape
 
-This project now deploys as one Django application container.
+This project now deploys as separate frontend and Django backend containers.
 
-- Django serves the portfolio UI from `backend/templates/frontend/index.html`.
+- Nginx serves the portfolio UI from the `frontend` image.
 - Django keeps API routes under `/api/`.
 - Django admin remains under `/admin/`.
-- Docker builds only the backend image from `backend/Dockerfile`.
-- EC2 runs one container mapped as `80:8000`.
+- Docker builds backend and frontend images.
+- EC2 Nginx proxies port 80 to the frontend container on `3000`.
 - RDS is configured through environment variables.
 
 Typical flow:
@@ -17,4 +17,4 @@ terraform apply
 terraform output
 ```
 
-Then build/push the backend image to ECR and run it on EC2 with `docker-compose.ec2.yml`.
+Then build/push the backend and frontend images to ECR and run them on EC2 with `docker-compose.ec2.yml`.

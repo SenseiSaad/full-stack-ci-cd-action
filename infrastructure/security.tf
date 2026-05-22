@@ -1,10 +1,10 @@
 resource "aws_security_group" "app_sg" {
   name        = "${local.name_prefix}-ec2-sg"
-  description = "Allow SSH from a configurable CIDR and expose Nginx on 80/443"
+  description = "Allow SSH, HTTP, and temporary direct app testing"
   vpc_id      = aws_vpc.main.id
 
   dynamic "ingress" {
-    for_each = var.allowed_ssh_cidr == null || trimspace(var.allowed_ssh_cidr) == "" ? [] : [var.allowed_ssh_cidr]
+    for_each = local.allowed_ssh_cidr == null ? [] : [local.allowed_ssh_cidr]
 
     content {
       from_port   = 22
@@ -23,12 +23,16 @@ resource "aws_security_group" "app_sg" {
     description = "HTTP from internet"
   }
 
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "HTTPS from internet"
+  dynamic "ingress" {
+    for_each = local.allowed_ssh_cidr == null ? [] : [local.allowed_ssh_cidr]
+
+    content {
+      from_port   = 8000
+      to_port     = 8000
+      protocol    = "tcp"
+      cidr_blocks = [ingress.value]
+      description = "Temporary direct Gunicorn testing"
+    }
   }
 
   egress {

@@ -28,10 +28,16 @@ variable "vpc_cidr" {
   default     = "10.0.0.0/16"
 }
 
-variable "public_subnets" {
-  description = "List of public subnet CIDRs"
+variable "public_subnet_cidr" {
+  description = "CIDR for the public subnet that hosts EC2"
+  type        = string
+  default     = "10.0.1.0/24"
+}
+
+variable "private_subnet_cidrs" {
+  description = "CIDRs for private RDS subnets across two AZs"
   type        = list(string)
-  default     = ["10.0.1.0/24", "10.0.2.0/24"]
+  default     = ["10.0.101.0/24", "10.0.102.0/24"]
 }
 
 variable "instance_type" {
@@ -40,34 +46,16 @@ variable "instance_type" {
   default     = "t3.micro"
 }
 
-variable "key_name" {
-  description = "Name of existing SSH key pair"
+variable "key_pair_name" {
+  description = "Name of an existing EC2 key pair in the selected AWS region"
   type        = string
   default     = "portfolio-key"
 }
 
-variable "allowed_ssh_cidr" {
-  description = "CIDR range allowed to SSH (e.g. your IP). Leave null to disable SSH access."
+variable "allowed_ssh_ip" {
+  description = "Your public IP address without /32, used for SSH and temporary port 8000 access"
   type        = string
-  default     = null
-}
-
-variable "app_domain_name" {
-  description = "Optional domain name for Route53 and URL outputs, e.g. example.com"
-  type        = string
-  default     = null
-}
-
-variable "route53_zone_id" {
-  description = "Optional Route53 hosted zone ID used to create an A record for app_domain_name"
-  type        = string
-  default     = null
-}
-
-variable "backend_image" {
-  description = "Optional backend container image to run from EC2 user data"
-  type        = string
-  default     = null
+  default     = ""
 }
 
 variable "db_username" {

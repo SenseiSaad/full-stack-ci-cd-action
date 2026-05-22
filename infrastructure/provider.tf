@@ -6,6 +6,10 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.0"
     }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.6"
+    }
   }
 }
 
@@ -18,8 +22,8 @@ provider "aws" {
 }
 
 locals {
-  name_prefix = var.project_name
-  app_host    = var.app_domain_name == null ? aws_instance.app_server.public_ip : trimspace(var.app_domain_name) == "" ? aws_instance.app_server.public_ip : var.app_domain_name
+  name_prefix      = var.project_name
+  allowed_ssh_cidr = trimspace(var.allowed_ssh_ip) == "" ? null : "${trimspace(var.allowed_ssh_ip)}/32"
 
   common_tags = merge(
     {

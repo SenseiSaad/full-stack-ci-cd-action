@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile
     container_name: summer_backend
     ports:
-      - "8000:8000"
+      - "${BACKEND_PORT:-8000}:8000"
     environment:
       DEBUG: ${DJANGO_DEBUG:-True}
       SECRET_KEY: ${SECRET_KEY:-local-dev-secret-key}
@@ -17,9 +17,23 @@ services:
       DB_PASSWORD: ${DB_PASSWORD:-portfolio}
       DB_HOST: db
       DB_PORT: 5432
-      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:8000}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:3000}
+      SEED_ADMIN_USERNAME: ${SEED_ADMIN_USERNAME:-admin}
+      SEED_ADMIN_PASSWORD: ${SEED_ADMIN_PASSWORD:-admin123}
+      SEED_ADMIN_EMAIL: ${SEED_ADMIN_EMAIL:-admin@example.local}
     depends_on:
       - db
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: summer_frontend
+    ports:
+      - "${FRONTEND_PORT:-3000}:80"
+    depends_on:
+      - backend
     restart: unless-stopped
 
   db:

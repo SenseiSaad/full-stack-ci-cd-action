@@ -60,8 +60,8 @@ jobs:
     - name: Smoke test backend Docker image
       run: docker run --rm -e DEBUG=True -e SECRET_KEY=ci-test-secret portfolio-backend:${{ github.sha }} python manage.py --help
 
-    - name: Frontend is served by Django templates
-      run: echo "No separate frontend image is required."
+    - name: Build frontend Docker image
+      run: docker build -t portfolio-frontend:${{ github.sha }} frontend
 
   deploy:
     needs: docker
