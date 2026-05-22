@@ -27,13 +27,33 @@ chown -R ubuntu:ubuntu /home/ubuntu/app
 
 cat >/etc/nginx/sites-available/${local.name_prefix} <<'NGINX'
 server {
-    listen 80;
-    server_name _;
+    listen 80 default_server;
+    server_name www.slancer.site slancer.site _;
 
     client_max_body_size 20M;
 
     location / {
         proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+server {
+    listen 80;
+    server_name api.slancer.site;
+
+    client_max_body_size 20M;
+
+    location = / {
+        return 302 /admin/;
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:8000;
         proxy_http_version 1.1;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
