@@ -1,5 +1,8 @@
 from django.db import models
 
+from .sanitizers import sanitize_rich_text
+
+
 # Model to store blog posts/logs
 class Log(models.Model):
     # Blog post title
@@ -20,6 +23,10 @@ class Log(models.Model):
     # Show blog title in admin
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        self.content = sanitize_rich_text(self.content)
+        super().save(*args, **kwargs)
     
     # Sort by newest first
     class Meta:

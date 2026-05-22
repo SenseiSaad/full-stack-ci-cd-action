@@ -53,6 +53,60 @@
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
         }
+        .rich-blog {
+            color: #a3a3a3;
+            line-height: 1.75;
+        }
+        .rich-blog h2,
+        .rich-blog h3,
+        .rich-blog h4 {
+            color: #fff;
+            font-weight: 600;
+            margin: 1.25rem 0 0.55rem;
+        }
+        .rich-blog h2 {
+            font-size: 1.25rem;
+        }
+        .rich-blog h3 {
+            font-size: 1.08rem;
+        }
+        .rich-blog p,
+        .rich-blog ul,
+        .rich-blog ol,
+        .rich-blog blockquote,
+        .rich-blog pre {
+            margin: 0.7rem 0;
+        }
+        .rich-blog ul,
+        .rich-blog ol {
+            padding-left: 1.3rem;
+        }
+        .rich-blog ul {
+            list-style: disc;
+        }
+        .rich-blog ol {
+            list-style: decimal;
+        }
+        .rich-blog a {
+            color: #2dd4bf;
+        }
+        .rich-blog blockquote {
+            border-left: 2px solid #2d2d2d;
+            padding-left: 1rem;
+            color: #d4d4d4;
+        }
+        .rich-blog code,
+        .rich-blog pre {
+            color: #e5e5e5;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .rich-blog pre {
+            overflow-x: auto;
+            background: #121212;
+            border: 1px solid #1e1e1e;
+            border-radius: 6px;
+            padding: 0.9rem;
+        }
     </style>
 </head>
 <body class="font-sans antialiased selection:bg-white selection:text-black">
@@ -221,10 +275,10 @@
                         </div>
                     </div>
                     <div class="flex space-x-4">
-                        <a href="#" class="w-12 h-12 bg-matte-900 border border-matte-800 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:border-accent-500 transition-all" aria-label="GitHub">
+                        <a href="https://github.com/SensieSaad" class="w-12 h-12 bg-matte-900 border border-matte-800 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:border-accent-500 transition-all" aria-label="GitHub">
                             <i class="fab fa-github text-xl"></i>
                         </a>
-                        <a href="#" class="w-12 h-12 bg-matte-900 border border-matte-800 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:border-accent-500 transition-all" aria-label="LinkedIn">
+                        <a href="https://www.linkedin.com/in/saadwaseemcloud/" class="w-12 h-12 bg-matte-900 border border-matte-800 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:border-accent-500 transition-all" aria-label="LinkedIn">
                             <i class="fab fa-linkedin-in text-xl"></i>
                         </a>
                         <a href="#" class="w-12 h-12 bg-matte-900 border border-matte-800 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:border-accent-500 transition-all" aria-label="Twitter">
@@ -267,7 +321,7 @@
 
     <footer class="bg-matte-950 py-8 border-t border-matte-800 text-center">
         <p class="text-gray-500 text-sm">
-            &copy; 2026 Developer Portfolio. Simple Matte Black Edition.
+            &copy; SaadOps 2024. Built with Django and Tailwind CSS. All rights reserved.
         </p>
     </footer>
 
@@ -424,8 +478,10 @@
             item.append(heading);
 
             if (blog.content) {
-                const preview = blog.content.length > 180 ? `${blog.content.slice(0, 177)}...` : blog.content;
-                item.append(textElement('p', 'text-sm text-gray-400 leading-relaxed', preview));
+                const content = document.createElement('div');
+                content.className = 'rich-blog text-sm';
+                content.innerHTML = blog.content;
+                item.append(content);
             }
 
             if (blog.category) {

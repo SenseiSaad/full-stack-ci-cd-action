@@ -1,0 +1,63 @@
+.rich-text-shell {
+    width: min(960px, 100%);
+    border: 1px solid var(--hairline-color, #d8d8d8);
+    border-radius: 6px;
+    background: var(--body-bg, #fff);
+    overflow: hidden;
+}
+
+.rich-text-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 10px;
+    border-bottom: 1px solid var(--hairline-color, #d8d8d8);
+    background: var(--darkened-bg, #f5f5f5);
+}
+
+.rich-text-toolbar button,
+.rich-text-toolbar select {
+    min-height: 32px;
+    border: 1px solid var(--border-color, #bdbdbd);
+    border-radius: 4px;
+    padding: 4px 9px;
+    background: var(--body-bg, #fff);
+    color: var(--body-fg, #222);
+    font: inherit;
+}
+
+.rich-text-toolbar button {
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.rich-text-editor {
+    min-height: 360px;
+    padding: 18px;
+    background: var(--body-bg, #fff);
+    color: var(--body-fg, #222);
+    line-height: 1.6;
+    outline: none;
+}
+
+.rich-text-editor h2,
+.rich-text-editor h3,
+.rich-text-editor h4 {
+    margin: 1em 0 .45em;
+}
+
+.rich-text-editor ul,
+.rich-text-editor ol {
+    padding-left: 28px;
+}
+
+.rich-text-editor blockquote {
+    margin-left: 0;
+    border-left: 3px solid var(--hairline-color, #d8d8d8);
+    padding-left: 14px;
+    color: var(--body-quiet-color, #666);
+}
+
+.rich-text-source {
+    display: none;
+}
