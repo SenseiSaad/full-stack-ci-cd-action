@@ -1,0 +1,9 @@
+django==6.0.5
+djangorestframework==3.17.1
+gunicorn==23.0.0
+psycopg2-binary==2.9.9
+python-dotenv==1.0.0
+django-cors-headers==4.7.0
+django-storages==1.14.4
+boto3==1.35.99
+whitenoise==6.8.2
