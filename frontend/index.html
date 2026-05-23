@@ -4,129 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SaadOps Portfolio</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
-                    },
-                    colors: {
-                        matte: {
-                            950: '#0a0a0a',
-                            900: '#121212',
-                            800: '#1e1e1e',
-                            700: '#2d2d2d',
-                        },
-                        accent: {
-                            400: '#2dd4bf',
-                            500: '#14b8a6',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            background-color: #0a0a0a;
-            color: #a3a3a3;
-        }
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0a0a0a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #2d2d2d;
-            border-radius: 3px;
-        }
-        .nav-blur {
-            background: rgba(10, 10, 10, 0.85);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-        }
-        .rich-blog {
-            color: #a3a3a3;
-            line-height: 1.75;
-        }
-        .rich-blog h2,
-        .rich-blog h3,
-        .rich-blog h4 {
-            color: #fff;
-            font-weight: 600;
-            margin: 1.25rem 0 0.55rem;
-        }
-        .rich-blog h2 {
-            font-size: 1.25rem;
-        }
-        .rich-blog h3 {
-            font-size: 1.08rem;
-        }
-        .rich-blog p,
-        .rich-blog ul,
-        .rich-blog ol,
-        .rich-blog blockquote,
-        .rich-blog pre {
-            margin: 0.7rem 0;
-        }
-        .rich-blog ul,
-        .rich-blog ol {
-            padding-left: 1.3rem;
-        }
-        .rich-blog ul {
-            list-style: disc;
-        }
-        .rich-blog ol {
-            list-style: decimal;
-        }
-        .rich-blog a {
-            color: #2dd4bf;
-        }
-        .rich-blog blockquote {
-            border-left: 2px solid #2d2d2d;
-            padding-left: 1rem;
-            color: #d4d4d4;
-        }
-        .rich-blog code,
-        .rich-blog pre {
-            color: #e5e5e5;
-            font-family: 'JetBrains Mono', monospace;
-        }
-        .rich-blog pre {
-            overflow-x: auto;
-            background: #121212;
-            border: 1px solid #1e1e1e;
-            border-radius: 6px;
-            padding: 0.9rem;
-        }
-        .detail-dialog::backdrop {
-            background: rgba(0, 0, 0, 0.78);
-        }
-        .detail-dialog[open] {
-            animation: detail-in 150ms ease-out;
-        }
-        .detail-copy {
-            white-space: pre-wrap;
-        }
-        @keyframes detail-in {
-            from {
-                opacity: 0;
-                transform: translateY(8px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
 </head>
 <body class="font-sans antialiased selection:bg-white selection:text-black">
     <nav class="fixed w-full z-50 nav-blur border-b border-matte-800/50 transition-all duration-300">
@@ -161,12 +43,11 @@
     <main class="max-w-5xl mx-auto px-6 pt-32 pb-24 space-y-32">
         <section id="hero" class="pt-10 md:pt-20">
             <div class="max-w-3xl">
-                <p class="font-mono text-accent-400 text-sm mb-4">Hello, my name is Alex.</p>
                 <h1 class="text-4xl md:text-6xl font-bold text-white leading-tight mb-6 tracking-tight">
-                    I build scalable backends and robust cloud infrastructure.
+                    I build backend systems and deploy them on AWS.
                 </h1>
                 <p class="text-lg md:text-xl text-gray-400 leading-relaxed mb-10 max-w-2xl">
-                    Specializing in Django, AWS, and DevOps automation. I turn complex requirements into clean, efficient, and highly available systems.
+                    I work with Python, Django, DRF, Docker, and AWS to build APIs, connect databases, automate deployments, and keep full-stack projects running cleanly.
                 </p>
                 <div class="flex items-center space-x-6">
                     <a href="#contact" class="text-white font-medium border-b border-accent-400 pb-1 hover:text-accent-400 transition-colors">Get in touch</a>
@@ -183,20 +64,18 @@
                 <div class="md:col-span-8">
                     <div class="prose prose-invert mb-8 text-gray-400 leading-relaxed">
                         <p class="mb-4">
-                            I am a software engineer focused heavily on the backend. I believe in mastering the core logic and infrastructure that powers applications, rather than spreading myself thin across every new frontend framework.
+                            I am a backend engineer with hands-on experience building Django applications, CRUD workflows, REST APIs, authentication, database-backed features, and admin-driven content systems.
                         </p>
                         <p>
-                            With years of experience handling server architecture, I ensure that everything behind the scenes runs flawlessly, securely, and scales efficiently.
+                            My main focus is building backend services and deploying them on AWS, then connecting the pieces with Docker, environment configuration, reverse proxies, and CI/CD automation. I can also design and connect simple full-stack interfaces when a project needs the complete path from frontend to cloud.
                         </p>
                     </div>
                     <div class="flex flex-wrap gap-2">
                         <span class="px-3 py-1 bg-matte-900 border border-matte-800 rounded text-xs font-mono text-gray-300">Python</span>
-                        <span class="px-3 py-1 bg-matte-900 border border-matte-800 rounded text-xs font-mono text-gray-300">Django / DRF</span>
+                        <span class="px-3 py-1 bg-matte-900 border border-matte-800 rounded text-xs font-mono text-gray-300">Django</span>
+                        <span class="px-3 py-1 bg-matte-900 border border-matte-800 rounded text-xs font-mono text-gray-300">DRF</span>
                         <span class="px-3 py-1 bg-matte-900 border border-matte-800 rounded text-xs font-mono text-gray-300">AWS</span>
-                        <span class="px-3 py-1 bg-matte-900 border border-matte-800 rounded text-xs font-mono text-gray-300">Docker & K8s</span>
-                        <span class="px-3 py-1 bg-matte-900 border border-matte-800 rounded text-xs font-mono text-gray-300">PostgreSQL</span>
-                        <span class="px-3 py-1 bg-matte-900 border border-matte-800 rounded text-xs font-mono text-gray-300">CI/CD</span>
-                        <span class="px-3 py-1 bg-matte-900 border border-matte-800 rounded text-xs font-mono text-gray-300">Linux</span>
+                        <span class="px-3 py-1 bg-matte-900 border border-matte-800 rounded text-xs font-mono text-gray-300">Docker</span>
                     </div>
                 </div>
             </div>
@@ -209,19 +88,18 @@
                 </div>
                 <div class="md:col-span-8 space-y-10">
                     <div>
-                        <h3 class="text-xl font-medium text-white mb-2">Django Engineering</h3>
-                        <p class="text-gray-400 leading-relaxed">Architecting secure REST APIs, optimizing complex ORM queries, and building scalable monolithic and microservice architectures.</p>
+                        <h3 class="text-xl font-medium text-white mb-2">Backend Development</h3>
+                        <p class="text-gray-400 leading-relaxed">Building Django and DRF backends with authentication, CRUD operations, serializers, admin workflows, database models, and API endpoints that frontend clients can use reliably.</p>
                     </div>
                     <div>
-                        <h3 class="text-xl font-medium text-white mb-2">DevOps & Cloud (AWS)</h3>
-                        <p class="text-gray-400 leading-relaxed">End-to-end infrastructure management via IaC (Terraform). Deep expertise in EC2, S3, RDS, Lambda, and automated CI/CD pipelines.</p>
+                        <h3 class="text-xl font-medium text-white mb-2">Cloud Deployment</h3>
+                        <p class="text-gray-400 leading-relaxed">Deploying backend and frontend services on AWS with Docker, EC2, ECR, RDS, S3, Nginx routing, environment variables, and GitHub Actions automation.</p>
                     </div>
                     <div class="p-5 border border-matte-800 bg-matte-900/50 rounded-lg">
                         <div class="flex items-center mb-2">
-                            <h3 class="text-xl font-medium text-white">Freelance Services</h3>
-                            <span class="ml-3 px-2 py-0.5 bg-matte-800 text-gray-400 text-[10px] uppercase font-bold tracking-wider rounded">Bonus</span>
+                            <h3 class="text-xl font-medium text-white">Full-Stack Integration</h3>
                         </div>
-                        <p class="text-gray-400 leading-relaxed text-sm">Beyond backend and infrastructure, I take on select freelance projects offering full-stack capabilities, bridging my deep backend knowledge with clean frontend execution.</p>
+                        <p class="text-gray-400 leading-relaxed text-sm">Connecting backend APIs with responsive frontend pages, contact forms, admin-managed content, and deployment pipelines so the project works from browser to database.</p>
                     </div>
                 </div>
             </div>
@@ -317,10 +195,6 @@
                         </a>
                         <a href="https://www.linkedin.com/in/saadwaseemcloud/" class="w-12 h-12 bg-matte-900 border border-matte-800 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:border-accent-500 transition-all" aria-label="LinkedIn">
                             <i class="fab fa-linkedin-in text-xl"></i>
-                        </a>
-                        
-                        <a href="#" class="w-12 h-12 bg-matte-900 border border-matte-800 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:border-accent-500 transition-all" aria-label="DEV">
-                            <i class="fab fa-dev text-xl"></i>
                         </a>
                     </div>
                 </div>
