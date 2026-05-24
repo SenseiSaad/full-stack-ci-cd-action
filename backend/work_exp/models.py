@@ -1,5 +1,8 @@
 from django.db import models
 
+from portfolio.sanitizers import sanitize_plain_text, sanitize_rich_text
+
+
 class WorkExp(models.Model):
     title = models.CharField(max_length=255)
     short_description = models.TextField()
@@ -13,3 +16,11 @@ class WorkExp(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        self.title = sanitize_plain_text(self.title)
+        self.short_description = sanitize_plain_text(self.short_description)
+        self.tech_stack = sanitize_plain_text(self.tech_stack)
+        self.company_name = sanitize_plain_text(self.company_name)
+        self.long_description = sanitize_rich_text(self.long_description)
+        super().save(*args, **kwargs)

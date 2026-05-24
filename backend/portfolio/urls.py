@@ -18,6 +18,10 @@ from django.contrib import admin
 from django.urls import include, path
 from . import views
 
+admin.site.site_header = 'SaadOps Admin'
+admin.site.site_title = 'SaadOps Admin'
+admin.site.index_title = 'Portfolio CMS'
+
 urlpatterns = [
     # Admin panel
     path('admin/', admin.site.urls),

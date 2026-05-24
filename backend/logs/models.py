@@ -1,6 +1,6 @@
 from django.db import models
 
-from .sanitizers import sanitize_rich_text
+from portfolio.sanitizers import sanitize_plain_text, sanitize_rich_text
 
 
 # Model to store blog posts/logs
@@ -27,6 +27,10 @@ class Log(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
+        self.title = sanitize_plain_text(self.title)
+        self.short_description = sanitize_plain_text(self.short_description)
+        self.tech_stack = sanitize_plain_text(self.tech_stack)
+        self.category = sanitize_plain_text(self.category)
         self.long_description = sanitize_rich_text(self.long_description)
         super().save(*args, **kwargs)
 

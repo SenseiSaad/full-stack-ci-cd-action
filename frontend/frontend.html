@@ -1,0 +1,876 @@
+import React, { useMemo, useState } from "react";
+
+/*
+  Self-contained React portfolio concept.
+  - No lucide-react dependency.
+  - No framer-motion dependency.
+  - Inline SVG icons + CSS keyframe animations only.
+  - Designed for a Django RAG backend portfolio hosted on AWS.
+*/
+
+function Icon({ children, className = "h-5 w-5" }) {
+  return <span className={`inline-flex items-center justify-center ${className}`}>{children}</span>;
+}
+
+function SvgIcon({ children, className = "h-5 w-5", fill = "none" }) {
+  return (
+    <Icon className={className}>
+      <svg viewBox="0 0 24 24" fill={fill} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-full w-full">
+        {children}
+      </svg>
+    </Icon>
+  );
+}
+
+function SparklesIcon({ className }) {
+  return (
+    <SvgIcon className={className}>
+      <path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8L12 3z" />
+      <path d="M19 14l.9 2.1L22 17l-2.1.9L19 20l-.9-2.1L16 17l2.1-.9L19 14z" />
+      <path d="M5 14l.7 1.6L7.3 16l-1.6.7L5 18.3l-.7-1.6L2.7 16l1.6-.7L5 14z" />
+    </SvgIcon>
+  );
+}
+
+function ArrowRightIcon({ className }) {
+  return (
+    <SvgIcon className={className}>
+      <path d="M5 12h14" />
+      <path d="M13 5l7 7-7 7" />
+    </SvgIcon>
+  );
+}
+
+function BotIcon({ className }) {
+  return (
+    <SvgIcon className={className}>
+      <rect x="5" y="8" width="14" height="10" rx="3" />
+      <path d="M12 4v4" />
+      <path d="M9 13h.01" />
+      <path d="M15 13h.01" />
+      <path d="M9 16h6" />
+    </SvgIcon>
+  );
+}
+
+function CloudIcon({ className }) {
+  return (
+    <SvgIcon className={className}>
+      <path d="M7 18a4 4 0 0 1-.3-8A5.5 5.5 0 0 1 17.5 8a3.5 3.5 0 1 1 .5 10H7z" />
+    </SvgIcon>
+  );
+}
+
+function CodeIcon({ className }) {
+  return (
+    <SvgIcon className={className}>
+      <path d="M8 16l-4-4 4-4" />
+      <path d="M16 8l4 4-4 4" />
+      <path d="M14 4l-4 16" />
+    </SvgIcon>
+  );
+}
+
+function DatabaseIcon({ className }) {
+  return (
+    <SvgIcon className={className}>
+      <ellipse cx="12" cy="5" rx="7" ry="3" />
+      <path d="M5 5v7c0 1.7 3.1 3 7 3s7-1.3 7-3V5" />
+      <path d="M5 12v7c0 1.7 3.1 3 7 3s7-1.3 7-3v-7" />
+    </SvgIcon>
+  );
+}
+
+function GithubIcon({ className }) {
+  return (
+    <Icon className={className}>
+      <svg viewBox="0 0 24 24" fill="currentColor" className="h-full w-full">
+        <path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.61-3.37-1.19-3.37-1.19-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.82.09-.64.35-1.08.63-1.33-2.22-.25-4.56-1.11-4.56-4.93 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02A9.48 9.48 0 0 1 12 6.84a9.5 9.5 0 0 1 2.5.34c1.91-1.29 2.74-1.02 2.74-1.02.56 1.38.21 2.4.11 2.65.64.7 1.02 1.59 1.02 2.68 0 3.83-2.34 4.68-4.57 4.93.36.31.67.92.67 1.86v2.76c0 .27.18.58.69.48A10 10 0 0 0 12 2z" />
+      </svg>
+    </Icon>
+  );
+}
+
+function MenuIcon({ className }) {
+  return (
+    <SvgIcon className={className}>
+      <path d="M4 7h16" />
+      <path d="M4 12h16" />
+      <path d="M4 17h16" />
+    </SvgIcon>
+  );
+}
+
+function MessageIcon({ className }) {
+  return (
+    <SvgIcon className={className}>
+      <path d="M21 15a3 3 0 0 1-3 3H8l-5 3V6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3z" />
+    </SvgIcon>
+  );
+}
+
+function ServerIcon({ className }) {
+  return (
+    <SvgIcon className={className}>
+      <rect x="3" y="4" width="18" height="6" rx="2" />
+      <rect x="3" y="14" width="18" height="6" rx="2" />
+      <path d="M7 7h.01" />
+      <path d="M7 17h.01" />
+    </SvgIcon>
+  );
+}
+
+function ShieldIcon({ className }) {
+  return (
+    <SvgIcon className={className}>
+      <path d="M12 3l7 3v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6l7-3z" />
+      <path d="M9 12l2 2 4-4" />
+    </SvgIcon>
+  );
+}
+
+function XIcon({ className }) {
+  return (
+    <SvgIcon className={className}>
+      <path d="M18 6L6 18" />
+      <path d="M6 6l12 12" />
+    </SvgIcon>
+  );
+}
+
+function ZapIcon({ className }) {
+  return (
+    <SvgIcon className={className}>
+      <path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" />
+    </SvgIcon>
+  );
+}
+
+function UserIcon({ className }) {
+  return (
+    <SvgIcon className={className}>
+      <path d="M20 21a8 8 0 0 0-16 0" />
+      <circle cx="12" cy="7" r="4" />
+    </SvgIcon>
+  );
+}
+
+function BriefcaseIcon({ className }) {
+  return (
+    <SvgIcon className={className}>
+      <rect x="3" y="7" width="18" height="13" rx="2" />
+      <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+      <path d="M3 12h18" />
+    </SvgIcon>
+  );
+}
+
+function LinkIcon({ className }) {
+  return (
+    <SvgIcon className={className}>
+      <path d="M10 13a5 5 0 0 0 7.1 0l2-2a5 5 0 0 0-7.1-7.1l-1.1 1.1" />
+      <path d="M14 11a5 5 0 0 0-7.1 0l-2 2A5 5 0 0 0 12 20.1l1.1-1.1" />
+    </SvgIcon>
+  );
+}
+
+const profile = {
+  name: "Saad Waseem",
+  title: "Backend Developer · Django · AWS · DevOps",
+  summary:
+    "I build backend-first web systems using Django, DRF, PostgreSQL, Docker, and AWS. My portfolio is not only a list of projects — it is a showcase of the backend services, deployment flows, and practical cloud solutions I can provide.",
+  personal:
+    "My focus is to grow into backend and cloud engineering: building scalable APIs, deploying them on cloud platforms, improving CI/CD workflows, and understanding how production systems are shipped, secured, and maintained.",
+  traits: ["Backend Services", "API Architecture", "Cloud Deployment", "CI/CD Pipelines", "Scalable Systems", "Future DevOps Focus"],
+};
+
+const projects = [
+  {
+    title: "RAG Portfolio Assistant",
+    type: "Pinned",
+    desc: "A Django + DRF backend with document-aware AI answers, project search, logs, and secure API architecture.",
+    stack: ["Django", "DRF", "RAG", "PostgreSQL", "AWS"],
+    metric: "AI Q/A backend",
+  },
+  {
+    title: "AWS CI/CD Portfolio Platform",
+    type: "Pinned",
+    desc: "Dockerized deployment pipeline using ECR, EC2, GitHub Actions, Nginx, and production environment variables.",
+    stack: ["Docker", "ECR", "EC2", "Nginx", "CI/CD"],
+    metric: "Deploys in minutes",
+  },
+  {
+    title: "Cloud Infrastructure Lab",
+    type: "Pinned",
+    desc: "Terraform-based AWS networking with private database access, security groups, IAM, and repeatable infrastructure.",
+    stack: ["Terraform", "VPC", "RDS", "IAM", "Route53"],
+    metric: "IaC focused",
+  },
+  {
+    title: "Django Admin CMS API",
+    type: "Project",
+    desc: "Admin-managed portfolio content system for projects, logs, skills, experience, and contact messages.",
+    stack: ["Django Admin", "CRUD", "REST"],
+    metric: "Content managed",
+  },
+];
+
+const logs = [
+  {
+    title: "From local Django to AWS EC2",
+    desc: "How I containerized a Django backend, pulled from ECR, connected environment variables, and served it with Nginx.",
+    tag: "Deployment",
+    date: "Latest",
+  },
+  {
+    title: "Private RDS connection thinking",
+    desc: "Designing a production-style setup where the app talks to the database privately through VPC security rules.",
+    tag: "AWS",
+    date: "Pinned",
+  },
+  {
+    title: "Why this is not just a portfolio",
+    desc: "Turning a personal website into a backend + DevOps proof-of-work system with real API and cloud decisions.",
+    tag: "Architecture",
+    date: "Pinned",
+  },
+  {
+    title: "CI/CD mistakes I fixed",
+    desc: "Common errors from wrong env values, Docker image tags, ECR login, compose files, and server configuration.",
+    tag: "Debugging",
+    date: "Log",
+  },
+];
+
+const services = [
+  {
+    icon: ServerIcon,
+    title: "Django Backend APIs",
+    desc: "Clean DRF endpoints, admin-managed content, auth-ready structure, serializers, pagination, and production settings.",
+  },
+  {
+    icon: CloudIcon,
+    title: "AWS Deployment",
+    desc: "EC2, ECR, RDS, S3, Route53, ACM, Nginx, Docker, and environment-based deployment flow.",
+  },
+  {
+    icon: DatabaseIcon,
+    title: "Production Database Flow",
+    desc: "PostgreSQL/RDS thinking, private networking, migrations, backups mindset, and secure credentials.",
+  },
+  {
+    icon: ShieldIcon,
+    title: "DevOps Foundation",
+    desc: "GitHub Actions, Docker Compose, Terraform, security groups, logs, health checks, and repeatable releases.",
+  },
+];
+
+const experience = [
+  {
+    title: "Church Website — WordPress Build",
+    role: "Web Developer / Site Builder",
+    desc: "Built and customized a church website using WordPress, focusing on layout, content structure, responsive pages, and easy content management for non-technical users.",
+    stack: ["WordPress", "CMS", "Responsive UI", "Content Management"],
+  },
+  {
+    title: "Church Website — Custom Coded Version",
+    role: "Frontend / Web Developer",
+    desc: "Collaborated on a coded church website with custom sections, navigation, reusable layout patterns, and a cleaner developer-controlled structure than the CMS version.",
+    stack: ["HTML", "CSS", "JavaScript", "Custom UI"],
+  },
+  {
+    title: "Web-Based Game Portal",
+    role: "Game/Web Integration",
+    desc: "Worked on a web-based game experience using an Unreal Engine iframe flow, connecting game presentation with a browser-based frontend experience.",
+    stack: ["Unreal Engine", "iframe", "Web Game", "Integration"],
+  },
+  {
+    title: "Game Development Collaboration",
+    role: "Game Developer / Collaborator",
+    desc: "Contributed to game development work with focus on interactive flow, assets, gameplay presentation, and practical problem-solving during implementation.",
+    stack: ["Game Dev", "Gameplay", "Collaboration", "Iteration"],
+  },
+];
+
+const socials = [
+  { label: "GitHub", value: "github.com/10kchart", href: "https://github.com/10kchart", status: "Active" },
+  { label: "LinkedIn", value: "linkedin.com/in/start-the-team-cloud", href: "https://www.linkedin.com/in/start-the-team-cloud", status: "Active" },
+  { label: "Backend API", value: "backend.flex.dev", href: "#", status: "Maintenance" },
+  { label: "Email", value: "your-email@example.com", href: "mailto:your-email@example.com", status: "Contact" },
+];
+
+function runRuntimeChecks() {
+  const pinnedProjects = projects.filter((project) => project.type === "Pinned");
+  const pinnedLogs = logs.filter((log) => log.date === "Pinned" || log.date === "Latest");
+
+  console.assert(pinnedProjects.length >= 3, "Expected at least 3 pinned projects for the home page.");
+  console.assert(pinnedProjects.slice(0, 3).length <= 3, "Home page must show maximum 3 pinned projects.");
+  console.assert(pinnedLogs.slice(0, 3).length <= 3, "Home page must show maximum 3 pinned logs.");
+  console.assert(services.every((service) => typeof service.icon === "function"), "Every service icon must be a local React component.");
+  console.assert(experience.length >= 3, "Expected at least 3 experience entries.");
+  console.assert(socials.length >= 3, "Expected at least 3 social/contact links.");
+  console.assert(!profile.traits.includes("Teacher mindset"), "Teacher mindset should not be shown in profile cards.");
+  console.assert(!profile.traits.includes("Family-oriented"), "Family-oriented should not be shown in profile cards.");
+  console.assert(socials.some((social) => social.value === "backend.flex.dev" && social.status === "Maintenance"), "Backend API card should exist and be marked as maintenance.");
+}
+
+runRuntimeChecks();
+
+function Nav({ active, setActive }) {
+  const [open, setOpen] = useState(false);
+  const items = ["Home", "Ask AI", "Projects", "Logs", "Contact"];
+
+  return (
+    <>
+      <nav className="fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-[#070707]/80 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
+          <button onClick={() => setActive("Home")} className="group flex items-center gap-3" aria-label="Go to home page">
+            <span className="grid h-9 w-9 place-items-center rounded-full border border-white/15 bg-white/5">
+              <SparklesIcon className="h-4 w-4" />
+            </span>
+            <span className="text-sm font-semibold uppercase tracking-[0.32em] text-white">SLANCER</span>
+          </button>
+
+          <div className="hidden items-center gap-1 md:flex">
+            {items.map((item) => (
+              <button
+                key={item}
+                onClick={() => setActive(item)}
+                className={`rounded-full px-4 py-2 text-sm transition ${
+                  active === item ? "bg-white text-black" : "text-white/70 hover:bg-white/10 hover:text-white"
+                }`}
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+
+          <button onClick={() => setActive("Contact")} className="hidden rounded-full border border-white/15 px-4 py-2 text-sm text-white/80 transition hover:bg-white hover:text-black md:block">
+            Hire / Contact
+          </button>
+
+          <button onClick={() => setOpen(true)} className="rounded-full border border-white/10 p-2 text-white md:hidden" aria-label="Open menu">
+            <MenuIcon />
+          </button>
+        </div>
+      </nav>
+
+      {open && (
+        <div className="fixed inset-0 z-[60] bg-black/95 p-6 md:hidden">
+          <div className="flex justify-end">
+            <button onClick={() => setOpen(false)} className="rounded-full border border-white/10 p-2" aria-label="Close menu">
+              <XIcon />
+            </button>
+          </div>
+
+          <div className="mt-12 grid gap-4">
+            {items.map((item) => (
+              <button
+                key={item}
+                onClick={() => {
+                  setActive(item);
+                  setOpen(false);
+                }}
+                className="rounded-2xl border border-white/10 bg-white/5 p-5 text-left text-2xl font-semibold text-white"
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
+function HaloPortrait() {
+  return (
+    <div className="relative mx-auto h-[420px] max-w-[430px] md:h-[560px]">
+      <div className="spin-slow absolute inset-10 rounded-full border border-white/20 shadow-[0_0_60px_rgba(255,255,255,0.18)]" />
+
+      <div className="floating absolute inset-0 overflow-hidden rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-white/10 to-white/[0.02] p-2 shadow-2xl">
+        <div className="relative h-full rounded-[2rem] bg-[radial-gradient(circle_at_60%_30%,rgba(255,255,255,0.18),transparent_35%),linear-gradient(145deg,#1b1b1b,#050505)]">
+          <div className="absolute left-8 top-10 rounded-full border border-white/15 bg-black/50 px-4 py-2 text-xs text-white/70 backdrop-blur-md">
+            Django + AWS
+          </div>
+
+          <div className="absolute right-10 top-14 h-[72%] w-[58%] rounded-[160px] border border-white/10 bg-[radial-gradient(circle_at_50%_18%,rgba(255,255,255,0.18),transparent_22%),linear-gradient(180deg,#252525,#0b0b0b)] shadow-[0_0_120px_rgba(255,255,255,0.04)]" />
+
+          <div className="absolute right-6 top-8 h-[76%] w-[62%] rounded-[200px] border border-white/0">
+            <div className="absolute inset-0 rounded-[200px] border border-[#f7f0d4]/20 border-r-transparent" />
+            <div className="glow-path absolute inset-[-4px] rounded-[200px] border border-transparent" />
+          </div>
+
+          <div className="absolute bottom-10 left-8 right-8 rounded-3xl border border-white/10 bg-black/55 p-5 backdrop-blur-xl">
+            <p className="text-sm text-white/60">Live proof-of-work backend portfolio</p>
+            <h3 className="mt-1 text-2xl font-semibold text-white">RAG-powered developer platform</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Home({ setActive }) {
+  const pinnedProjects = projects.filter((project) => project.type === "Pinned").slice(0, 3);
+  const pinnedLogs = logs.filter((log) => log.date === "Pinned" || log.date === "Latest").slice(0, 3);
+
+  return (
+    <main>
+      <section className="relative min-h-screen overflow-hidden px-5 pb-20 pt-32 md:px-8">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.10),transparent_24%),radial-gradient(circle_at_80%_10%,rgba(255,255,255,0.08),transparent_22%)]" />
+
+        <div className="mx-auto grid max-w-7xl items-center gap-12 md:grid-cols-[1.05fr_0.95fr]">
+          <div className="fade-up">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/70">
+              <ZapIcon className="h-4 w-4" /> Backend Developer · Cloud/DevOps Focus
+            </div>
+
+            <h1 className="max-w-4xl text-5xl font-semibold tracking-tight text-white md:text-7xl lg:text-8xl">
+              I build Django backends that are actually deployed.
+            </h1>
+
+            <p className="mt-7 max-w-2xl text-lg leading-8 text-white/60">
+              A solution-focused portfolio for Django backend services, RAG-powered APIs, admin-managed content, AWS hosting, Docker deployments, and CI/CD workflows — built to show what I can build and how I can ship it.
+            </p>
+
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <button onClick={() => setActive("Ask AI")} className="group rounded-full bg-white px-6 py-3 font-medium text-black transition hover:scale-[1.02]">
+                Ask my AI portfolio
+                <span className="ml-2 inline-block align-middle transition group-hover:translate-x-1">
+                  <ArrowRightIcon className="h-4 w-4" />
+                </span>
+              </button>
+
+              <button onClick={() => setActive("Projects")} className="rounded-full border border-white/15 px-6 py-3 font-medium text-white/80 transition hover:bg-white/10">
+                View solutions
+              </button>
+            </div>
+          </div>
+
+          <HaloPortrait />
+        </div>
+      </section>
+
+      <AboutSection />
+      <ServicesSection />
+      <ExperienceSection compact />
+      <PreviewSection title="Pinned Solutions" label="What I can build" items={pinnedProjects} button="View more solutions" onClick={() => setActive("Projects")} />
+      <PreviewSection title="Pinned Logs" label="Build notes" items={pinnedLogs} button="Read more logs" onClick={() => setActive("Logs")} isLog />
+      <SocialSection />
+      <ContactSection />
+    </main>
+  );
+}
+
+function SectionHeader({ label, title, text }) {
+  return (
+    <div className="mb-8 flex flex-col justify-between gap-5 md:flex-row md:items-end">
+      <div>
+        <p className="text-sm uppercase tracking-[0.32em] text-white/40">{label}</p>
+        <h2 className="mt-3 max-w-4xl text-3xl font-semibold text-white md:text-5xl">{title}</h2>
+      </div>
+      {text && <p className="max-w-xl text-sm leading-6 text-white/50 md:text-right">{text}</p>}
+    </div>
+  );
+}
+
+function AboutSection() {
+  return (
+    <section className="mx-auto max-w-7xl px-5 py-16 md:px-8">
+      <SectionHeader label="About me" title="A backend-focused builder for real cloud-ready systems." text="This section explains who I am, what I can build, what I have accomplished, and where I am heading." />
+
+      <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+        <article className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.035] p-7">
+          <div className="absolute -right-20 -top-20 h-56 w-56 rounded-full bg-white/10 blur-3xl" />
+          <div className="relative z-10">
+            <div className="mb-6 grid h-12 w-12 place-items-center rounded-2xl bg-white text-black">
+              <UserIcon />
+            </div>
+            <h3 className="text-2xl font-semibold text-white">{profile.name}</h3>
+            <p className="mt-2 text-white/50">{profile.title}</p>
+            <p className="mt-6 text-base leading-8 text-white/65">{profile.summary}</p>
+            <p className="mt-5 text-base leading-8 text-white/55">{profile.personal}</p>
+          </div>
+        </article>
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          {profile.traits.map((trait, index) => (
+            <article key={trait} className="fade-up rounded-[2rem] border border-white/10 bg-[#101010] p-6" style={{ animationDelay: `${index * 80}ms` }}>
+              <p className="text-sm text-white/40">0{index + 1}</p>
+              <h4 className="mt-8 text-xl font-semibold text-white">{trait}</h4>
+              <p className="mt-3 text-sm leading-6 text-white/50">
+                {trait === "Backend Services"
+                  ? "I can build Django/DRF backend services with clean models, serializers, admin panels, API endpoints, and production-ready settings."
+                  : trait === "API Architecture"
+                  ? "I focus on practical API structure: authentication-ready flows, CRUD operations, pagination, validation, and clear data handling."
+                  : trait === "Cloud Deployment"
+                  ? "I can take a backend from local development to a cloud server using Docker, AWS, environment variables, Nginx, and deployment checks."
+                  : trait === "CI/CD Pipelines"
+                  ? "I understand the workflow of pushing code, building Docker images, storing them in ECR, and deploying through GitHub Actions."
+                  : trait === "Scalable Systems"
+                  ? "My direction is to build systems that can grow: separate backend services, managed database usage, secure networking, and maintainable deployments."
+                  : "My future focus is backend engineering with cloud and DevOps: scalable APIs, automated delivery, monitoring, and reliable infrastructure."}
+              </p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ServicesSection() {
+  return (
+    <section className="mx-auto max-w-7xl px-5 py-16 md:px-8">
+      <SectionHeader label="Services" title="What I can provide" text="Backend development, cloud deployment, and practical DevOps support for real web projects." />
+
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        {services.map((service, index) => {
+          const ServiceIcon = service.icon;
+          return (
+            <article
+              key={service.title}
+              className="fade-up rounded-[2rem] border border-white/10 bg-white/[0.035] p-6 transition hover:-translate-y-1 hover:bg-white/[0.07]"
+              style={{ animationDelay: `${index * 120}ms` }}
+            >
+              <div className="mb-5 grid h-11 w-11 place-items-center rounded-2xl bg-white text-black">
+                <ServiceIcon className="h-5 w-5" />
+              </div>
+              <h3 className="text-lg font-semibold text-white">{service.title}</h3>
+              <p className="mt-3 text-sm leading-6 text-white/55">{service.desc}</p>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function ExperienceSection({ compact = false }) {
+  const shown = compact ? experience.slice(0, 4) : experience;
+
+  return (
+    <section className="mx-auto max-w-7xl px-5 py-16 md:px-8">
+      <SectionHeader
+        label="Experience"
+        title="Project collaboration and practical web experience."
+        text="An overview of websites, coded interfaces, web-game integration, and game development collaboration."
+      />
+
+      <div className="relative grid gap-4 lg:grid-cols-2">
+        {shown.map((item, index) => (
+          <article key={item.title} className="card-hover rounded-[2rem] border border-white/10 bg-[#101010] p-6">
+            <div className="flex items-start justify-between gap-4">
+              <div className="grid h-11 w-11 place-items-center rounded-2xl bg-white text-black">
+                <BriefcaseIcon />
+              </div>
+              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/45">0{index + 1}</span>
+            </div>
+            <h3 className="mt-7 text-2xl font-semibold text-white">{item.title}</h3>
+            <p className="mt-2 text-sm text-white/45">{item.role}</p>
+            <p className="mt-5 text-sm leading-7 text-white/55">{item.desc}</p>
+            <div className="mt-6 flex flex-wrap gap-2">
+              {item.stack.map((stackItem) => (
+                <span key={stackItem} className="rounded-full bg-white/7 px-3 py-1 text-xs text-white/55">
+                  {stackItem}
+                </span>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function PreviewSection({ title, label, items, button, onClick, isLog = false }) {
+  return (
+    <section className="mx-auto max-w-7xl px-5 py-16 md:px-8">
+      <SectionHeader label={label} title={title} />
+
+      <div className="mb-8 -mt-4 flex justify-end">
+        <button onClick={onClick} className="w-fit rounded-full border border-white/15 px-5 py-3 text-sm text-white/75 transition hover:bg-white hover:text-black">
+          {button}
+        </button>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {items.map((item) => (
+          <WorkCard key={item.title} item={item} isLog={isLog} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function WorkCard({ item, isLog = false }) {
+  return (
+    <article className="card-hover group relative min-h-[260px] overflow-hidden rounded-[2rem] border border-white/10 bg-[#101010] p-6">
+      <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-white/10 blur-3xl transition group-hover:bg-white/20" />
+
+      <div className="relative z-10">
+        <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/50">
+          {isLog ? item.tag : item.metric}
+        </span>
+
+        <h3 className="mt-8 text-2xl font-semibold tracking-tight text-white">{item.title}</h3>
+        <p className="mt-4 text-sm leading-6 text-white/55">{item.desc}</p>
+
+        {item.stack && (
+          <div className="mt-6 flex flex-wrap gap-2">
+            {item.stack.map((stackItem) => (
+              <span key={stackItem} className="rounded-full bg-white/7 px-3 py-1 text-xs text-white/55">
+                {stackItem}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </article>
+  );
+}
+
+function SocialSection() {
+  return (
+    <section className="mx-auto max-w-7xl px-5 py-16 md:px-8">
+      <SectionHeader label="Social" title="Developer links and backend status." text="GitHub and LinkedIn are active. The backend API card is intentionally shown as maintenance until the production API is ready." />
+
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        {socials.map((social) => (
+          <a key={social.label} href={social.href} className={`card-hover rounded-[2rem] border border-white/10 bg-white/[0.035] p-6 ${social.status === "Maintenance" ? "pointer-events-none opacity-70" : ""}`}>
+            <div className="mb-8 flex items-center justify-between">
+              <div className="grid h-11 w-11 place-items-center rounded-2xl bg-white text-black">
+                <LinkIcon />
+              </div>
+              <ArrowRightIcon className="h-4 w-4 text-white/40" />
+            </div>
+            <div className="flex items-center justify-between gap-3">
+              <h3 className="text-xl font-semibold text-white">{social.label}</h3>
+              <span className={`rounded-full px-3 py-1 text-xs ${social.status === "Maintenance" ? "bg-white/10 text-white/45" : "bg-white text-black"}`}>{social.status}</span>
+            </div>
+            <p className="mt-3 break-words text-sm text-white/45">{social.value}</p>
+            {social.status === "Maintenance" && <p className="mt-3 text-xs text-white/35">Backend is currently on maintenance while the production API is being updated.</p>}
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ContactSection() {
+  return (
+    <section className="mx-auto max-w-7xl px-5 py-16 md:px-8">
+      <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+        <article className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.035] p-8">
+          <div className="absolute -right-20 -top-20 h-56 w-56 rounded-full bg-white/10 blur-3xl" />
+          <div className="relative z-10">
+            <p className="text-sm uppercase tracking-[0.32em] text-white/40">Contact</p>
+            <h2 className="mt-4 text-4xl font-semibold text-white md:text-6xl">Have a backend or cloud project?</h2>
+            <p className="mt-6 text-base leading-8 text-white/55">
+              Use this form for freelance work, collaboration, internships, junior backend roles, DevOps support, or project discussion. Connect it to your Django contact API later.
+            </p>
+            <div className="mt-8 grid gap-3 text-sm text-white/55">
+              <p>Response focus: Django, DRF, AWS, Docker, CI/CD, RAG portfolio systems.</p>
+              <p>Best for: small business websites, backend APIs, deployment setup, and portfolio-grade cloud projects.</p>
+            </div>
+          </div>
+        </article>
+
+        <form
+          className="rounded-[2rem] border border-white/10 bg-[#101010] p-6"
+          onSubmit={(event) => {
+            event.preventDefault();
+          }}
+        >
+          <div className="grid gap-4 sm:grid-cols-2">
+            <input className="rounded-2xl border border-white/10 bg-black/40 px-4 py-4 text-white outline-none transition placeholder:text-white/30 focus:border-white/40" placeholder="Your name" />
+            <input className="rounded-2xl border border-white/10 bg-black/40 px-4 py-4 text-white outline-none transition placeholder:text-white/30 focus:border-white/40" placeholder="Email address" />
+          </div>
+          <input className="mt-4 w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-4 text-white outline-none transition placeholder:text-white/30 focus:border-white/40" placeholder="Project type / subject" />
+          <textarea className="mt-4 min-h-[180px] w-full resize-none rounded-2xl border border-white/10 bg-black/40 px-4 py-4 text-white outline-none transition placeholder:text-white/30 focus:border-white/40" placeholder="Tell me what you want to build..." />
+          <button className="mt-4 w-full rounded-full bg-white px-6 py-4 font-medium text-black transition hover:scale-[1.01]">
+            Send message
+          </button>
+        </form>
+      </div>
+    </section>
+  );
+}
+
+function AskAI() {
+  const [question, setQuestion] = useState("What AWS services were used in this portfolio?");
+  const sampleAnswer = useMemo(
+    () =>
+      "This portfolio is designed around a Django/DRF backend, Docker image workflow, ECR image registry, EC2 runtime, PostgreSQL/RDS database thinking, Nginx reverse proxy, Route53/ACM for domain and SSL, and GitHub Actions for CI/CD automation.",
+    []
+  );
+
+  return (
+    <main className="mx-auto min-h-screen max-w-5xl px-5 pt-32 md:px-8">
+      <div className="mb-10 text-center">
+        <div className="mx-auto mb-5 grid h-14 w-14 place-items-center rounded-2xl bg-white text-black">
+          <BotIcon />
+        </div>
+
+        <h1 className="text-4xl font-semibold text-white md:text-6xl">Ask my AI portfolio</h1>
+        <p className="mx-auto mt-5 max-w-2xl text-white/55">
+          Connect this page to your Django RAG endpoint. Visitors can ask about your skills, projects, deployment flow, AWS experience, and technical decisions.
+        </p>
+      </div>
+
+      <div className="rounded-[2rem] border border-white/10 bg-white/[0.035] p-4 md:p-6">
+        <div className="min-h-[320px] rounded-[1.5rem] border border-white/10 bg-black/40 p-5">
+          <div className="mb-5 max-w-[80%] rounded-3xl rounded-tl-sm bg-white/10 p-4 text-white/70">
+            {question}
+          </div>
+
+          <div className="ml-auto max-w-[88%] rounded-3xl rounded-tr-sm bg-white p-4 text-black">
+            {sampleAnswer}
+          </div>
+        </div>
+
+        <form
+          className="mt-4 flex gap-3"
+          onSubmit={(event) => {
+            event.preventDefault();
+          }}
+        >
+          <input
+            value={question}
+            onChange={(event) => setQuestion(event.target.value)}
+            className="min-w-0 flex-1 rounded-full border border-white/10 bg-black/50 px-5 py-4 text-white outline-none transition focus:border-white/40"
+            placeholder="Ask about projects, AWS, deployments, or Django..."
+          />
+
+          <button className="rounded-full bg-white px-6 font-medium text-black" aria-label="Send message">
+            <MessageIcon className="h-5 w-5" />
+          </button>
+        </form>
+      </div>
+    </main>
+  );
+}
+
+function ListingPage({ title, subtitle, items, isLog = false }) {
+  return (
+    <main className="mx-auto min-h-screen max-w-7xl px-5 pt-32 md:px-8">
+      <div className="mb-10 flex flex-col justify-between gap-5 md:flex-row md:items-end">
+        <div>
+          <p className="text-sm uppercase tracking-[0.32em] text-white/40">Explore</p>
+          <h1 className="mt-3 text-5xl font-semibold text-white md:text-7xl">{title}</h1>
+          <p className="mt-5 max-w-2xl text-white/55">{subtitle}</p>
+        </div>
+
+        <div className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/50">
+          {items.length} entries
+        </div>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {items.map((item) => (
+          <WorkCard key={item.title} item={item} isLog={isLog} />
+        ))}
+      </div>
+    </main>
+  );
+}
+
+function ProjectsPage() {
+  return <ListingPage title="Solutions" subtitle="Backend, cloud, DevOps, and RAG solution cards showing what I can build and deploy." items={projects} />;
+}
+
+function LogsPage() {
+  return <ListingPage title="Logs" subtitle="Short engineering notes that prove you understand the decisions behind the project." items={logs} isLog />;
+}
+
+function ContactPage() {
+  return (
+    <main className="pt-20">
+      <SocialSection />
+      <ContactSection />
+      <ExperienceSection />
+    </main>
+  );
+}
+
+export default function PortfolioFrontendConcept() {
+  const [active, setActive] = useState("Home");
+
+  return (
+    <div className="min-h-screen bg-[#070707] text-white selection:bg-white selection:text-black">
+      <style>{`
+        @keyframes floatY {
+          0% { transform: translateY(0px); }
+          50% { transform: translateY(-12px); }
+          100% { transform: translateY(0px); }
+        }
+
+        @keyframes spinSlow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes glowSweep {
+          0% {
+            box-shadow: 0 0 10px rgba(255,255,255,0.10), 0 0 30px rgba(255,225,160,0.10);
+            opacity: 0.7;
+          }
+          50% {
+            box-shadow: 0 0 24px rgba(255,255,255,0.22), 0 0 60px rgba(255,225,160,0.25);
+            opacity: 1;
+          }
+          100% {
+            box-shadow: 0 0 10px rgba(255,255,255,0.10), 0 0 30px rgba(255,225,160,0.10);
+            opacity: 0.7;
+          }
+        }
+
+        .floating { animation: floatY 5s ease-in-out infinite; }
+        .spin-slow { animation: spinSlow 24s linear infinite; }
+        .fade-up { animation: fadeUp 0.7s ease forwards; }
+
+        .glow-path {
+          box-shadow: 0 0 12px rgba(255,255,255,0.12), 0 0 40px rgba(255,226,170,0.25);
+          animation: glowSweep 4.5s ease-in-out infinite;
+        }
+
+        .card-hover {
+          transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
+        }
+
+        .card-hover:hover {
+          transform: translateY(-6px);
+          background-color: rgba(255,255,255,0.05);
+          border-color: rgba(255,255,255,0.22);
+        }
+      `}</style>
+
+      <div className="pointer-events-none fixed inset-0 opacity-[0.05] [background-image:linear-gradient(to_right,#fff_1px,transparent_1px),linear-gradient(to_bottom,#fff_1px,transparent_1px)] [background-size:80px_80px]" />
+
+      <Nav active={active} setActive={setActive} />
+
+      <div key={active} className="page-fade">
+        {active === "Home" && <Home setActive={setActive} />}
+        {active === "Ask AI" && <AskAI />}
+        {active === "Projects" && <ProjectsPage />}
+        {active === "Logs" && <LogsPage />}
+        {active === "Contact" && <ContactPage />}
+      </div>
+
+      <footer className="mx-auto mt-20 flex max-w-7xl flex-col justify-between gap-5 border-t border-white/10 px-5 py-8 text-sm text-white/40 md:flex-row md:px-8">
+        <span>© 2026 Slancer · Django Backend & Cloud DevOps</span>
+        <div className="flex gap-4">
+          <GithubIcon className="h-4 w-4" />
+          <CodeIcon className="h-4 w-4" />
+          <CloudIcon className="h-4 w-4" />
+        </div>
+      </footer>
+    </div>
+  );
+}

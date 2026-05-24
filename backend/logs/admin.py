@@ -2,14 +2,7 @@ from django import forms
 from django.contrib import admin
 
 from .models import Log
-
-
-class RichTextContentWidget(forms.Textarea):
-    class Media:
-        css = {
-            'all': ('logs/richtext_admin.css',),
-        }
-        js = ('logs/richtext_admin.js',)
+from portfolio.admin_widgets import RichTextContentWidget
 
 
 class LogAdminForm(forms.ModelForm):

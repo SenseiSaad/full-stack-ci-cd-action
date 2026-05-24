@@ -1,5 +1,7 @@
 from django.db import models
 
+from portfolio.sanitizers import sanitize_plain_text
+
 # Simple model to store contact form messages from users
 class ContactMessage(models.Model):
     # This stores the user's name (max 255 characters)
@@ -20,6 +22,13 @@ class ContactMessage(models.Model):
     # Show the name and email when you see it in admin
     def __str__(self):
         return f"{self.name} - {self.email}"
+
+    def save(self, *args, **kwargs):
+        self.name = sanitize_plain_text(self.name)
+        self.email = sanitize_plain_text(self.email).lower()
+        self.subject = sanitize_plain_text(self.subject)
+        self.message = sanitize_plain_text(self.message)
+        super().save(*args, **kwargs)
     
     # Sort by newest first in admin
     class Meta:

@@ -21,7 +21,7 @@
                     <a href="#experience" class="text-gray-400 hover:text-white transition-colors">Experience</a>
                     <a href="#projects" class="text-gray-400 hover:text-white transition-colors">Work</a>
                     <a href="#contact" class="text-gray-300 hover:text-accent-400 transition-colors">Contact</a>
-                    <a href="http://3.215.214.8/admin/" class="rounded border border-accent-500/70 bg-matte-900 px-3 py-1.5 text-white hover:border-accent-400 hover:text-accent-400 transition-colors">Admin</a>
+                    <a href="/admin/" class="rounded border border-accent-500/70 bg-matte-900 px-3 py-1.5 text-white hover:border-accent-400 hover:text-accent-400 transition-colors">Admin</a>
                 </div>
                 <button id="mobile-menu-btn" type="button" aria-label="Open navigation menu" class="md:hidden text-gray-400 hover:text-white focus:outline-none">
                     <i class="fas fa-bars text-xl"></i>
@@ -35,7 +35,7 @@
                 <a href="#experience" class="text-gray-400 hover:text-white text-sm font-medium">Experience</a>
                 <a href="#projects" class="text-gray-400 hover:text-white text-sm font-medium">Work</a>
                 <a href="#contact" class="text-gray-300 text-sm font-medium">Contact</a>
-                <a href="http://3.215.214.8/admin/" class="w-fit rounded border border-accent-500/70 bg-matte-900 px-3 py-2 text-white text-sm font-medium">Admin</a>
+                <a href="/admin/" class="w-fit rounded border border-accent-500/70 bg-matte-900 px-3 py-2 text-white text-sm font-medium">Admin</a>
             </div>
         </div>
     </nav>
@@ -275,6 +275,51 @@
             return textElement('p', 'text-sm text-red-400', message);
         }
 
+        function safeUrl(value) {
+            try {
+                const url = new URL(value, window.location.origin);
+                return ['http:', 'https:', 'mailto:'].includes(url.protocol) ? url.href : '';
+            } catch (error) {
+                return '';
+            }
+        }
+
+        function sanitizeRichHtml(value) {
+            const template = document.createElement('template');
+            template.innerHTML = value || '';
+
+            const allowedTags = new Set(['A', 'BLOCKQUOTE', 'BR', 'CODE', 'EM', 'H2', 'H3', 'H4', 'LI', 'OL', 'P', 'PRE', 'STRONG', 'UL']);
+            const allowedAttributes = {
+                A: new Set(['href', 'rel', 'target', 'title']),
+            };
+
+            [...template.content.querySelectorAll('*')].forEach(node => {
+                if (!allowedTags.has(node.tagName)) {
+                    node.replaceWith(document.createTextNode(node.textContent));
+                    return;
+                }
+
+                [...node.attributes].forEach(attribute => {
+                    if (!allowedAttributes[node.tagName]?.has(attribute.name)) {
+                        node.removeAttribute(attribute.name);
+                    }
+                });
+
+                if (node.tagName === 'A') {
+                    const href = safeUrl(node.getAttribute('href') || '');
+                    if (href) {
+                        node.href = href;
+                        node.rel = 'noreferrer';
+                        node.target = '_blank';
+                    } else {
+                        node.removeAttribute('href');
+                    }
+                }
+            });
+
+            return template.innerHTML;
+        }
+
         function formatYear(dateValue) {
             if (!dateValue) {
                 return 'Present';
@@ -322,9 +367,14 @@
         }
 
         function detailLink(url, label, iconName) {
+            const href = safeUrl(url);
+            if (!href) {
+                return null;
+            }
+
             const link = document.createElement('a');
             link.className = 'inline-flex items-center gap-2 rounded border border-matte-700 px-3 py-2 text-sm text-white hover:border-accent-500 hover:text-accent-400 transition-colors';
-            link.href = url;
+            link.href = href;
             link.target = '_blank';
             link.rel = 'noreferrer';
 
@@ -361,11 +411,17 @@
             }
 
             if (item.live_url) {
-                detailLinks.append(detailLink(item.live_url, 'Live site', 'fas fa-arrow-up-right-from-square'));
+                const liveLink = detailLink(item.live_url, 'Live site', 'fas fa-arrow-up-right-from-square');
+                if (liveLink) {
+                    detailLinks.append(liveLink);
+                }
             }
 
             if (item.github_link) {
-                detailLinks.append(detailLink(item.github_link, 'GitHub', 'fab fa-github'));
+                const githubLink = detailLink(item.github_link, 'GitHub', 'fab fa-github');
+                if (githubLink) {
+                    detailLinks.append(githubLink);
+                }
             }
 
             if (item.long_description) {
@@ -374,7 +430,7 @@
                     : 'detail-copy border-t border-matte-800 pt-6 text-sm leading-relaxed text-gray-400';
 
                 if (richText) {
-                    detailLongDescription.innerHTML = item.long_description;
+                    detailLongDescription.innerHTML = sanitizeRichHtml(item.long_description);
                 } else {
                     detailLongDescription.textContent = item.long_description;
                 }
@@ -391,6 +447,7 @@
                 'group block w-full border-b border-matte-800 pb-6 text-left hover:border-accent-400 transition-colors',
                 experience,
                 'Experience',
+                true,
             );
             item.append(
                 textElement('h3', 'mb-2 text-lg font-medium text-white group-hover:text-accent-400 transition-colors', experience.title),
@@ -410,6 +467,7 @@
                 'group block w-full border-b border-matte-800 pb-6 text-left hover:border-accent-400 transition-colors',
                 project,
                 'Project',
+                true,
             );
 
             const headingRow = document.createElement('div');
