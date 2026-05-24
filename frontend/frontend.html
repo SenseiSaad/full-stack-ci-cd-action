@@ -226,8 +226,8 @@
       <div class="container hero-grid">
         <div>
           <div class="eyebrow"><span class="icon-zap"></span> Backend Developer · Cloud/DevOps Focus</div>
-          <h1>I build Django backends that are actually deployed.</h1>
-          <p class="hero-text">A solution-focused portfolio for Django backend services, RAG-powered APIs, admin-managed content, AWS hosting, Docker deployments, and CI/CD workflows — built to show what I can build and how I can ship it.</p>
+          <h1>Build Django backends.</h1>
+          <p class="hero-text">Build Custom Django Backends,deploy and scale them on Amazon Web Services. Live Updates using Github Actions </p>
           <div class="actions"><button class="btn-primary" data-page="ask">Ask my AI portfolio <span class="arrow icon-arrow"></span></button><button class="btn-outline" data-page="solutions">View solutions</button></div>
         </div>
         <div class="portrait-wrap">
@@ -236,13 +236,13 @@
       </div>
     </section>
 
-    <section class="section"><div class="container"><div class="section-head"><div><p class="label">About me</p><h2 class="title">A backend-focused builder for real cloud-ready systems.</h2></div><p class="head-text">This section explains who I am, what I can build, what I have accomplished, and where I am heading.</p></div><div class="grid-2"><article class="card soft glow about-card"><div class="icon-square"><span class="icon-user"></span></div><h3>Saad Waseem</h3><p class="muted">Backend Developer · Django · AWS · DevOps</p><p>I build backend-first web systems using Django, DRF, PostgreSQL, Docker, and AWS. My portfolio is not only a list of projects — it is a showcase of the backend services, deployment flows, and practical cloud solutions I can provide.</p><p>My focus is to grow into backend and cloud engineering: building scalable APIs, deploying them on cloud platforms, improving CI/CD workflows, and understanding how production systems are shipped, secured, and maintained.</p></article><div class="grid-2-even" id="traits"></div></div></div></section>
+    <section class="section"><div class="container"><div class="section-head"><div><p class="label">About me</p><h2 class="title">A backend-focused builder for real cloud-ready systems.</h2></div></div><div class="grid-2"><article class="card soft glow about-card"><div class="icon-square"><span class="icon-user"></span></div><h3>Saad Waseem</h3><p class="muted">Backend Developer · Django · AWS · DevOps</p><p>I build backend-first web systems using Django, DRF, PostgreSQL, Docker, and AWS. My portfolio is not only a list of projects — it is a showcase of the backend services, deployment flows, and practical cloud solutions I can provide.</p><p>My focus is to grow into backend and cloud engineering: building scalable APIs, deploying them on cloud platforms, improving CI/CD workflows, and understanding how production systems are shipped, secured, and maintained.</p></article><div class="grid-2-even" id="traits"></div></div></div></section>
 
-    <section class="section"><div class="container"><div class="section-head"><div><p class="label">Services</p><h2 class="title">What I can provide</h2></div><p class="head-text">Backend development, cloud deployment, and practical DevOps support for real web projects.</p></div><div class="grid-4" id="services"></div></div></section>
-    <section class="section"><div class="container"><div class="section-head"><div><p class="label">Experience</p><h2 class="title">Project collaboration and practical web experience.</h2></div><p class="head-text">An overview of websites, coded interfaces, web-game integration, and game development collaboration.</p></div><div class="grid-2-even" id="experienceHome"></div></div></section>
+    <section class="section"><div class="container"><div class="section-head"><div><p class="label">Services</p><h2 class="title">What I can provide</h2></div><p class="head-text"></div><div class="grid-4" id="services"></div></div></section>
+    <section class="section"><div class="container"><div class="section-head"><div><p class="label">Experience</p><h2 class="title">Project collaboration and practical web experience.</h2></div></div><div class="grid-2-even" id="experienceHome"></div></div></section>
     <section class="section"><div class="container"><div class="section-head"><div><p class="label">What I can build</p><h2 class="title">Pinned Solutions</h2></div></div><div class="preview-btn"><button class="btn-outline" data-page="solutions">View more solutions</button></div><div class="grid-3" id="pinnedSolutions"></div></div></section>
     <section class="section"><div class="container"><div class="section-head"><div><p class="label">Build notes</p><h2 class="title">Pinned Logs</h2></div></div><div class="preview-btn"><button class="btn-outline" data-page="logs">Read more logs</button></div><div class="grid-3" id="pinnedLogs"></div></div></section>
-    <section class="section"><div class="container"><div class="section-head"><div><p class="label">Social</p><h2 class="title">Developer links and backend status.</h2></div><p class="head-text">GitHub and LinkedIn are active. The backend API card is intentionally shown as maintenance until the production API is ready.</p></div><div class="grid-4" id="socialHome"></div></div></section>
+    <section class="section"><div class="container"><div class="section-head"><div><p class="label">Social</p><h2 class="title">Developer links and backend status.</h2></div></div><div class="grid-4" id="socialHome"></div></div></section>
     <section class="section" id="contactHome"></section>
   </main>
 
@@ -287,25 +287,14 @@
       ['database','Production Database Flow','PostgreSQL/RDS thinking, private networking, migrations, backups mindset, and secure credentials.'],
       ['shield','DevOps Foundation','GitHub Actions, Docker Compose, Terraform, security groups, logs, health checks, and repeatable releases.']
     ];
-    const fallbackSolutions = [
-      {t:'RAG Portfolio Assistant', type:'Pinned', d:'A Django + DRF backend with document-aware AI answers, project search, logs, and secure API architecture.', s:['Django','DRF','RAG','PostgreSQL','AWS'], m:'AI Q/A backend'},
-      {t:'AWS CI/CD Portfolio Platform', type:'Pinned', d:'Dockerized deployment pipeline using ECR, EC2, GitHub Actions, Nginx, and production environment variables.', s:['Docker','ECR','EC2','Nginx','CI/CD'], m:'Deploys in minutes'},
-      {t:'Cloud Infrastructure Lab', type:'Pinned', d:'Terraform-based AWS networking with private database access, security groups, IAM, and repeatable infrastructure.', s:['Terraform','VPC','RDS','IAM','Route53'], m:'IaC focused'},
-      {t:'Django Admin CMS API', type:'Project', d:'Admin-managed portfolio content system for projects, logs, skills, experience, and contact messages.', s:['Django Admin','CRUD','REST'], m:'Content managed'}
-    ];
-    let solutions = [...fallbackSolutions];
+    let solutions = [];
     const logs = [
       {t:'From local Django to AWS EC2', d:'How I containerized a Django backend, pulled from ECR, connected environment variables, and served it with Nginx.', tag:'Deployment', date:'Latest'},
       {t:'Private RDS connection thinking', d:'Designing a production-style setup where the app talks to the database privately through VPC security rules.', tag:'AWS', date:'Pinned'},
       {t:'Why this is not just a portfolio', d:'Turning a personal website into a backend + DevOps proof-of-work system with real API and cloud decisions.', tag:'Architecture', date:'Pinned'},
       {t:'CI/CD mistakes I fixed', d:'Common errors from wrong env values, Docker image tags, ECR login, compose files, and server configuration.', tag:'Debugging', date:'Log'}
     ];
-    const exp = [
-      ['Church Website — WordPress Build','Web Developer / Site Builder','Built and customized a church website using WordPress, focusing on layout, content structure, responsive pages, and easy content management for non-technical users.',['WordPress','CMS','Responsive UI','Content Management']],
-      ['Church Website — Custom Coded Version','Frontend / Web Developer','Collaborated on a coded church website with custom sections, navigation, reusable layout patterns, and a cleaner developer-controlled structure than the CMS version.',['HTML','CSS','JavaScript','Custom UI']],
-      ['Web-Based Game Portal','Game/Web Integration','Worked on a web-based game experience using an Unreal Engine iframe flow, connecting game presentation with a browser-based frontend experience.',['Unreal Engine','iframe','Web Game','Integration']],
-      ['Game Development Collaboration','Game Developer / Collaborator','Contributed to game development work with focus on interactive flow, assets, gameplay presentation, and practical problem-solving during implementation.',['Game Dev','Gameplay','Collaboration','Iteration']]
-    ];
+    let experiences = [];
     const socials = [
       ['GitHub','github.com/10kchart','https://github.com/10kchart','Active'],
       ['LinkedIn','linkedin.com/in/start-the-team-cloud','https://www.linkedin.com/in/start-the-team-cloud','Active'],
@@ -329,7 +318,7 @@
     const traitCard = ([t,d],i)=>`<article class="card trait-card"><p class="num">0${i+1}</p><h4>${escapeHTML(t)}</h4><p>${escapeHTML(d)}</p></article>`;
     const serviceCard = ([ic,t,d])=>`<article class="card soft service-card"><div class="icon-square"><span class="icon-${escapeHTML(ic)}"></span></div><h3>${escapeHTML(t)}</h3><p>${escapeHTML(d)}</p></article>`;
     const workCard = (x,log=false)=>`<article class="card work-card glow"><span class="badge">${escapeHTML(log?x.tag:x.m)}</span><h3>${escapeHTML(x.t)}</h3><p>${escapeHTML(x.d)}</p>${x.s?.length?stack(x.s):''}</article>`;
-    const expCard = ([t,r,d,s],i)=>`<article class="card experience-card"><div class="experience-top"><div class="icon-square"><span class="icon-briefcase"></span></div><span class="badge">0${i+1}</span></div><h3>${escapeHTML(t)}</h3><p class="role">${escapeHTML(r)}</p><p>${escapeHTML(d)}</p>${stack(s)}</article>`;
+    const expCard = (experience,i)=>`<article class="card experience-card"><div class="experience-top"><div class="icon-square"><span class="icon-briefcase"></span></div><span class="badge">0${i+1}</span></div><h3>${escapeHTML(experience.t)}</h3><p class="role">${escapeHTML(experience.r)}</p><p>${escapeHTML(experience.d)}</p>${experience.s?.length?stack(experience.s):''}</article>`;
     const socialCard = ([l,v,h,st])=>`<a class="card soft social-card ${st==='Maintenance'?'disabled':''}" href="${safeUrl(h)}" ${st==='Maintenance'?'':'target="_blank" rel="noreferrer"'}><div class="social-top"><div class="icon-square"><span class="icon-link"></span></div><span class="icon-arrow"></span></div><h3>${escapeHTML(l)}<span class="status ${st==='Maintenance'?'maintenance':''}">${escapeHTML(st)}</span></h3><p>${escapeHTML(v)}</p>${st==='Maintenance'?'<p>Backend is currently on maintenance while the production API is being updated.</p>':''}</a>`;
     const contactHTML = () => `<div class="container contact-grid"><article class="card soft glow contact-info"><p class="label">Contact</p><h2>Have a backend or cloud project?</h2><p>Use this form for freelance work, collaboration, internships, junior backend roles, DevOps support, or project discussion. It saves directly to the Django admin contact messages.</p><p>Response focus: Django, DRF, AWS, Docker, CI/CD, RAG portfolio systems.</p><p>Best for: small business websites, backend APIs, deployment setup, and portfolio-grade cloud projects.</p></article><form class="contact-form"><div class="field-grid"><input class="input" name="name" placeholder="Your name" required><input class="input" name="email" type="email" placeholder="Email address" required></div><input class="input" name="subject" placeholder="Project type / subject" required><textarea class="textarea" name="message" placeholder="Tell me what you want to build..." required></textarea><p class="form-status" aria-live="polite"></p><button class="submit" type="submit">Send message</button></form></div>`;
 
@@ -341,6 +330,23 @@
         d: project.short_description,
         s: stackItems,
         m: stackItems[0] || 'Project'
+      };
+    }
+
+    function formatExperienceDate(value) {
+      if (!value) return 'Present';
+      const date = new Date(`${value}T00:00:00`);
+      return date.toLocaleDateString(undefined, { month: 'short', year: 'numeric' });
+    }
+
+    function experienceFromApi(experience) {
+      const company = experience.company_name || 'Experience';
+      const range = `${formatExperienceDate(experience.start_date)} - ${formatExperienceDate(experience.end_date)}`;
+      return {
+        t: experience.title,
+        r: `${company} · ${range}`,
+        d: experience.short_description,
+        s: technologyNames(experience.tech_stack)
       };
     }
 
@@ -356,8 +362,29 @@
       }
     }
 
+    async function loadExperience() {
+      try {
+        const response = await fetch('/api/experience/');
+        if (!response.ok) throw new Error('Experience could not be loaded.');
+        const data = await response.json();
+        experiences = data
+          .sort((left, right) => String(right.start_date || '').localeCompare(String(left.start_date || '')))
+          .map(experienceFromApi);
+        render();
+      } catch (error) {
+        console.warn(error.message);
+      }
+    }
+
+    function loadPortfolioData() {
+      loadProjects();
+      loadExperience();
+    }
+
     function render(){
-      traitsEl.innerHTML = traits.map(traitCard).join(''); servicesEl.innerHTML = services.map(serviceCard).join(''); experienceHome.innerHTML = exp.map(expCard).join(''); experienceContact.innerHTML = exp.map(expCard).join('');
+      traitsEl.innerHTML = traits.map(traitCard).join(''); servicesEl.innerHTML = services.map(serviceCard).join('');
+      experienceHome.innerHTML = experiences.length ? experiences.map(expCard).join('') : '<p class="empty-state">No work experience added yet. Add one in Django admin.</p>';
+      experienceContact.innerHTML = experiences.length ? experiences.map(expCard).join('') : '<p class="empty-state">No work experience added yet. Add one in Django admin.</p>';
       pinnedSolutions.innerHTML = solutions.length ? solutions.filter(x=>x.type==='Pinned').slice(0,3).map(x=>workCard(x)).join('') : '<p class="empty-state">No projects added yet. Add one in Django admin.</p>'; pinnedLogs.innerHTML = logs.filter(x=>x.date==='Pinned'||x.date==='Latest').slice(0,3).map(x=>workCard(x,true)).join('');
       solutionsGrid.innerHTML = solutions.length ? solutions.map(x=>workCard(x)).join('') : '<p class="empty-state">No projects added yet. Add one in Django admin.</p>'; logsGrid.innerHTML = logs.map(x=>workCard(x,true)).join('');
       socialHome.innerHTML = socials.map(socialCard).join(''); socialContact.innerHTML = socials.map(socialCard).join(''); contactHome.innerHTML = contactHTML(); contactPageForm.innerHTML = contactHTML();
@@ -369,7 +396,7 @@
     function bindAsk(){ askForm.onsubmit=e=>{e.preventDefault(); if(!askInput.value.trim()) return; questionBubble.textContent=askInput.value.trim(); answerBubble.textContent='Static demo response: connect this form to your Django RAG API endpoint to return real answers from your portfolio database and documents.'; }; }
     function bindForms(){ document.querySelectorAll('.contact-form').forEach(f=>{ if(f.dataset.bound) return; f.dataset.bound='1'; f.onsubmit=async e=>{e.preventDefault(); const status=f.querySelector('.form-status'); const submit=f.querySelector('.submit'); status.textContent='Sending...'; status.className='form-status'; submit.disabled=true; try{ const response=await fetch('/api/messages/create/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.fromEntries(new FormData(f)))}); if(!response.ok) throw new Error('Message could not be sent.'); f.reset(); status.textContent='Message saved. I will get back to you soon.'; status.className='form-status ok'; }catch(error){ status.textContent=error.message; status.className='form-status error'; }finally{ submit.disabled=false; }}; }); }
     function checks(){ console.assert(solutions.filter(x=>x.type==='Pinned').slice(0,3).length<=3,'Max 3 pinned solutions'); console.assert(!traits.some(x=>x[0]==='Teacher mindset'||x[0]==='Family-oriented'),'Personal mindset cards removed'); console.assert(socials.some(x=>x[1]==='backend.flex.dev'&&x[3]==='Maintenance'),'Backend maintenance card exists'); }
-    render(); bindNav(); bindAsk(); loadProjects(); window.addEventListener('focus', loadProjects);
+    render(); bindNav(); bindAsk(); loadPortfolioData(); window.addEventListener('focus', loadPortfolioData);
   </script>
 </body>
 </html>

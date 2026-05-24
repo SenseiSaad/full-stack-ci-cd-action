@@ -38,4 +38,4 @@ EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8000/health/ || exit 1
 
-CMD sh -c "python manage.py collectstatic --noinput && python manage.py migrate && python manage.py seed_admin && gunicorn --bind 0.0.0.0:8000 --workers 3 --worker-class sync --timeout 120 --access-logfile - --error-logfile - portfolio.wsgi:application"
+CMD sh -c "python manage.py collectstatic --noinput && python manage.py migrate && python manage.py seed_admin && python manage.py seed_resume_content --prune-placeholders && gunicorn --bind 0.0.0.0:8000 --workers 3 --worker-class sync --timeout 120 --access-logfile - --error-logfile - portfolio.wsgi:application"
