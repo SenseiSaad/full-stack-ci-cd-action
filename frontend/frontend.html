@@ -1,876 +1,375 @@
-import React, { useMemo, useState } from "react";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Slancer | Django Backend & Cloud DevOps</title>
+  <style>
+    :root {
+      --bg: #070707;
+      --card: #101010;
+      --soft: rgba(255,255,255,.035);
+      --line: rgba(255,255,255,.1);
+      --line2: rgba(255,255,255,.22);
+      --text: #fff;
+      --muted: rgba(255,255,255,.6);
+      --muted2: rgba(255,255,255,.42);
+      --max: 1280px;
+    }
 
-/*
-  Self-contained React portfolio concept.
-  - No lucide-react dependency.
-  - No framer-motion dependency.
-  - Inline SVG icons + CSS keyframe animations only.
-  - Designed for a Django RAG backend portfolio hosted on AWS.
-*/
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .05;
+      background-image: linear-gradient(to right,#fff 1px,transparent 1px), linear-gradient(to bottom,#fff 1px,transparent 1px);
+      background-size: 80px 80px;
+      z-index: -2;
+    }
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at 20% 20%,rgba(255,255,255,.1),transparent 24%), radial-gradient(circle at 80% 10%,rgba(255,255,255,.08),transparent 22%);
+      z-index: -1;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea { font: inherit; }
+    button { border: 0; background: none; color: inherit; cursor: pointer; }
+    .container { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
 
-function Icon({ children, className = "h-5 w-5" }) {
-  return <span className={`inline-flex items-center justify-center ${className}`}>{children}</span>;
-}
+    .nav { position: fixed; inset: 0 0 auto; z-index: 50; border-bottom: 1px solid var(--line); background: rgba(7,7,7,.8); backdrop-filter: blur(22px); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-mark, .icon-btn { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 999px; border: 1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.05); }
+    .brand-text { font-size: 14px; font-weight: 750; letter-spacing: .32em; }
+    .nav-links { display: flex; align-items: center; gap: 4px; }
+    .nav-link { padding: 10px 16px; border-radius: 999px; color: rgba(255,255,255,.72); font-size: 14px; transition: .18s; }
+    .nav-link:hover, .nav-link.active { background: #fff; color: #000; }
+    .nav-cta, .btn-outline { padding: 10px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,.15); color: rgba(255,255,255,.82); font-size: 14px; transition: .18s; }
+    .nav-cta:hover, .btn-outline:hover { background: #fff; color: #000; }
+    .menu-btn { display: none; }
 
-function SvgIcon({ children, className = "h-5 w-5", fill = "none" }) {
-  return (
-    <Icon className={className}>
-      <svg viewBox="0 0 24 24" fill={fill} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-full w-full">
-        {children}
-      </svg>
-    </Icon>
-  );
-}
+    .mobile { display: none; position: fixed; inset: 0; z-index: 80; background: rgba(0,0,0,.96); padding: 24px; }
+    .mobile.open { display: block; }
+    .mobile-close { display: flex; justify-content: flex-end; }
+    .mobile-links { display: grid; gap: 16px; margin-top: 48px; }
+    .mobile-links button, .mobile-links a { padding: 20px; border-radius: 24px; border: 1px solid var(--line); background: rgba(255,255,255,.05); text-align: left; font-size: 26px; font-weight: 750; }
 
-function SparklesIcon({ className }) {
-  return (
-    <SvgIcon className={className}>
-      <path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8L12 3z" />
-      <path d="M19 14l.9 2.1L22 17l-2.1.9L19 20l-.9-2.1L16 17l2.1-.9L19 14z" />
-      <path d="M5 14l.7 1.6L7.3 16l-1.6.7L5 18.3l-.7-1.6L2.7 16l1.6-.7L5 14z" />
-    </SvgIcon>
-  );
-}
+    .page { display: none; min-height: 100vh; animation: fadeUp .45s ease both; }
+    .page.active { display: block; }
+    .section { padding: 64px 0; }
+    .hero { min-height: 100vh; display: flex; align-items: center; padding: 120px 0 80px; }
+    .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; align-items: center; gap: 48px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line); background: rgba(255,255,255,.05); color: rgba(255,255,255,.72); font-size: 14px; margin-bottom: 24px; }
+    h1 { max-width: 900px; font-size: clamp(50px, 8vw, 104px); line-height: .95; letter-spacing: -.06em; font-weight: 780; }
+    .hero-text { max-width: 680px; margin-top: 28px; color: var(--muted); font-size: 18px; line-height: 1.8; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
+    .btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 24px; border-radius: 999px; background: #fff; color: #000; font-weight: 650; transition: .18s; }
+    .btn-primary:hover { transform: scale(1.02); }
+    .btn-primary:hover .arrow { transform: translateX(4px); }
+    .arrow { transition: .18s; }
 
-function ArrowRightIcon({ className }) {
-  return (
-    <SvgIcon className={className}>
-      <path d="M5 12h14" />
-      <path d="M13 5l7 7-7 7" />
-    </SvgIcon>
-  );
-}
+    .portrait-wrap { position: relative; height: 560px; max-width: 430px; margin: 0 auto; }
+    .spin-ring { position: absolute; inset: 40px; border-radius: 999px; border: 1px solid rgba(255,255,255,.2); box-shadow: 0 0 60px rgba(255,255,255,.18); animation: spinSlow 24s linear infinite; }
+    .portrait-card { position: absolute; inset: 0; overflow: hidden; border-radius: 40px; border: 1px solid var(--line); background: linear-gradient(135deg,rgba(255,255,255,.1),rgba(255,255,255,.02)); padding: 8px; box-shadow: 0 25px 70px rgba(0,0,0,.5); animation: floatY 5s ease-in-out infinite; }
+    .portrait-inner { position: relative; height: 100%; border-radius: 32px; background: radial-gradient(circle at 60% 30%,rgba(255,255,255,.18),transparent 35%), linear-gradient(145deg,#1b1b1b,#050505); }
+    .portrait-pill { position: absolute; left: 32px; top: 40px; padding: 8px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,.15); background: rgba(0,0,0,.5); color: rgba(255,255,255,.72); font-size: 12px; backdrop-filter: blur(12px); }
+    .portrait-shape { position: absolute; right: 40px; top: 56px; height: 72%; width: 58%; border-radius: 160px; border: 1px solid var(--line); background: radial-gradient(circle at 50% 18%,rgba(255,255,255,.18),transparent 22%), linear-gradient(180deg,#252525,#0b0b0b); box-shadow: 0 0 120px rgba(255,255,255,.04); }
+    .portrait-orbit { position: absolute; right: 24px; top: 32px; height: 76%; width: 62%; border-radius: 200px; border: 1px solid rgba(247,240,212,.2); border-right-color: transparent; }
+    .portrait-orbit::after { content: ""; position: absolute; inset: -4px; border-radius: 200px; box-shadow: 0 0 12px rgba(255,255,255,.12), 0 0 40px rgba(255,226,170,.25); animation: glowSweep 4.5s ease-in-out infinite; }
+    .portrait-caption { position: absolute; left: 32px; right: 32px; bottom: 40px; padding: 20px; border-radius: 28px; border: 1px solid var(--line); background: rgba(0,0,0,.55); backdrop-filter: blur(18px); }
+    .portrait-caption p { color: rgba(255,255,255,.6); font-size: 14px; }
+    .portrait-caption h3 { margin-top: 4px; font-size: 24px; }
 
-function BotIcon({ className }) {
-  return (
-    <SvgIcon className={className}>
-      <rect x="5" y="8" width="14" height="10" rx="3" />
-      <path d="M12 4v4" />
-      <path d="M9 13h.01" />
-      <path d="M15 13h.01" />
-      <path d="M9 16h6" />
-    </SvgIcon>
-  );
-}
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 32px; }
+    .label { color: var(--muted2); font-size: 13px; text-transform: uppercase; letter-spacing: .32em; }
+    .title { max-width: 850px; margin-top: 12px; font-size: clamp(32px, 5vw, 56px); line-height: 1.05; letter-spacing: -.04em; }
+    .head-text { max-width: 560px; color: rgba(255,255,255,.5); font-size: 14px; line-height: 1.7; text-align: right; }
+    .grid-2 { display: grid; grid-template-columns: .9fr 1.1fr; gap: 16px; }
+    .grid-2-even { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
 
-function CloudIcon({ className }) {
-  return (
-    <SvgIcon className={className}>
-      <path d="M7 18a4 4 0 0 1-.3-8A5.5 5.5 0 0 1 17.5 8a3.5 3.5 0 1 1 .5 10H7z" />
-    </SvgIcon>
-  );
-}
+    .card { position: relative; overflow: hidden; border-radius: 32px; border: 1px solid var(--line); background: var(--card); padding: 24px; transition: transform .18s, background-color .18s, border-color .18s; }
+    .card.soft { background: var(--soft); }
+    .card:hover { transform: translateY(-6px); background: rgba(255,255,255,.05); border-color: var(--line2); }
+    .glow::before { content: ""; position: absolute; right: -80px; top: -80px; width: 224px; height: 224px; border-radius: 999px; background: rgba(255,255,255,.1); filter: blur(48px); }
+    .card > * { position: relative; z-index: 1; }
+    .icon-square { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 16px; background: #fff; color: #000; margin-bottom: 20px; }
+    .about-card { padding: 28px; }
+    .about-card h3 { font-size: 26px; }
+    .muted { color: var(--muted); }
+    .about-card p, .contact-info p { margin-top: 20px; color: rgba(255,255,255,.62); line-height: 1.8; }
+    .trait-card .num { color: var(--muted2); font-size: 14px; }
+    .trait-card h4 { margin-top: 32px; font-size: 20px; }
+    .trait-card p:last-child, .service-card p, .work-card p, .experience-card p, .social-card p { margin-top: 12px; color: rgba(255,255,255,.52); font-size: 14px; line-height: 1.7; }
+    .service-card h3, .work-card h3, .experience-card h3, .social-card h3 { font-size: 20px; }
+    .badge { display: inline-flex; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--line); background: rgba(255,255,255,.05); color: rgba(255,255,255,.5); font-size: 12px; }
+    .work-card { min-height: 260px; }
+    .work-card h3 { margin-top: 32px; font-size: 25px; letter-spacing: -.03em; }
+    .stack { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+    .stack span { padding: 4px 12px; border-radius: 999px; background: rgba(255,255,255,.07); color: rgba(255,255,255,.55); font-size: 12px; }
+    .preview-btn { display: flex; justify-content: flex-end; margin: -16px 0 32px; }
+    .experience-top, .social-top { display: flex; align-items: start; justify-content: space-between; gap: 16px; }
+    .experience-card h3 { margin-top: 28px; font-size: 25px; }
+    .role { margin-top: 8px !important; color: rgba(255,255,255,.45) !important; }
+    .social-card.disabled { pointer-events: none; opacity: .7; }
+    .social-card h3 { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .status { padding: 4px 12px; border-radius: 999px; background: #fff; color: #000; font-size: 12px; font-weight: 650; }
+    .status.maintenance { background: rgba(255,255,255,.1); color: rgba(255,255,255,.45); }
+    .form-status { min-height: 22px; color: rgba(255,255,255,.55); font-size: 14px; }
+    .form-status.ok { color: #90f6d7; }
+    .form-status.error { color: #ff9b9b; }
+    .empty-state { grid-column: 1 / -1; color: rgba(255,255,255,.48); }
 
-function CodeIcon({ className }) {
-  return (
-    <SvgIcon className={className}>
-      <path d="M8 16l-4-4 4-4" />
-      <path d="M16 8l4 4-4 4" />
-      <path d="M14 4l-4 16" />
-    </SvgIcon>
-  );
-}
+    .contact-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 16px; }
+    .contact-info { padding: 32px; }
+    .contact-info h2 { margin-top: 16px; font-size: clamp(38px,6vw,64px); line-height: 1.05; letter-spacing: -.05em; }
+    .contact-form { display: grid; gap: 16px; border-radius: 32px; border: 1px solid var(--line); background: var(--card); padding: 24px; }
+    .field-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
+    .input, .textarea { width: 100%; border: 1px solid var(--line); border-radius: 18px; background: rgba(0,0,0,.4); color: #fff; padding: 16px; outline: none; transition: .18s; }
+    .input::placeholder, .textarea::placeholder { color: rgba(255,255,255,.3); }
+    .input:focus, .textarea:focus { border-color: rgba(255,255,255,.4); }
+    .textarea { min-height: 180px; resize: vertical; }
+    .submit { width: 100%; padding: 16px 24px; border-radius: 999px; background: #fff; color: #000; font-weight: 650; transition: .18s; }
+    .submit:hover { transform: scale(1.01); }
 
-function DatabaseIcon({ className }) {
-  return (
-    <SvgIcon className={className}>
-      <ellipse cx="12" cy="5" rx="7" ry="3" />
-      <path d="M5 5v7c0 1.7 3.1 3 7 3s7-1.3 7-3V5" />
-      <path d="M5 12v7c0 1.7 3.1 3 7 3s7-1.3 7-3v-7" />
-    </SvgIcon>
-  );
-}
+    .page-head { padding: 128px 0 32px; }
+    .page-head-inner { display: flex; align-items: end; justify-content: space-between; gap: 32px; }
+    .page-head h1 { margin-top: 12px; font-size: clamp(52px,8vw,90px); line-height: .95; letter-spacing: -.06em; }
+    .page-head p { max-width: 680px; margin-top: 20px; color: rgba(255,255,255,.55); line-height: 1.7; }
+    .entry-count { white-space: nowrap; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line); background: rgba(255,255,255,.05); color: rgba(255,255,255,.5); font-size: 14px; }
 
-function GithubIcon({ className }) {
-  return (
-    <Icon className={className}>
-      <svg viewBox="0 0 24 24" fill="currentColor" className="h-full w-full">
-        <path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.61-3.37-1.19-3.37-1.19-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.82.09-.64.35-1.08.63-1.33-2.22-.25-4.56-1.11-4.56-4.93 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02A9.48 9.48 0 0 1 12 6.84a9.5 9.5 0 0 1 2.5.34c1.91-1.29 2.74-1.02 2.74-1.02.56 1.38.21 2.4.11 2.65.64.7 1.02 1.59 1.02 2.68 0 3.83-2.34 4.68-4.57 4.93.36.31.67.92.67 1.86v2.76c0 .27.18.58.69.48A10 10 0 0 0 12 2z" />
-      </svg>
-    </Icon>
-  );
-}
+    .ask-wrap { max-width: 960px; margin: 0 auto; padding: 128px 20px 64px; }
+    .ask-head { text-align: center; margin-bottom: 40px; }
+    .ask-icon { display: grid; place-items: center; width: 56px; height: 56px; margin: 0 auto 20px; border-radius: 18px; background: #fff; color: #000; }
+    .ask-head h1 { font-size: clamp(42px,7vw,68px); line-height: 1; letter-spacing: -.05em; }
+    .ask-head p { max-width: 700px; margin: 20px auto 0; color: rgba(255,255,255,.55); line-height: 1.7; }
+    .chat-card { border-radius: 32px; border: 1px solid var(--line); background: var(--soft); padding: 24px; }
+    .chat-window { min-height: 320px; border-radius: 24px; border: 1px solid var(--line); background: rgba(0,0,0,.4); padding: 20px; }
+    .bubble { max-width: 82%; padding: 16px; border-radius: 24px; line-height: 1.7; }
+    .bubble.user { margin-bottom: 20px; border-top-left-radius: 6px; background: rgba(255,255,255,.1); color: rgba(255,255,255,.72); }
+    .bubble.ai { margin-left: auto; border-top-right-radius: 6px; background: #fff; color: #000; }
+    .chat-form { display: flex; gap: 12px; margin-top: 16px; }
+    .chat-form input { flex: 1; min-width: 0; border-radius: 999px; }
+    .chat-form button { display: grid; place-items: center; padding: 0 24px; border-radius: 999px; background: #fff; color: #000; }
 
-function MenuIcon({ className }) {
-  return (
-    <SvgIcon className={className}>
-      <path d="M4 7h16" />
-      <path d="M4 12h16" />
-      <path d="M4 17h16" />
-    </SvgIcon>
-  );
-}
+    footer { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-top: 80px; padding: 32px 0; border-top: 1px solid var(--line); color: rgba(255,255,255,.4); font-size: 14px; }
+    .footer-icons { display: flex; gap: 16px; }
+    .svg { width: 20px; height: 20px; display: block; }
+    .svg-sm { width: 16px; height: 16px; }
 
-function MessageIcon({ className }) {
-  return (
-    <SvgIcon className={className}>
-      <path d="M21 15a3 3 0 0 1-3 3H8l-5 3V6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3z" />
-    </SvgIcon>
-  );
-}
+    @keyframes floatY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+    @keyframes spinSlow { to{transform:rotate(360deg)} }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes glowSweep { 0%,100%{box-shadow:0 0 10px rgba(255,255,255,.1),0 0 30px rgba(255,225,160,.1);opacity:.7} 50%{box-shadow:0 0 24px rgba(255,255,255,.22),0 0 60px rgba(255,225,160,.25);opacity:1} }
 
-function ServerIcon({ className }) {
-  return (
-    <SvgIcon className={className}>
-      <rect x="3" y="4" width="18" height="6" rx="2" />
-      <rect x="3" y="14" width="18" height="6" rx="2" />
-      <path d="M7 7h.01" />
-      <path d="M7 17h.01" />
-    </SvgIcon>
-  );
-}
-
-function ShieldIcon({ className }) {
-  return (
-    <SvgIcon className={className}>
-      <path d="M12 3l7 3v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6l7-3z" />
-      <path d="M9 12l2 2 4-4" />
-    </SvgIcon>
-  );
-}
-
-function XIcon({ className }) {
-  return (
-    <SvgIcon className={className}>
-      <path d="M18 6L6 18" />
-      <path d="M6 6l12 12" />
-    </SvgIcon>
-  );
-}
-
-function ZapIcon({ className }) {
-  return (
-    <SvgIcon className={className}>
-      <path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" />
-    </SvgIcon>
-  );
-}
-
-function UserIcon({ className }) {
-  return (
-    <SvgIcon className={className}>
-      <path d="M20 21a8 8 0 0 0-16 0" />
-      <circle cx="12" cy="7" r="4" />
-    </SvgIcon>
-  );
-}
-
-function BriefcaseIcon({ className }) {
-  return (
-    <SvgIcon className={className}>
-      <rect x="3" y="7" width="18" height="13" rx="2" />
-      <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-      <path d="M3 12h18" />
-    </SvgIcon>
-  );
-}
-
-function LinkIcon({ className }) {
-  return (
-    <SvgIcon className={className}>
-      <path d="M10 13a5 5 0 0 0 7.1 0l2-2a5 5 0 0 0-7.1-7.1l-1.1 1.1" />
-      <path d="M14 11a5 5 0 0 0-7.1 0l-2 2A5 5 0 0 0 12 20.1l1.1-1.1" />
-    </SvgIcon>
-  );
-}
-
-const profile = {
-  name: "Saad Waseem",
-  title: "Backend Developer · Django · AWS · DevOps",
-  summary:
-    "I build backend-first web systems using Django, DRF, PostgreSQL, Docker, and AWS. My portfolio is not only a list of projects — it is a showcase of the backend services, deployment flows, and practical cloud solutions I can provide.",
-  personal:
-    "My focus is to grow into backend and cloud engineering: building scalable APIs, deploying them on cloud platforms, improving CI/CD workflows, and understanding how production systems are shipped, secured, and maintained.",
-  traits: ["Backend Services", "API Architecture", "Cloud Deployment", "CI/CD Pipelines", "Scalable Systems", "Future DevOps Focus"],
-};
-
-const projects = [
-  {
-    title: "RAG Portfolio Assistant",
-    type: "Pinned",
-    desc: "A Django + DRF backend with document-aware AI answers, project search, logs, and secure API architecture.",
-    stack: ["Django", "DRF", "RAG", "PostgreSQL", "AWS"],
-    metric: "AI Q/A backend",
-  },
-  {
-    title: "AWS CI/CD Portfolio Platform",
-    type: "Pinned",
-    desc: "Dockerized deployment pipeline using ECR, EC2, GitHub Actions, Nginx, and production environment variables.",
-    stack: ["Docker", "ECR", "EC2", "Nginx", "CI/CD"],
-    metric: "Deploys in minutes",
-  },
-  {
-    title: "Cloud Infrastructure Lab",
-    type: "Pinned",
-    desc: "Terraform-based AWS networking with private database access, security groups, IAM, and repeatable infrastructure.",
-    stack: ["Terraform", "VPC", "RDS", "IAM", "Route53"],
-    metric: "IaC focused",
-  },
-  {
-    title: "Django Admin CMS API",
-    type: "Project",
-    desc: "Admin-managed portfolio content system for projects, logs, skills, experience, and contact messages.",
-    stack: ["Django Admin", "CRUD", "REST"],
-    metric: "Content managed",
-  },
-];
-
-const logs = [
-  {
-    title: "From local Django to AWS EC2",
-    desc: "How I containerized a Django backend, pulled from ECR, connected environment variables, and served it with Nginx.",
-    tag: "Deployment",
-    date: "Latest",
-  },
-  {
-    title: "Private RDS connection thinking",
-    desc: "Designing a production-style setup where the app talks to the database privately through VPC security rules.",
-    tag: "AWS",
-    date: "Pinned",
-  },
-  {
-    title: "Why this is not just a portfolio",
-    desc: "Turning a personal website into a backend + DevOps proof-of-work system with real API and cloud decisions.",
-    tag: "Architecture",
-    date: "Pinned",
-  },
-  {
-    title: "CI/CD mistakes I fixed",
-    desc: "Common errors from wrong env values, Docker image tags, ECR login, compose files, and server configuration.",
-    tag: "Debugging",
-    date: "Log",
-  },
-];
-
-const services = [
-  {
-    icon: ServerIcon,
-    title: "Django Backend APIs",
-    desc: "Clean DRF endpoints, admin-managed content, auth-ready structure, serializers, pagination, and production settings.",
-  },
-  {
-    icon: CloudIcon,
-    title: "AWS Deployment",
-    desc: "EC2, ECR, RDS, S3, Route53, ACM, Nginx, Docker, and environment-based deployment flow.",
-  },
-  {
-    icon: DatabaseIcon,
-    title: "Production Database Flow",
-    desc: "PostgreSQL/RDS thinking, private networking, migrations, backups mindset, and secure credentials.",
-  },
-  {
-    icon: ShieldIcon,
-    title: "DevOps Foundation",
-    desc: "GitHub Actions, Docker Compose, Terraform, security groups, logs, health checks, and repeatable releases.",
-  },
-];
-
-const experience = [
-  {
-    title: "Church Website — WordPress Build",
-    role: "Web Developer / Site Builder",
-    desc: "Built and customized a church website using WordPress, focusing on layout, content structure, responsive pages, and easy content management for non-technical users.",
-    stack: ["WordPress", "CMS", "Responsive UI", "Content Management"],
-  },
-  {
-    title: "Church Website — Custom Coded Version",
-    role: "Frontend / Web Developer",
-    desc: "Collaborated on a coded church website with custom sections, navigation, reusable layout patterns, and a cleaner developer-controlled structure than the CMS version.",
-    stack: ["HTML", "CSS", "JavaScript", "Custom UI"],
-  },
-  {
-    title: "Web-Based Game Portal",
-    role: "Game/Web Integration",
-    desc: "Worked on a web-based game experience using an Unreal Engine iframe flow, connecting game presentation with a browser-based frontend experience.",
-    stack: ["Unreal Engine", "iframe", "Web Game", "Integration"],
-  },
-  {
-    title: "Game Development Collaboration",
-    role: "Game Developer / Collaborator",
-    desc: "Contributed to game development work with focus on interactive flow, assets, gameplay presentation, and practical problem-solving during implementation.",
-    stack: ["Game Dev", "Gameplay", "Collaboration", "Iteration"],
-  },
-];
-
-const socials = [
-  { label: "GitHub", value: "github.com/10kchart", href: "https://github.com/10kchart", status: "Active" },
-  { label: "LinkedIn", value: "linkedin.com/in/start-the-team-cloud", href: "https://www.linkedin.com/in/start-the-team-cloud", status: "Active" },
-  { label: "Backend API", value: "backend.flex.dev", href: "#", status: "Maintenance" },
-  { label: "Email", value: "your-email@example.com", href: "mailto:your-email@example.com", status: "Contact" },
-];
-
-function runRuntimeChecks() {
-  const pinnedProjects = projects.filter((project) => project.type === "Pinned");
-  const pinnedLogs = logs.filter((log) => log.date === "Pinned" || log.date === "Latest");
-
-  console.assert(pinnedProjects.length >= 3, "Expected at least 3 pinned projects for the home page.");
-  console.assert(pinnedProjects.slice(0, 3).length <= 3, "Home page must show maximum 3 pinned projects.");
-  console.assert(pinnedLogs.slice(0, 3).length <= 3, "Home page must show maximum 3 pinned logs.");
-  console.assert(services.every((service) => typeof service.icon === "function"), "Every service icon must be a local React component.");
-  console.assert(experience.length >= 3, "Expected at least 3 experience entries.");
-  console.assert(socials.length >= 3, "Expected at least 3 social/contact links.");
-  console.assert(!profile.traits.includes("Teacher mindset"), "Teacher mindset should not be shown in profile cards.");
-  console.assert(!profile.traits.includes("Family-oriented"), "Family-oriented should not be shown in profile cards.");
-  console.assert(socials.some((social) => social.value === "backend.flex.dev" && social.status === "Maintenance"), "Backend API card should exist and be marked as maintenance.");
-}
-
-runRuntimeChecks();
-
-function Nav({ active, setActive }) {
-  const [open, setOpen] = useState(false);
-  const items = ["Home", "Ask AI", "Projects", "Logs", "Contact"];
-
-  return (
-    <>
-      <nav className="fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-[#070707]/80 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
-          <button onClick={() => setActive("Home")} className="group flex items-center gap-3" aria-label="Go to home page">
-            <span className="grid h-9 w-9 place-items-center rounded-full border border-white/15 bg-white/5">
-              <SparklesIcon className="h-4 w-4" />
-            </span>
-            <span className="text-sm font-semibold uppercase tracking-[0.32em] text-white">SLANCER</span>
-          </button>
-
-          <div className="hidden items-center gap-1 md:flex">
-            {items.map((item) => (
-              <button
-                key={item}
-                onClick={() => setActive(item)}
-                className={`rounded-full px-4 py-2 text-sm transition ${
-                  active === item ? "bg-white text-black" : "text-white/70 hover:bg-white/10 hover:text-white"
-                }`}
-              >
-                {item}
-              </button>
-            ))}
-          </div>
-
-          <button onClick={() => setActive("Contact")} className="hidden rounded-full border border-white/15 px-4 py-2 text-sm text-white/80 transition hover:bg-white hover:text-black md:block">
-            Hire / Contact
-          </button>
-
-          <button onClick={() => setOpen(true)} className="rounded-full border border-white/10 p-2 text-white md:hidden" aria-label="Open menu">
-            <MenuIcon />
-          </button>
-        </div>
-      </nav>
-
-      {open && (
-        <div className="fixed inset-0 z-[60] bg-black/95 p-6 md:hidden">
-          <div className="flex justify-end">
-            <button onClick={() => setOpen(false)} className="rounded-full border border-white/10 p-2" aria-label="Close menu">
-              <XIcon />
-            </button>
-          </div>
-
-          <div className="mt-12 grid gap-4">
-            {items.map((item) => (
-              <button
-                key={item}
-                onClick={() => {
-                  setActive(item);
-                  setOpen(false);
-                }}
-                className="rounded-2xl border border-white/10 bg-white/5 p-5 text-left text-2xl font-semibold text-white"
-              >
-                {item}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-    </>
-  );
-}
-
-function HaloPortrait() {
-  return (
-    <div className="relative mx-auto h-[420px] max-w-[430px] md:h-[560px]">
-      <div className="spin-slow absolute inset-10 rounded-full border border-white/20 shadow-[0_0_60px_rgba(255,255,255,0.18)]" />
-
-      <div className="floating absolute inset-0 overflow-hidden rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-white/10 to-white/[0.02] p-2 shadow-2xl">
-        <div className="relative h-full rounded-[2rem] bg-[radial-gradient(circle_at_60%_30%,rgba(255,255,255,0.18),transparent_35%),linear-gradient(145deg,#1b1b1b,#050505)]">
-          <div className="absolute left-8 top-10 rounded-full border border-white/15 bg-black/50 px-4 py-2 text-xs text-white/70 backdrop-blur-md">
-            Django + AWS
-          </div>
-
-          <div className="absolute right-10 top-14 h-[72%] w-[58%] rounded-[160px] border border-white/10 bg-[radial-gradient(circle_at_50%_18%,rgba(255,255,255,0.18),transparent_22%),linear-gradient(180deg,#252525,#0b0b0b)] shadow-[0_0_120px_rgba(255,255,255,0.04)]" />
-
-          <div className="absolute right-6 top-8 h-[76%] w-[62%] rounded-[200px] border border-white/0">
-            <div className="absolute inset-0 rounded-[200px] border border-[#f7f0d4]/20 border-r-transparent" />
-            <div className="glow-path absolute inset-[-4px] rounded-[200px] border border-transparent" />
-          </div>
-
-          <div className="absolute bottom-10 left-8 right-8 rounded-3xl border border-white/10 bg-black/55 p-5 backdrop-blur-xl">
-            <p className="text-sm text-white/60">Live proof-of-work backend portfolio</p>
-            <h3 className="mt-1 text-2xl font-semibold text-white">RAG-powered developer platform</h3>
-          </div>
-        </div>
+    @media (max-width: 1024px) {
+      .hero-grid, .grid-2, .contact-grid { grid-template-columns: 1fr; }
+      .grid-4, .grid-3 { grid-template-columns: repeat(2,1fr); }
+      .section-head, .page-head-inner { align-items: start; flex-direction: column; }
+      .head-text { text-align: left; }
+    }
+    @media (max-width: 760px) {
+      .container { width: min(100% - 32px, var(--max)); }
+      .nav-links, .nav-cta { display: none; }
+      .menu-btn { display: grid; }
+      .hero { padding-top: 116px; }
+      .hero h1 { font-size: 52px; }
+      .portrait-wrap { height: 420px; }
+      .grid-3, .grid-4, .grid-2-even, .field-grid { grid-template-columns: 1fr; }
+      .actions { flex-direction: column; }
+      .actions button { justify-content: center; }
+      footer { align-items: start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <button class="brand" data-page="home" aria-label="Home"><span class="brand-mark icon-sparkles"></span><span class="brand-text">SLANCER</span></button>
+      <div class="nav-links">
+        <button class="nav-link active" data-page="home">Home</button>
+        <button class="nav-link" data-page="ask">Ask AI</button>
+        <button class="nav-link" data-page="solutions">Projects</button>
+        <button class="nav-link" data-page="logs">Logs</button>
+        <button class="nav-link" data-page="contact">Contact</button>
+        <a class="nav-link" href="/admin/">Admin</a>
       </div>
+      <button class="nav-cta" data-page="contact">Hire / Contact</button>
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu"><span class="icon-menu"></span></button>
     </div>
-  );
-}
+  </nav>
 
-function Home({ setActive }) {
-  const pinnedProjects = projects.filter((project) => project.type === "Pinned").slice(0, 3);
-  const pinnedLogs = logs.filter((log) => log.date === "Pinned" || log.date === "Latest").slice(0, 3);
-
-  return (
-    <main>
-      <section className="relative min-h-screen overflow-hidden px-5 pb-20 pt-32 md:px-8">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.10),transparent_24%),radial-gradient(circle_at_80%_10%,rgba(255,255,255,0.08),transparent_22%)]" />
-
-        <div className="mx-auto grid max-w-7xl items-center gap-12 md:grid-cols-[1.05fr_0.95fr]">
-          <div className="fade-up">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/70">
-              <ZapIcon className="h-4 w-4" /> Backend Developer · Cloud/DevOps Focus
-            </div>
-
-            <h1 className="max-w-4xl text-5xl font-semibold tracking-tight text-white md:text-7xl lg:text-8xl">
-              I build Django backends that are actually deployed.
-            </h1>
-
-            <p className="mt-7 max-w-2xl text-lg leading-8 text-white/60">
-              A solution-focused portfolio for Django backend services, RAG-powered APIs, admin-managed content, AWS hosting, Docker deployments, and CI/CD workflows — built to show what I can build and how I can ship it.
-            </p>
-
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <button onClick={() => setActive("Ask AI")} className="group rounded-full bg-white px-6 py-3 font-medium text-black transition hover:scale-[1.02]">
-                Ask my AI portfolio
-                <span className="ml-2 inline-block align-middle transition group-hover:translate-x-1">
-                  <ArrowRightIcon className="h-4 w-4" />
-                </span>
-              </button>
-
-              <button onClick={() => setActive("Projects")} className="rounded-full border border-white/15 px-6 py-3 font-medium text-white/80 transition hover:bg-white/10">
-                View solutions
-              </button>
-            </div>
-          </div>
-
-          <HaloPortrait />
-        </div>
-      </section>
-
-      <AboutSection />
-      <ServicesSection />
-      <ExperienceSection compact />
-      <PreviewSection title="Pinned Solutions" label="What I can build" items={pinnedProjects} button="View more solutions" onClick={() => setActive("Projects")} />
-      <PreviewSection title="Pinned Logs" label="Build notes" items={pinnedLogs} button="Read more logs" onClick={() => setActive("Logs")} isLog />
-      <SocialSection />
-      <ContactSection />
-    </main>
-  );
-}
-
-function SectionHeader({ label, title, text }) {
-  return (
-    <div className="mb-8 flex flex-col justify-between gap-5 md:flex-row md:items-end">
-      <div>
-        <p className="text-sm uppercase tracking-[0.32em] text-white/40">{label}</p>
-        <h2 className="mt-3 max-w-4xl text-3xl font-semibold text-white md:text-5xl">{title}</h2>
-      </div>
-      {text && <p className="max-w-xl text-sm leading-6 text-white/50 md:text-right">{text}</p>}
+  <div class="mobile" id="mobileMenu">
+    <div class="mobile-close"><button class="icon-btn" id="closeMenu" aria-label="Close menu"><span class="icon-x"></span></button></div>
+    <div class="mobile-links">
+      <button data-page="home">Home</button><button data-page="ask">Ask AI</button><button data-page="solutions">Projects</button><button data-page="logs">Logs</button><button data-page="contact">Contact</button>
+      <a href="/admin/">Admin</a>
     </div>
-  );
-}
+  </div>
 
-function AboutSection() {
-  return (
-    <section className="mx-auto max-w-7xl px-5 py-16 md:px-8">
-      <SectionHeader label="About me" title="A backend-focused builder for real cloud-ready systems." text="This section explains who I am, what I can build, what I have accomplished, and where I am heading." />
-
-      <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
-        <article className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.035] p-7">
-          <div className="absolute -right-20 -top-20 h-56 w-56 rounded-full bg-white/10 blur-3xl" />
-          <div className="relative z-10">
-            <div className="mb-6 grid h-12 w-12 place-items-center rounded-2xl bg-white text-black">
-              <UserIcon />
-            </div>
-            <h3 className="text-2xl font-semibold text-white">{profile.name}</h3>
-            <p className="mt-2 text-white/50">{profile.title}</p>
-            <p className="mt-6 text-base leading-8 text-white/65">{profile.summary}</p>
-            <p className="mt-5 text-base leading-8 text-white/55">{profile.personal}</p>
-          </div>
-        </article>
-
-        <div className="grid gap-4 sm:grid-cols-2">
-          {profile.traits.map((trait, index) => (
-            <article key={trait} className="fade-up rounded-[2rem] border border-white/10 bg-[#101010] p-6" style={{ animationDelay: `${index * 80}ms` }}>
-              <p className="text-sm text-white/40">0{index + 1}</p>
-              <h4 className="mt-8 text-xl font-semibold text-white">{trait}</h4>
-              <p className="mt-3 text-sm leading-6 text-white/50">
-                {trait === "Backend Services"
-                  ? "I can build Django/DRF backend services with clean models, serializers, admin panels, API endpoints, and production-ready settings."
-                  : trait === "API Architecture"
-                  ? "I focus on practical API structure: authentication-ready flows, CRUD operations, pagination, validation, and clear data handling."
-                  : trait === "Cloud Deployment"
-                  ? "I can take a backend from local development to a cloud server using Docker, AWS, environment variables, Nginx, and deployment checks."
-                  : trait === "CI/CD Pipelines"
-                  ? "I understand the workflow of pushing code, building Docker images, storing them in ECR, and deploying through GitHub Actions."
-                  : trait === "Scalable Systems"
-                  ? "My direction is to build systems that can grow: separate backend services, managed database usage, secure networking, and maintainable deployments."
-                  : "My future focus is backend engineering with cloud and DevOps: scalable APIs, automated delivery, monitoring, and reliable infrastructure."}
-              </p>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function ServicesSection() {
-  return (
-    <section className="mx-auto max-w-7xl px-5 py-16 md:px-8">
-      <SectionHeader label="Services" title="What I can provide" text="Backend development, cloud deployment, and practical DevOps support for real web projects." />
-
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {services.map((service, index) => {
-          const ServiceIcon = service.icon;
-          return (
-            <article
-              key={service.title}
-              className="fade-up rounded-[2rem] border border-white/10 bg-white/[0.035] p-6 transition hover:-translate-y-1 hover:bg-white/[0.07]"
-              style={{ animationDelay: `${index * 120}ms` }}
-            >
-              <div className="mb-5 grid h-11 w-11 place-items-center rounded-2xl bg-white text-black">
-                <ServiceIcon className="h-5 w-5" />
-              </div>
-              <h3 className="text-lg font-semibold text-white">{service.title}</h3>
-              <p className="mt-3 text-sm leading-6 text-white/55">{service.desc}</p>
-            </article>
-          );
-        })}
-      </div>
-    </section>
-  );
-}
-
-function ExperienceSection({ compact = false }) {
-  const shown = compact ? experience.slice(0, 4) : experience;
-
-  return (
-    <section className="mx-auto max-w-7xl px-5 py-16 md:px-8">
-      <SectionHeader
-        label="Experience"
-        title="Project collaboration and practical web experience."
-        text="An overview of websites, coded interfaces, web-game integration, and game development collaboration."
-      />
-
-      <div className="relative grid gap-4 lg:grid-cols-2">
-        {shown.map((item, index) => (
-          <article key={item.title} className="card-hover rounded-[2rem] border border-white/10 bg-[#101010] p-6">
-            <div className="flex items-start justify-between gap-4">
-              <div className="grid h-11 w-11 place-items-center rounded-2xl bg-white text-black">
-                <BriefcaseIcon />
-              </div>
-              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/45">0{index + 1}</span>
-            </div>
-            <h3 className="mt-7 text-2xl font-semibold text-white">{item.title}</h3>
-            <p className="mt-2 text-sm text-white/45">{item.role}</p>
-            <p className="mt-5 text-sm leading-7 text-white/55">{item.desc}</p>
-            <div className="mt-6 flex flex-wrap gap-2">
-              {item.stack.map((stackItem) => (
-                <span key={stackItem} className="rounded-full bg-white/7 px-3 py-1 text-xs text-white/55">
-                  {stackItem}
-                </span>
-              ))}
-            </div>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function PreviewSection({ title, label, items, button, onClick, isLog = false }) {
-  return (
-    <section className="mx-auto max-w-7xl px-5 py-16 md:px-8">
-      <SectionHeader label={label} title={title} />
-
-      <div className="mb-8 -mt-4 flex justify-end">
-        <button onClick={onClick} className="w-fit rounded-full border border-white/15 px-5 py-3 text-sm text-white/75 transition hover:bg-white hover:text-black">
-          {button}
-        </button>
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {items.map((item) => (
-          <WorkCard key={item.title} item={item} isLog={isLog} />
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function WorkCard({ item, isLog = false }) {
-  return (
-    <article className="card-hover group relative min-h-[260px] overflow-hidden rounded-[2rem] border border-white/10 bg-[#101010] p-6">
-      <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-white/10 blur-3xl transition group-hover:bg-white/20" />
-
-      <div className="relative z-10">
-        <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/50">
-          {isLog ? item.tag : item.metric}
-        </span>
-
-        <h3 className="mt-8 text-2xl font-semibold tracking-tight text-white">{item.title}</h3>
-        <p className="mt-4 text-sm leading-6 text-white/55">{item.desc}</p>
-
-        {item.stack && (
-          <div className="mt-6 flex flex-wrap gap-2">
-            {item.stack.map((stackItem) => (
-              <span key={stackItem} className="rounded-full bg-white/7 px-3 py-1 text-xs text-white/55">
-                {stackItem}
-              </span>
-            ))}
-          </div>
-        )}
-      </div>
-    </article>
-  );
-}
-
-function SocialSection() {
-  return (
-    <section className="mx-auto max-w-7xl px-5 py-16 md:px-8">
-      <SectionHeader label="Social" title="Developer links and backend status." text="GitHub and LinkedIn are active. The backend API card is intentionally shown as maintenance until the production API is ready." />
-
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {socials.map((social) => (
-          <a key={social.label} href={social.href} className={`card-hover rounded-[2rem] border border-white/10 bg-white/[0.035] p-6 ${social.status === "Maintenance" ? "pointer-events-none opacity-70" : ""}`}>
-            <div className="mb-8 flex items-center justify-between">
-              <div className="grid h-11 w-11 place-items-center rounded-2xl bg-white text-black">
-                <LinkIcon />
-              </div>
-              <ArrowRightIcon className="h-4 w-4 text-white/40" />
-            </div>
-            <div className="flex items-center justify-between gap-3">
-              <h3 className="text-xl font-semibold text-white">{social.label}</h3>
-              <span className={`rounded-full px-3 py-1 text-xs ${social.status === "Maintenance" ? "bg-white/10 text-white/45" : "bg-white text-black"}`}>{social.status}</span>
-            </div>
-            <p className="mt-3 break-words text-sm text-white/45">{social.value}</p>
-            {social.status === "Maintenance" && <p className="mt-3 text-xs text-white/35">Backend is currently on maintenance while the production API is being updated.</p>}
-          </a>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function ContactSection() {
-  return (
-    <section className="mx-auto max-w-7xl px-5 py-16 md:px-8">
-      <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
-        <article className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.035] p-8">
-          <div className="absolute -right-20 -top-20 h-56 w-56 rounded-full bg-white/10 blur-3xl" />
-          <div className="relative z-10">
-            <p className="text-sm uppercase tracking-[0.32em] text-white/40">Contact</p>
-            <h2 className="mt-4 text-4xl font-semibold text-white md:text-6xl">Have a backend or cloud project?</h2>
-            <p className="mt-6 text-base leading-8 text-white/55">
-              Use this form for freelance work, collaboration, internships, junior backend roles, DevOps support, or project discussion. Connect it to your Django contact API later.
-            </p>
-            <div className="mt-8 grid gap-3 text-sm text-white/55">
-              <p>Response focus: Django, DRF, AWS, Docker, CI/CD, RAG portfolio systems.</p>
-              <p>Best for: small business websites, backend APIs, deployment setup, and portfolio-grade cloud projects.</p>
-            </div>
-          </div>
-        </article>
-
-        <form
-          className="rounded-[2rem] border border-white/10 bg-[#101010] p-6"
-          onSubmit={(event) => {
-            event.preventDefault();
-          }}
-        >
-          <div className="grid gap-4 sm:grid-cols-2">
-            <input className="rounded-2xl border border-white/10 bg-black/40 px-4 py-4 text-white outline-none transition placeholder:text-white/30 focus:border-white/40" placeholder="Your name" />
-            <input className="rounded-2xl border border-white/10 bg-black/40 px-4 py-4 text-white outline-none transition placeholder:text-white/30 focus:border-white/40" placeholder="Email address" />
-          </div>
-          <input className="mt-4 w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-4 text-white outline-none transition placeholder:text-white/30 focus:border-white/40" placeholder="Project type / subject" />
-          <textarea className="mt-4 min-h-[180px] w-full resize-none rounded-2xl border border-white/10 bg-black/40 px-4 py-4 text-white outline-none transition placeholder:text-white/30 focus:border-white/40" placeholder="Tell me what you want to build..." />
-          <button className="mt-4 w-full rounded-full bg-white px-6 py-4 font-medium text-black transition hover:scale-[1.01]">
-            Send message
-          </button>
-        </form>
-      </div>
-    </section>
-  );
-}
-
-function AskAI() {
-  const [question, setQuestion] = useState("What AWS services were used in this portfolio?");
-  const sampleAnswer = useMemo(
-    () =>
-      "This portfolio is designed around a Django/DRF backend, Docker image workflow, ECR image registry, EC2 runtime, PostgreSQL/RDS database thinking, Nginx reverse proxy, Route53/ACM for domain and SSL, and GitHub Actions for CI/CD automation.",
-    []
-  );
-
-  return (
-    <main className="mx-auto min-h-screen max-w-5xl px-5 pt-32 md:px-8">
-      <div className="mb-10 text-center">
-        <div className="mx-auto mb-5 grid h-14 w-14 place-items-center rounded-2xl bg-white text-black">
-          <BotIcon />
-        </div>
-
-        <h1 className="text-4xl font-semibold text-white md:text-6xl">Ask my AI portfolio</h1>
-        <p className="mx-auto mt-5 max-w-2xl text-white/55">
-          Connect this page to your Django RAG endpoint. Visitors can ask about your skills, projects, deployment flow, AWS experience, and technical decisions.
-        </p>
-      </div>
-
-      <div className="rounded-[2rem] border border-white/10 bg-white/[0.035] p-4 md:p-6">
-        <div className="min-h-[320px] rounded-[1.5rem] border border-white/10 bg-black/40 p-5">
-          <div className="mb-5 max-w-[80%] rounded-3xl rounded-tl-sm bg-white/10 p-4 text-white/70">
-            {question}
-          </div>
-
-          <div className="ml-auto max-w-[88%] rounded-3xl rounded-tr-sm bg-white p-4 text-black">
-            {sampleAnswer}
-          </div>
-        </div>
-
-        <form
-          className="mt-4 flex gap-3"
-          onSubmit={(event) => {
-            event.preventDefault();
-          }}
-        >
-          <input
-            value={question}
-            onChange={(event) => setQuestion(event.target.value)}
-            className="min-w-0 flex-1 rounded-full border border-white/10 bg-black/50 px-5 py-4 text-white outline-none transition focus:border-white/40"
-            placeholder="Ask about projects, AWS, deployments, or Django..."
-          />
-
-          <button className="rounded-full bg-white px-6 font-medium text-black" aria-label="Send message">
-            <MessageIcon className="h-5 w-5" />
-          </button>
-        </form>
-      </div>
-    </main>
-  );
-}
-
-function ListingPage({ title, subtitle, items, isLog = false }) {
-  return (
-    <main className="mx-auto min-h-screen max-w-7xl px-5 pt-32 md:px-8">
-      <div className="mb-10 flex flex-col justify-between gap-5 md:flex-row md:items-end">
+  <main id="home" class="page active">
+    <section class="hero">
+      <div class="container hero-grid">
         <div>
-          <p className="text-sm uppercase tracking-[0.32em] text-white/40">Explore</p>
-          <h1 className="mt-3 text-5xl font-semibold text-white md:text-7xl">{title}</h1>
-          <p className="mt-5 max-w-2xl text-white/55">{subtitle}</p>
+          <div class="eyebrow"><span class="icon-zap"></span> Backend Developer · Cloud/DevOps Focus</div>
+          <h1>I build Django backends that are actually deployed.</h1>
+          <p class="hero-text">A solution-focused portfolio for Django backend services, RAG-powered APIs, admin-managed content, AWS hosting, Docker deployments, and CI/CD workflows — built to show what I can build and how I can ship it.</p>
+          <div class="actions"><button class="btn-primary" data-page="ask">Ask my AI portfolio <span class="arrow icon-arrow"></span></button><button class="btn-outline" data-page="solutions">View solutions</button></div>
         </div>
-
-        <div className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/50">
-          {items.length} entries
+        <div class="portrait-wrap">
+          <div class="spin-ring"></div><div class="portrait-card"><div class="portrait-inner"><div class="portrait-pill">Django + AWS</div><div class="portrait-shape"></div><div class="portrait-orbit"></div><div class="portrait-caption"><p>Live proof-of-work backend portfolio</p><h3>RAG-powered developer platform</h3></div></div></div>
         </div>
       </div>
+    </section>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {items.map((item) => (
-          <WorkCard key={item.title} item={item} isLog={isLog} />
-        ))}
-      </div>
-    </main>
-  );
-}
+    <section class="section"><div class="container"><div class="section-head"><div><p class="label">About me</p><h2 class="title">A backend-focused builder for real cloud-ready systems.</h2></div><p class="head-text">This section explains who I am, what I can build, what I have accomplished, and where I am heading.</p></div><div class="grid-2"><article class="card soft glow about-card"><div class="icon-square"><span class="icon-user"></span></div><h3>Saad Waseem</h3><p class="muted">Backend Developer · Django · AWS · DevOps</p><p>I build backend-first web systems using Django, DRF, PostgreSQL, Docker, and AWS. My portfolio is not only a list of projects — it is a showcase of the backend services, deployment flows, and practical cloud solutions I can provide.</p><p>My focus is to grow into backend and cloud engineering: building scalable APIs, deploying them on cloud platforms, improving CI/CD workflows, and understanding how production systems are shipped, secured, and maintained.</p></article><div class="grid-2-even" id="traits"></div></div></div></section>
 
-function ProjectsPage() {
-  return <ListingPage title="Solutions" subtitle="Backend, cloud, DevOps, and RAG solution cards showing what I can build and deploy." items={projects} />;
-}
+    <section class="section"><div class="container"><div class="section-head"><div><p class="label">Services</p><h2 class="title">What I can provide</h2></div><p class="head-text">Backend development, cloud deployment, and practical DevOps support for real web projects.</p></div><div class="grid-4" id="services"></div></div></section>
+    <section class="section"><div class="container"><div class="section-head"><div><p class="label">Experience</p><h2 class="title">Project collaboration and practical web experience.</h2></div><p class="head-text">An overview of websites, coded interfaces, web-game integration, and game development collaboration.</p></div><div class="grid-2-even" id="experienceHome"></div></div></section>
+    <section class="section"><div class="container"><div class="section-head"><div><p class="label">What I can build</p><h2 class="title">Pinned Solutions</h2></div></div><div class="preview-btn"><button class="btn-outline" data-page="solutions">View more solutions</button></div><div class="grid-3" id="pinnedSolutions"></div></div></section>
+    <section class="section"><div class="container"><div class="section-head"><div><p class="label">Build notes</p><h2 class="title">Pinned Logs</h2></div></div><div class="preview-btn"><button class="btn-outline" data-page="logs">Read more logs</button></div><div class="grid-3" id="pinnedLogs"></div></div></section>
+    <section class="section"><div class="container"><div class="section-head"><div><p class="label">Social</p><h2 class="title">Developer links and backend status.</h2></div><p class="head-text">GitHub and LinkedIn are active. The backend API card is intentionally shown as maintenance until the production API is ready.</p></div><div class="grid-4" id="socialHome"></div></div></section>
+    <section class="section" id="contactHome"></section>
+  </main>
 
-function LogsPage() {
-  return <ListingPage title="Logs" subtitle="Short engineering notes that prove you understand the decisions behind the project." items={logs} isLog />;
-}
+  <main id="ask" class="page"><section class="ask-wrap"><div class="ask-head"><div class="ask-icon"><span class="icon-bot"></span></div><h1>Ask my AI portfolio</h1><p>Connect this page to your Django RAG endpoint. Visitors can ask about your skills, projects, deployment flow, AWS experience, and technical decisions.</p></div><div class="chat-card"><div class="chat-window"><div class="bubble user" id="questionBubble">What AWS services were used in this portfolio?</div><div class="bubble ai" id="answerBubble">This portfolio is designed around a Django/DRF backend, Docker image workflow, ECR image registry, EC2 runtime, PostgreSQL/RDS database thinking, Nginx reverse proxy, Route53/ACM for domain and SSL, and GitHub Actions for CI/CD automation.</div></div><form class="chat-form" id="askForm"><input class="input" id="askInput" value="What AWS services were used in this portfolio?" /><button type="submit"><span class="icon-message"></span></button></form></div></section></main>
+  <main id="solutions" class="page"><section class="page-head"><div class="container page-head-inner"><div><p class="label">Explore</p><h1>Solutions</h1><p>Backend, cloud, DevOps, and RAG solution cards showing what I can build and deploy.</p></div><div class="entry-count" id="solutionsCount"></div></div></section><section class="section"><div class="container grid-3" id="solutionsGrid"></div></section></main>
+  <main id="logs" class="page"><section class="page-head"><div class="container page-head-inner"><div><p class="label">Explore</p><h1>Logs</h1><p>Short engineering notes that prove you understand the decisions behind the project.</p></div><div class="entry-count" id="logsCount"></div></div></section><section class="section"><div class="container grid-3" id="logsGrid"></div></section></main>
+  <main id="contact" class="page"><section class="section" style="padding-top:128px"><div class="container"><div class="section-head"><div><p class="label">Social</p><h2 class="title">Developer links and backend status.</h2></div><p class="head-text">GitHub and LinkedIn are active. The backend API card is intentionally shown as maintenance until the production API is ready.</p></div><div class="grid-4" id="socialContact"></div></div></section><section class="section" id="contactPageForm"></section><section class="section"><div class="container"><div class="section-head"><div><p class="label">Experience</p><h2 class="title">Project collaboration and practical web experience.</h2></div><p class="head-text">An overview of websites, coded interfaces, web-game integration, and game development collaboration.</p></div><div class="grid-2-even" id="experienceContact"></div></div></section></main>
 
-function ContactPage() {
-  return (
-    <main className="pt-20">
-      <SocialSection />
-      <ContactSection />
-      <ExperienceSection />
-    </main>
-  );
-}
+  <footer class="container"><span>© 2026 Slancer · Django Backend & Cloud DevOps</span><div class="footer-icons"><span class="icon-github"></span><span class="icon-code"></span><span class="icon-cloud"></span></div></footer>
 
-export default function PortfolioFrontendConcept() {
-  const [active, setActive] = useState("Home");
+  <script>
+    const icon = {
+      sparkles:'<svg class="svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8L12 3z"/><path d="M19 14l.9 2.1L22 17l-2.1.9L19 20l-.9-2.1L16 17l2.1-.9L19 14z"/></svg>',
+      arrow:'<svg class="svg svg-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/><path d="M13 5l7 7-7 7"/></svg>',
+      zap:'<svg class="svg svg-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg>',
+      user:'<svg class="svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>',
+      server:'<svg class="svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01"/><path d="M7 17h.01"/></svg>',
+      cloud:'<svg class="svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M7 18a4 4 0 0 1-.3-8A5.5 5.5 0 0 1 17.5 8a3.5 3.5 0 1 1 .5 10H7z"/></svg>',
+      database:'<svg class="svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><ellipse cx="12" cy="5" rx="7" ry="3"/><path d="M5 5v7c0 1.7 3.1 3 7 3s7-1.3 7-3V5"/><path d="M5 12v7c0 1.7 3.1 3 7 3s7-1.3 7-3v-7"/></svg>',
+      shield:'<svg class="svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3l7 3v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>',
+      briefcase:'<svg class="svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 12h18"/></svg>',
+      link:'<svg class="svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.1 0l2-2a5 5 0 0 0-7.1-7.1l-1.1 1.1"/><path d="M14 11a5 5 0 0 0-7.1 0l-2 2A5 5 0 0 0 12 20.1l1.1-1.1"/></svg>',
+      bot:'<svg class="svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="8" width="14" height="10" rx="3"/><path d="M12 4v4"/><path d="M9 13h.01"/><path d="M15 13h.01"/><path d="M9 16h6"/></svg>',
+      message:'<svg class="svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 15a3 3 0 0 1-3 3H8l-5 3V6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3z"/></svg>',
+      menu:'<svg class="svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></svg>',
+      x:'<svg class="svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>',
+      code:'<svg class="svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 16l-4-4 4-4"/><path d="M16 8l4 4-4 4"/><path d="M14 4l-4 16"/></svg>',
+      github:'<svg class="svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.61-3.37-1.19-3.37-1.19-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.82.09-.64.35-1.08.63-1.33-2.22-.25-4.56-1.11-4.56-4.93 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02A9.48 9.48 0 0 1 12 6.84a9.5 9.5 0 0 1 2.5.34c1.91-1.29 2.74-1.02 2.74-1.02.56 1.38.21 2.4.11 2.65.64.7 1.02 1.59 1.02 2.68 0 3.83-2.34 4.68-4.57 4.93.36.31.67.92.67 1.86v2.76c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg>'
+    };
 
-  return (
-    <div className="min-h-screen bg-[#070707] text-white selection:bg-white selection:text-black">
-      <style>{`
-        @keyframes floatY {
-          0% { transform: translateY(0px); }
-          50% { transform: translateY(-12px); }
-          100% { transform: translateY(0px); }
-        }
+    const traits = [
+      ['Backend Services','I can build Django/DRF backend services with clean models, serializers, admin panels, API endpoints, and production-ready settings.'],
+      ['API Architecture','I focus on practical API structure: authentication-ready flows, CRUD operations, pagination, validation, and clear data handling.'],
+      ['Cloud Deployment','I can take a backend from local development to a cloud server using Docker, AWS, environment variables, Nginx, and deployment checks.'],
+      ['CI/CD Pipelines','I understand the workflow of pushing code, building Docker images, storing them in ECR, and deploying through GitHub Actions.'],
+      ['Scalable Systems','My direction is to build systems that can grow: separate backend services, managed database usage, secure networking, and maintainable deployments.'],
+      ['Future DevOps Focus','My future focus is backend engineering with cloud and DevOps: scalable APIs, automated delivery, monitoring, and reliable infrastructure.']
+    ];
+    const services = [
+      ['server','Django Backend APIs','Clean DRF endpoints, admin-managed content, auth-ready structure, serializers, pagination, and production settings.'],
+      ['cloud','AWS Deployment','EC2, ECR, RDS, S3, Route53, ACM, Nginx, Docker, and environment-based deployment flow.'],
+      ['database','Production Database Flow','PostgreSQL/RDS thinking, private networking, migrations, backups mindset, and secure credentials.'],
+      ['shield','DevOps Foundation','GitHub Actions, Docker Compose, Terraform, security groups, logs, health checks, and repeatable releases.']
+    ];
+    const fallbackSolutions = [
+      {t:'RAG Portfolio Assistant', type:'Pinned', d:'A Django + DRF backend with document-aware AI answers, project search, logs, and secure API architecture.', s:['Django','DRF','RAG','PostgreSQL','AWS'], m:'AI Q/A backend'},
+      {t:'AWS CI/CD Portfolio Platform', type:'Pinned', d:'Dockerized deployment pipeline using ECR, EC2, GitHub Actions, Nginx, and production environment variables.', s:['Docker','ECR','EC2','Nginx','CI/CD'], m:'Deploys in minutes'},
+      {t:'Cloud Infrastructure Lab', type:'Pinned', d:'Terraform-based AWS networking with private database access, security groups, IAM, and repeatable infrastructure.', s:['Terraform','VPC','RDS','IAM','Route53'], m:'IaC focused'},
+      {t:'Django Admin CMS API', type:'Project', d:'Admin-managed portfolio content system for projects, logs, skills, experience, and contact messages.', s:['Django Admin','CRUD','REST'], m:'Content managed'}
+    ];
+    let solutions = [...fallbackSolutions];
+    const logs = [
+      {t:'From local Django to AWS EC2', d:'How I containerized a Django backend, pulled from ECR, connected environment variables, and served it with Nginx.', tag:'Deployment', date:'Latest'},
+      {t:'Private RDS connection thinking', d:'Designing a production-style setup where the app talks to the database privately through VPC security rules.', tag:'AWS', date:'Pinned'},
+      {t:'Why this is not just a portfolio', d:'Turning a personal website into a backend + DevOps proof-of-work system with real API and cloud decisions.', tag:'Architecture', date:'Pinned'},
+      {t:'CI/CD mistakes I fixed', d:'Common errors from wrong env values, Docker image tags, ECR login, compose files, and server configuration.', tag:'Debugging', date:'Log'}
+    ];
+    const exp = [
+      ['Church Website — WordPress Build','Web Developer / Site Builder','Built and customized a church website using WordPress, focusing on layout, content structure, responsive pages, and easy content management for non-technical users.',['WordPress','CMS','Responsive UI','Content Management']],
+      ['Church Website — Custom Coded Version','Frontend / Web Developer','Collaborated on a coded church website with custom sections, navigation, reusable layout patterns, and a cleaner developer-controlled structure than the CMS version.',['HTML','CSS','JavaScript','Custom UI']],
+      ['Web-Based Game Portal','Game/Web Integration','Worked on a web-based game experience using an Unreal Engine iframe flow, connecting game presentation with a browser-based frontend experience.',['Unreal Engine','iframe','Web Game','Integration']],
+      ['Game Development Collaboration','Game Developer / Collaborator','Contributed to game development work with focus on interactive flow, assets, gameplay presentation, and practical problem-solving during implementation.',['Game Dev','Gameplay','Collaboration','Iteration']]
+    ];
+    const socials = [
+      ['GitHub','github.com/10kchart','https://github.com/10kchart','Active'],
+      ['LinkedIn','linkedin.com/in/start-the-team-cloud','https://www.linkedin.com/in/start-the-team-cloud','Active'],
+      ['Backend API','backend.flex.dev','#','Maintenance'],
+      ['Email','your-email@example.com','mailto:your-email@example.com','Contact']
+    ];
 
-        @keyframes spinSlow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
+    const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+    const technologyNames = value => Array.isArray(value) ? value : String(value || '').split(/[,;]/).map(name => name.trim()).filter(Boolean);
+    const safeUrl = value => {
+      try {
+        const url = new URL(value, window.location.origin);
+        return ['http:', 'https:', 'mailto:'].includes(url.protocol) ? url.href : '#';
+      } catch (error) {
+        return '#';
+      }
+    };
 
-        @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
+    function icons(){ Object.keys(icon).forEach(k => document.querySelectorAll('.icon-'+k).forEach(el => el.innerHTML = icon[k])); }
+    const stack = arr => `<div class="stack">${technologyNames(arr).map(x=>`<span>${escapeHTML(x)}</span>`).join('')}</div>`;
+    const traitCard = ([t,d],i)=>`<article class="card trait-card"><p class="num">0${i+1}</p><h4>${escapeHTML(t)}</h4><p>${escapeHTML(d)}</p></article>`;
+    const serviceCard = ([ic,t,d])=>`<article class="card soft service-card"><div class="icon-square"><span class="icon-${escapeHTML(ic)}"></span></div><h3>${escapeHTML(t)}</h3><p>${escapeHTML(d)}</p></article>`;
+    const workCard = (x,log=false)=>`<article class="card work-card glow"><span class="badge">${escapeHTML(log?x.tag:x.m)}</span><h3>${escapeHTML(x.t)}</h3><p>${escapeHTML(x.d)}</p>${x.s?.length?stack(x.s):''}</article>`;
+    const expCard = ([t,r,d,s],i)=>`<article class="card experience-card"><div class="experience-top"><div class="icon-square"><span class="icon-briefcase"></span></div><span class="badge">0${i+1}</span></div><h3>${escapeHTML(t)}</h3><p class="role">${escapeHTML(r)}</p><p>${escapeHTML(d)}</p>${stack(s)}</article>`;
+    const socialCard = ([l,v,h,st])=>`<a class="card soft social-card ${st==='Maintenance'?'disabled':''}" href="${safeUrl(h)}" ${st==='Maintenance'?'':'target="_blank" rel="noreferrer"'}><div class="social-top"><div class="icon-square"><span class="icon-link"></span></div><span class="icon-arrow"></span></div><h3>${escapeHTML(l)}<span class="status ${st==='Maintenance'?'maintenance':''}">${escapeHTML(st)}</span></h3><p>${escapeHTML(v)}</p>${st==='Maintenance'?'<p>Backend is currently on maintenance while the production API is being updated.</p>':''}</a>`;
+    const contactHTML = () => `<div class="container contact-grid"><article class="card soft glow contact-info"><p class="label">Contact</p><h2>Have a backend or cloud project?</h2><p>Use this form for freelance work, collaboration, internships, junior backend roles, DevOps support, or project discussion. It saves directly to the Django admin contact messages.</p><p>Response focus: Django, DRF, AWS, Docker, CI/CD, RAG portfolio systems.</p><p>Best for: small business websites, backend APIs, deployment setup, and portfolio-grade cloud projects.</p></article><form class="contact-form"><div class="field-grid"><input class="input" name="name" placeholder="Your name" required><input class="input" name="email" type="email" placeholder="Email address" required></div><input class="input" name="subject" placeholder="Project type / subject" required><textarea class="textarea" name="message" placeholder="Tell me what you want to build..." required></textarea><p class="form-status" aria-live="polite"></p><button class="submit" type="submit">Send message</button></form></div>`;
 
-        @keyframes glowSweep {
-          0% {
-            box-shadow: 0 0 10px rgba(255,255,255,0.10), 0 0 30px rgba(255,225,160,0.10);
-            opacity: 0.7;
-          }
-          50% {
-            box-shadow: 0 0 24px rgba(255,255,255,0.22), 0 0 60px rgba(255,225,160,0.25);
-            opacity: 1;
-          }
-          100% {
-            box-shadow: 0 0 10px rgba(255,255,255,0.10), 0 0 30px rgba(255,225,160,0.10);
-            opacity: 0.7;
-          }
-        }
+    function projectFromApi(project, index) {
+      const stackItems = technologyNames(project.tech_stack);
+      return {
+        t: project.title,
+        type: index < 3 ? 'Pinned' : 'Project',
+        d: project.short_description,
+        s: stackItems,
+        m: stackItems[0] || 'Project'
+      };
+    }
 
-        .floating { animation: floatY 5s ease-in-out infinite; }
-        .spin-slow { animation: spinSlow 24s linear infinite; }
-        .fade-up { animation: fadeUp 0.7s ease forwards; }
+    async function loadProjects() {
+      try {
+        const response = await fetch('/api/projects/');
+        if (!response.ok) throw new Error('Projects could not be loaded.');
+        const data = await response.json();
+        solutions = data.map(projectFromApi);
+        render();
+      } catch (error) {
+        console.warn(error.message);
+      }
+    }
 
-        .glow-path {
-          box-shadow: 0 0 12px rgba(255,255,255,0.12), 0 0 40px rgba(255,226,170,0.25);
-          animation: glowSweep 4.5s ease-in-out infinite;
-        }
-
-        .card-hover {
-          transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
-        }
-
-        .card-hover:hover {
-          transform: translateY(-6px);
-          background-color: rgba(255,255,255,0.05);
-          border-color: rgba(255,255,255,0.22);
-        }
-      `}</style>
-
-      <div className="pointer-events-none fixed inset-0 opacity-[0.05] [background-image:linear-gradient(to_right,#fff_1px,transparent_1px),linear-gradient(to_bottom,#fff_1px,transparent_1px)] [background-size:80px_80px]" />
-
-      <Nav active={active} setActive={setActive} />
-
-      <div key={active} className="page-fade">
-        {active === "Home" && <Home setActive={setActive} />}
-        {active === "Ask AI" && <AskAI />}
-        {active === "Projects" && <ProjectsPage />}
-        {active === "Logs" && <LogsPage />}
-        {active === "Contact" && <ContactPage />}
-      </div>
-
-      <footer className="mx-auto mt-20 flex max-w-7xl flex-col justify-between gap-5 border-t border-white/10 px-5 py-8 text-sm text-white/40 md:flex-row md:px-8">
-        <span>© 2026 Slancer · Django Backend & Cloud DevOps</span>
-        <div className="flex gap-4">
-          <GithubIcon className="h-4 w-4" />
-          <CodeIcon className="h-4 w-4" />
-          <CloudIcon className="h-4 w-4" />
-        </div>
-      </footer>
-    </div>
-  );
-}
+    function render(){
+      traitsEl.innerHTML = traits.map(traitCard).join(''); servicesEl.innerHTML = services.map(serviceCard).join(''); experienceHome.innerHTML = exp.map(expCard).join(''); experienceContact.innerHTML = exp.map(expCard).join('');
+      pinnedSolutions.innerHTML = solutions.length ? solutions.filter(x=>x.type==='Pinned').slice(0,3).map(x=>workCard(x)).join('') : '<p class="empty-state">No projects added yet. Add one in Django admin.</p>'; pinnedLogs.innerHTML = logs.filter(x=>x.date==='Pinned'||x.date==='Latest').slice(0,3).map(x=>workCard(x,true)).join('');
+      solutionsGrid.innerHTML = solutions.length ? solutions.map(x=>workCard(x)).join('') : '<p class="empty-state">No projects added yet. Add one in Django admin.</p>'; logsGrid.innerHTML = logs.map(x=>workCard(x,true)).join('');
+      socialHome.innerHTML = socials.map(socialCard).join(''); socialContact.innerHTML = socials.map(socialCard).join(''); contactHome.innerHTML = contactHTML(); contactPageForm.innerHTML = contactHTML();
+      solutionsCount.textContent = `${solutions.length} entries`; logsCount.textContent = `${logs.length} entries`; icons(); bindForms(); checks();
+    }
+    const traitsEl = document.getElementById('traits'), servicesEl = document.getElementById('services');
+    function page(id){ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById(id).classList.add('active'); document.querySelectorAll('.nav-link').forEach(b=>b.classList.toggle('active',b.dataset.page===id)); mobileMenu.classList.remove('open'); scrollTo({top:0,behavior:'smooth'}); }
+    function bindNav(){ document.querySelectorAll('[data-page]').forEach(el=>el.addEventListener('click',e=>{e.preventDefault(); page(el.dataset.page)})); menuBtn.onclick=()=>mobileMenu.classList.add('open'); closeMenu.onclick=()=>mobileMenu.classList.remove('open'); }
+    function bindAsk(){ askForm.onsubmit=e=>{e.preventDefault(); if(!askInput.value.trim()) return; questionBubble.textContent=askInput.value.trim(); answerBubble.textContent='Static demo response: connect this form to your Django RAG API endpoint to return real answers from your portfolio database and documents.'; }; }
+    function bindForms(){ document.querySelectorAll('.contact-form').forEach(f=>{ if(f.dataset.bound) return; f.dataset.bound='1'; f.onsubmit=async e=>{e.preventDefault(); const status=f.querySelector('.form-status'); const submit=f.querySelector('.submit'); status.textContent='Sending...'; status.className='form-status'; submit.disabled=true; try{ const response=await fetch('/api/messages/create/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.fromEntries(new FormData(f)))}); if(!response.ok) throw new Error('Message could not be sent.'); f.reset(); status.textContent='Message saved. I will get back to you soon.'; status.className='form-status ok'; }catch(error){ status.textContent=error.message; status.className='form-status error'; }finally{ submit.disabled=false; }}; }); }
+    function checks(){ console.assert(solutions.filter(x=>x.type==='Pinned').slice(0,3).length<=3,'Max 3 pinned solutions'); console.assert(!traits.some(x=>x[0]==='Teacher mindset'||x[0]==='Family-oriented'),'Personal mindset cards removed'); console.assert(socials.some(x=>x[1]==='backend.flex.dev'&&x[3]==='Maintenance'),'Backend maintenance card exists'); }
+    render(); bindNav(); bindAsk(); loadProjects(); window.addEventListener('focus', loadProjects);
+  </script>
+</body>
+</html>
