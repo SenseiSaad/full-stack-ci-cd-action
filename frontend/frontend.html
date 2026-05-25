@@ -307,10 +307,10 @@
     let logs = [];
     let experiences = [];
     const socials = [
-      ['GitHub','github.com/10kchart','https://github.com/10kchart','Active'],
-      ['LinkedIn','linkedin.com/in/start-the-team-cloud','https://www.linkedin.com/in/start-the-team-cloud','Active'],
-      ['Backend API','backend.flex.dev','#','Maintenance'],
-      ['Email','your-email@example.com','mailto:your-email@example.com','Contact']
+      ['GitHub','github.com/SensieSaad','https://github.com/SensieSaad','Active'],
+      ['LinkedIn','linkedin.com/in/saadwaseemcloud','https://www.linkedin.com/in/saadwaseemcloud/','Active'],
+      ['Backend API','3.215.214.8/admin/','http://3.215.214.8/admin/','Maintenance'],
+      ['Email','obsks23@gmail.com','mailto:obsks23@gmail.com','Contact']
     ];
 
     const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
@@ -518,7 +518,7 @@
     function bindNav(){ document.querySelectorAll('[data-page]').forEach(el=>el.addEventListener('click',e=>{e.preventDefault(); page(el.dataset.page)})); menuBtn.onclick=()=>mobileMenu.classList.add('open'); closeMenu.onclick=()=>mobileMenu.classList.remove('open'); }
     function bindAsk(){ askForm.onsubmit=e=>{e.preventDefault(); if(!askInput.value.trim()) return; questionBubble.textContent=askInput.value.trim(); answerBubble.textContent='Static demo response: connect this form to your Django RAG API endpoint to return real answers from your portfolio database and documents.'; }; }
     function bindForms(){ document.querySelectorAll('.contact-form').forEach(f=>{ if(f.dataset.bound) return; f.dataset.bound='1'; f.onsubmit=async e=>{e.preventDefault(); const status=f.querySelector('.form-status'); const submit=f.querySelector('.submit'); status.textContent='Sending...'; status.className='form-status'; submit.disabled=true; try{ const response=await fetch('/api/messages/create/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.fromEntries(new FormData(f)))}); if(!response.ok) throw new Error('Message could not be sent.'); f.reset(); status.textContent='Message saved. I will get back to you soon.'; status.className='form-status ok'; }catch(error){ status.textContent=error.message; status.className='form-status error'; }finally{ submit.disabled=false; }}; }); }
-    function checks(){ console.assert(solutions.filter(x=>x.type==='Pinned').slice(0,3).length<=3,'Max 3 pinned solutions'); console.assert(!traits.some(x=>x[0]==='Teacher mindset'||x[0]==='Family-oriented'),'Personal mindset cards removed'); console.assert(socials.some(x=>x[1]==='backend.flex.dev'&&x[3]==='Maintenance'),'Backend maintenance card exists'); }
+    function checks(){ console.assert(solutions.filter(x=>x.type==='Pinned').slice(0,3).length<=3,'Max 3 pinned solutions'); console.assert(!traits.some(x=>x[0]==='Teacher mindset'||x[0]==='Family-oriented'),'Personal mindset cards removed'); console.assert(socials.some(x=>x[1]==='3.215.214.8/admin/'&&x[3]==='Maintenance'),'Backend maintenance card exists'); }
     const initialPage = new URLSearchParams(window.location.search).get('page');
     render(); bindNav(); bindAsk(); loadPortfolioData(); loadDetailFromUrl().then(isDetail => { if (!isDetail && initialPage && document.getElementById(initialPage)) page(initialPage); }); window.addEventListener('focus', loadPortfolioData);
   </script>
