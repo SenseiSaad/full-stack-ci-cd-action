@@ -8,16 +8,16 @@ from work_exp.models import WorkExp
 
 PROJECTS = [
     {
-        'title': 'Django Scalable Portfolio API',
-        'short_description': 'Production REST API built with Django REST Framework, Docker, AWS, Nginx, PostgreSQL, JWT authentication, and automated CI/CD.',
+        'title': 'Full-Stack Portfolio Platform on AWS EC2',
+        'short_description': 'Live portfolio platform at slancer.site with a Django REST API, admin-managed content, Docker, Nginx, PostgreSQL/RDS, Terraform infrastructure, Certbot HTTPS, and GitHub Actions deployment.',
         'long_description': (
-            '<p>Implemented a production REST API with JWT authentication, handling 50+ concurrent requests per second and optimizing CRUD operations via ModelSerializers.</p>'
-            '<p>Managed multi-stage Docker builds with Docker Compose, decreasing image sizes by 60% and accelerating deployment cycles to AWS ECR by 3 minutes.</p>'
-            '<p>Provisioned AWS RDS PostgreSQL and configured AWS S3 for media storage, improving data reliability by 25%.</p>'
-            '<p>Accomplished automated CI/CD via GitHub Actions, reducing manual deployment time from 20 minutes to under 2 minutes per release.</p>'
-            '<p>Improved server security by configuring Nginx reverse proxies, Route 53 DNSSEC, and automated Certbot SSL renewals.</p>'
+            '<p>Built the current live portfolio as a backend-driven platform instead of a hardcoded site. Django Admin manages projects, work experience, writings/logs, and contact messages, while the frontend renders data through REST API endpoints.</p>'
+            '<p>Containerized the backend and frontend with Docker, served the frontend through Nginx, and routed API, admin, static, media, and health-check traffic cleanly between services.</p>'
+            '<p>Provisioned production infrastructure with Terraform, including VPC, EC2, ECR, RDS PostgreSQL, IAM, security groups, S3 support, and deployment outputs for CI/CD secrets.</p>'
+            '<p>Configured GitHub Actions to run backend checks/tests, build Docker images, push to ECR, SSH into EC2, pull the latest images, recreate containers, and reload Nginx.</p>'
         ),
-        'tech_stack': 'Python, Django, DRF, AWS, Docker, Nginx, PostgreSQL, GitHub Actions, ECR, S3, RDS, Route 53, Certbot',
+        'tech_stack': 'Python, Django, DRF, AWS EC2, AWS RDS, AWS ECR, Docker, Nginx, PostgreSQL, Terraform, GitHub Actions',
+        'live_url': 'https://slancer.site',
     },
     {
         'title': 'Serverless Cloud Infrastructure',

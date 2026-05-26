@@ -168,12 +168,91 @@ jobs:
             docker pull ${{ secrets.ECR_BACKEND_URL }}:latest
             docker pull ${{ secrets.ECR_FRONTEND_URL }}:latest
             docker compose up -d --force-recreate
+            if [ -f /etc/letsencrypt/live/slancer.site/fullchain.pem ] && [ -f /etc/letsencrypt/live/api.slancer.site/fullchain.pem ]; then
+            sudo tee /etc/nginx/sites-available/portfolio >/dev/null <<'NGINX_SSL'
+            server {
+                listen 80 default_server;
+                server_name slancer.site www.slancer.site;
+
+                location /.well-known/acme-challenge/ {
+                    root /var/www/html;
+                }
+
+                location / {
+                    return 301 https://$host$request_uri;
+                }
+            }
+
+            server {
+                listen 80;
+                server_name api.slancer.site;
+
+                location /.well-known/acme-challenge/ {
+                    root /var/www/html;
+                }
+
+                location / {
+                    return 301 https://$host$request_uri;
+                }
+            }
+
+            server {
+                listen 443 ssl http2;
+                server_name slancer.site www.slancer.site;
+
+                ssl_certificate /etc/letsencrypt/live/slancer.site/fullchain.pem;
+                ssl_certificate_key /etc/letsencrypt/live/slancer.site/privkey.pem;
+                include /etc/letsencrypt/options-ssl-nginx.conf;
+                ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+                client_max_body_size 20M;
+
+                location / {
+                    proxy_pass http://127.0.0.1:3000;
+                    proxy_http_version 1.1;
+                    proxy_set_header Host $host;
+                    proxy_set_header X-Real-IP $remote_addr;
+                    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                    proxy_set_header X-Forwarded-Proto $scheme;
+                }
+            }
+
+            server {
+                listen 443 ssl http2;
+                server_name api.slancer.site;
+
+                ssl_certificate /etc/letsencrypt/live/api.slancer.site/fullchain.pem;
+                ssl_certificate_key /etc/letsencrypt/live/api.slancer.site/privkey.pem;
+                include /etc/letsencrypt/options-ssl-nginx.conf;
+                ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+                client_max_body_size 20M;
+
+                location = / {
+                    return 302 /admin/;
+                }
+
+                location / {
+                    proxy_pass http://127.0.0.1:8000;
+                    proxy_http_version 1.1;
+                    proxy_set_header Host $host;
+                    proxy_set_header X-Real-IP $remote_addr;
+                    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                    proxy_set_header X-Forwarded-Proto $scheme;
+                }
+            }
+            NGINX_SSL
+            else
             sudo tee /etc/nginx/sites-available/portfolio >/dev/null <<'NGINX'
             server {
                 listen 80 default_server;
-                server_name project.slancer.site www.project.slancer.site _;
+                server_name slancer.site www.slancer.site _;
 
                 client_max_body_size 20M;
+
+                location /.well-known/acme-challenge/ {
+                    root /var/www/html;
+                }
 
                 location / {
                     proxy_pass http://127.0.0.1:3000;
@@ -191,6 +270,10 @@ jobs:
 
                 client_max_body_size 20M;
 
+                location /.well-known/acme-challenge/ {
+                    root /var/www/html;
+                }
+
                 location = / {
                     return 302 /admin/;
                 }
@@ -205,6 +288,7 @@ jobs:
                 }
             }
             NGINX
+            fi
             sudo rm -f /etc/nginx/sites-enabled/default
             sudo ln -sf /etc/nginx/sites-available/portfolio /etc/nginx/sites-enabled/portfolio
             sudo nginx -t

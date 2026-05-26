@@ -12,7 +12,7 @@ resource "aws_instance" "app_server" {
 set -euo pipefail
 
 apt-get update -y
-apt-get install -y curl docker.io docker-compose-plugin git nginx unzip
+apt-get install -y certbot curl docker.io docker-compose-plugin git nginx python3-certbot-nginx unzip
 systemctl enable --now docker
 systemctl enable --now nginx
 usermod -aG docker ubuntu
@@ -28,9 +28,13 @@ chown -R ubuntu:ubuntu /home/ubuntu/app
 cat >/etc/nginx/sites-available/${local.name_prefix} <<'NGINX'
 server {
     listen 80 default_server;
-    server_name www.slancer.site slancer.site _;
+    server_name slancer.site www.slancer.site _;
 
     client_max_body_size 20M;
+
+    location /.well-known/acme-challenge/ {
+        root /var/www/html;
+    }
 
     location / {
         proxy_pass http://127.0.0.1:3000;
@@ -47,6 +51,10 @@ server {
     server_name api.slancer.site;
 
     client_max_body_size 20M;
+
+    location /.well-known/acme-challenge/ {
+        root /var/www/html;
+    }
 
     location = / {
         return 302 /admin/;

@@ -220,9 +220,10 @@ backend:  8000:8000
 frontend: 3000:80
 ```
 
-Host Nginx receives public traffic on port `80` and proxies:
+Host Nginx receives public traffic and proxies to the Docker containers:
 
 ```text
+slancer.site     -> 127.0.0.1:3000
 www.slancer.site -> 127.0.0.1:3000
 api.slancer.site -> 127.0.0.1:8000
 ```
@@ -311,6 +312,7 @@ The EC2 instance runs:
 - Docker Compose plugin
 - AWS CLI
 - Nginx
+- Certbot with the Nginx plugin
 
 The deployment workflow writes these files on EC2:
 
@@ -329,6 +331,54 @@ docker compose up -d --force-recreate
 sudo nginx -t
 sudo systemctl reload nginx
 ```
+
+### EC2 Domain and HTTPS Cutover
+
+1. Point DNS records to the EC2 public IP:
+
+```text
+A slancer.site     -> <EC2_PUBLIC_IP>
+A www.slancer.site -> <EC2_PUBLIC_IP>
+A api.slancer.site -> <EC2_PUBLIC_IP>
+```
+
+2. In the EC2 security group, allow inbound traffic:
+
+```text
+22/tcp  from your IP
+80/tcp  from 0.0.0.0/0
+443/tcp from 0.0.0.0/0
+```
+
+3. Set GitHub Actions secrets for Django:
+
+```text
+ALLOWED_HOSTS=<EC2_PUBLIC_IP>,slancer.site,www.slancer.site,api.slancer.site,localhost,127.0.0.1,backend
+CORS_ALLOWED_ORIGINS=http://<EC2_PUBLIC_IP>,http://slancer.site,http://www.slancer.site,https://slancer.site,https://www.slancer.site
+```
+
+4. Deploy once so Docker containers and the HTTP Nginx config are live.
+
+5. SSH into EC2 and install/issue certificates after DNS resolves:
+
+```bash
+sudo apt-get update
+sudo apt-get install -y certbot python3-certbot-nginx
+sudo certbot --nginx -d slancer.site -d www.slancer.site
+sudo certbot --nginx -d api.slancer.site
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+6. After HTTPS works, update the GitHub secret:
+
+```text
+CORS_ALLOWED_ORIGINS=https://slancer.site,https://www.slancer.site
+```
+
+Keep `deploy/nginx-no-ssl.conf` for the first HTTP deployment. Use `deploy/nginx-ssl.conf` as the final reference config after Certbot has created certificates.
+
+The GitHub Actions deployment is certificate-aware: before Certbot it writes the HTTP config, and after `/etc/letsencrypt/live/slancer.site/` plus `/etc/letsencrypt/live/api.slancer.site/` exist, it writes the HTTPS config automatically.
 
 ## Important Debugging Lessons
 
@@ -357,11 +407,10 @@ For a production-grade setup, move Terraform state to an S3 backend with locking
 
 ## Future Improvements
 
-- Add HTTPS.
+- Add automated certificate renewal checks to deployment monitoring.
 - Add JWT authentication if user login APIs are needed.
 - Add DRF permission classes for write endpoints.
 - Add frontend tests.
 - Add monitoring and alerts.
 - Move Terraform state to remote S3 backend.
 - Add automated database backups and stronger deletion protection.
-
