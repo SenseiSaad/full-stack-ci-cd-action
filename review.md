@@ -12,6 +12,17 @@ The frontend is a static HTML/CSS/JavaScript site served by Nginx. It fetches da
 
 The project is containerized with Docker, deployed on AWS EC2, stores production data in AWS RDS PostgreSQL, stores container images in ECR, and uses GitHub Actions for CI/CD.
 
+Current live domain status as of May 26, 2026:
+
+- `https://slancer.site/` is the main frontend domain and returns `200 OK`.
+- `https://www.slancer.site/` is covered by the same Certbot certificate.
+- `https://api.slancer.site/` is the backend/API/admin domain.
+- The EC2 public IP is `3.215.214.8`.
+- Docker containers are healthy/reachable on EC2:
+  - frontend: `127.0.0.1:3000` -> container port `80`
+  - backend: `127.0.0.1:8000` -> Gunicorn port `8000`
+- The domain is registered at Namecheap, but DNS is managed through Route 53.
+
 ## 2. What Backend Did I Build?
 
 The backend is a REST API built with:
@@ -317,6 +328,7 @@ The later mistake was that Nginx on EC2 still had a stale proxy configuration po
 | Frontend dev/static host | 3000 | 3000 |
 | Frontend container Nginx | 80 | 80 |
 | EC2 public HTTP | 80 | 80 |
+| EC2 public HTTPS | 443 | 443 |
 | PostgreSQL | 5432 | 5432 |
 | SSH | 22 | 22 |
 | Temporary local backend alternate | custom | 8001 |
@@ -334,6 +346,16 @@ The containers run on EC2:
 - frontend container
 
 Host Nginx runs directly on EC2 and reverse proxies traffic to the containers.
+
+Current production routing:
+
+```text
+slancer.site      -> host Nginx 443 -> 127.0.0.1:3000 -> frontend container
+www.slancer.site  -> host Nginx 443 -> 127.0.0.1:3000 -> frontend container
+api.slancer.site  -> host Nginx 443 -> 127.0.0.1:8000 -> backend container
+```
+
+HTTP traffic on port `80` redirects to HTTPS after Certbot is installed.
 
 ### ECR
 
@@ -381,7 +403,8 @@ The EC2 security group allows:
 
 - port 22 for SSH
 - port 80 for HTTP
-- temporary port 8000 from allowed IP for backend testing
+- port 443 for HTTPS
+- optional temporary port 8000 from allowed IP for direct backend testing
 
 The RDS security group allows:
 
@@ -509,6 +532,11 @@ This:
 6. Runs `docker compose up -d --force-recreate`.
 7. Rewrites EC2 Nginx config.
 8. Reloads Nginx.
+
+The deploy workflow is certificate-aware:
+
+- Before Certbot certificates exist, it writes an HTTP Nginx config so `slancer.site` can work on port `80`.
+- After certificates exist at `/etc/letsencrypt/live/slancer.site/` and `/etc/letsencrypt/live/api.slancer.site/`, it writes the HTTPS Nginx config with `443 ssl`.
 
 ## 16. GitHub Secrets Used
 
@@ -662,11 +690,19 @@ Fix:
 
 Include required hosts:
 
-- domain
-- EC2 IP
+- `slancer.site`
+- `www.slancer.site`
+- `api.slancer.site`
+- EC2 IP, currently `3.215.214.8`
 - `localhost`
 - `127.0.0.1`
 - `backend`
+
+Current production value should look like:
+
+```env
+ALLOWED_HOSTS=3.215.214.8,slancer.site,www.slancer.site,api.slancer.site,localhost,127.0.0.1,backend
+```
 
 ### Problem 8: Elastic IP and domain routing
 
@@ -678,14 +714,117 @@ Attach Elastic IP to EC2 and point Route 53 records to that Elastic IP.
 
 Desired routing:
 
-- `www.slancer.site` -> frontend
 - `slancer.site` -> frontend
+- `www.slancer.site` -> frontend
 - `api.slancer.site` -> Django admin/backend
 
 Nginx handles this with two server blocks:
 
 - frontend server block proxies to `127.0.0.1:3000`
 - backend/admin server block proxies to `127.0.0.1:8000`
+
+Actual Route 53 records should be:
+
+```text
+slancer.site      A  3.215.214.8
+www.slancer.site  A  3.215.214.8
+api.slancer.site  A  3.215.214.8
+```
+
+Because the domain was bought at Namecheap, Namecheap must use the Route 53 hosted zone nameservers. Route 53 records only matter if the domain delegates DNS to Route 53.
+
+### Problem 9: IP 404 and domain loading loop
+
+Symptoms:
+
+```text
+http://EC2_IP/ -> 404 Not Found nginx/1.18.0 (Ubuntu)
+https://slancer.site/ -> loading loop or timeout
+```
+
+What the checks showed:
+
+```text
+docker ps -> frontend and backend containers were running
+curl -I http://127.0.0.1:3000/ -> 200 OK
+curl -I http://127.0.0.1:8000/health/ -> 405 Method Not Allowed
+```
+
+The `405` was not a backend failure. It happened because `curl -I` sends a `HEAD` request, while the health endpoint allows `GET` and `OPTIONS`. The correct health test is:
+
+```bash
+curl http://127.0.0.1:8000/health/
+```
+
+Root cause:
+
+Host Nginx and DNS/HTTPS routing needed to be corrected. The app containers were already healthy.
+
+Fix:
+
+1. Remove the default Nginx site.
+2. Enable `/etc/nginx/sites-available/portfolio`.
+3. Make sure host Nginx proxies frontend traffic to `127.0.0.1:3000`.
+4. Make sure host Nginx proxies backend/API traffic to `127.0.0.1:8000`.
+5. Install/reinstall Certbot certificates for:
+   - `slancer.site`
+   - `www.slancer.site`
+   - `api.slancer.site`
+6. Confirm Route 53 points all three records to the EC2 IP.
+
+Important command results:
+
+```text
+curl -4 ifconfig.me -> 3.215.214.8
+dig +short slancer.site -> 3.215.214.8
+dig +short www.slancer.site -> 3.215.214.8
+dig +short api.slancer.site -> 3.215.214.8
+sudo ss -tlnp | grep ':443' -> nginx listening on 0.0.0.0:443
+sudo ufw status -> inactive
+```
+
+After fixing Nginx/Certbot:
+
+```text
+curl -Ik https://slancer.site/ -> 200 OK
+```
+
+Remaining API/admin issue:
+
+```text
+curl -Ik https://api.slancer.site/admin/ -> 400 Bad Request
+```
+
+Likely cause:
+
+Django backend container environment did not include `api.slancer.site` in `ALLOWED_HOSTS`, or the backend container had not been recreated after `.env` was updated.
+
+Fix:
+
+```bash
+sudo nano /home/ubuntu/app/.env
+```
+
+Set:
+
+```env
+ALLOWED_HOSTS=3.215.214.8,slancer.site,www.slancer.site,api.slancer.site,localhost,127.0.0.1,backend
+CORS_ALLOWED_ORIGINS=https://slancer.site,https://www.slancer.site,http://slancer.site,http://www.slancer.site
+```
+
+Then recreate backend:
+
+```bash
+cd /home/ubuntu/app
+docker compose up -d --force-recreate backend
+```
+
+Retest:
+
+```bash
+curl -Ik https://api.slancer.site/admin/
+curl https://api.slancer.site/health/
+```
 
 ## 18. Current Condition of the Project
 
@@ -704,6 +843,8 @@ This is a strong junior-level project because it includes:
 - Terraform infrastructure
 - GitHub Actions CI/CD
 - Nginx reverse proxy
+- HTTPS with Certbot
+- Namecheap domain delegated to Route 53
 - real debugging experience
 
 What is not included yet:
@@ -712,7 +853,6 @@ What is not included yet:
 - user registration/login APIs
 - permission classes for write endpoints
 - automated frontend tests
-- HTTPS/SSL automation
 - ALB/ECS production architecture
 - remote Terraform backend
 - secrets manager integration
@@ -762,7 +902,7 @@ Gunicorn is a production WSGI server for Python web apps. Django's development s
 There are two Nginx roles:
 
 1. Frontend container Nginx serves the static frontend files.
-2. Host EC2 Nginx receives public HTTP traffic and proxies requests to either the frontend container or backend container.
+2. Host EC2 Nginx receives public HTTP/HTTPS traffic, redirects HTTP to HTTPS after Certbot is installed, and proxies requests to either the frontend container or backend container.
 
 ### Q9. What is Docker Compose?
 
@@ -790,7 +930,7 @@ RDS is managed PostgreSQL. AWS handles database reliability features better than
 
 ### Q15. What is a security group?
 
-A security group is a virtual firewall for AWS resources. The EC2 security group controls SSH/HTTP access. The RDS security group only allows database traffic from the EC2 app security group.
+A security group is a virtual firewall for AWS resources. The EC2 security group controls SSH, HTTP, and HTTPS access. The RDS security group only allows database traffic from the EC2 app security group.
 
 ### Q16. Why did you need an Elastic IP?
 
@@ -810,7 +950,7 @@ Read logs carefully and separate warnings from real errors. For example, Docker'
 
 ### Q20. What would you improve next?
 
-I would add HTTPS with Certbot or ACM through a load balancer, protect write APIs with permissions, add JWT if user login is needed, add more tests, move secrets to AWS Secrets Manager or GitHub Environments, and move Terraform state to an S3 backend with DynamoDB locking.
+I would protect write APIs with permission classes, add JWT only if user-facing login APIs are needed, add more tests, move secrets to AWS Secrets Manager or GitHub Environments, add monitoring/alerts, consider ALB/ECS for a larger production setup, and move Terraform state to an S3 backend with DynamoDB locking.
 
 ## 20. Commands Worth Knowing
 
@@ -867,11 +1007,12 @@ docker compose ps
 docker compose logs backend
 docker compose logs frontend
 curl -I http://127.0.0.1:3000
-curl -I http://127.0.0.1:8000/health/
+curl http://127.0.0.1:8000/health/
 curl -I http://127.0.0.1
+curl -Ik https://slancer.site/
+curl -Ik https://api.slancer.site/admin/
 ```
 
 ## 21. Short Interview Pitch
 
-I built a Dockerized Django REST Framework portfolio backend with a separate static frontend. The backend has multiple apps for projects, work experience, writings, and contact messages, all managed through Django Admin and exposed through REST APIs. I deployed it on AWS using Terraform for EC2, RDS, ECR, S3, IAM, VPC, and security groups. GitHub Actions runs checks, builds Docker images, pushes them to ECR, and deploys to EC2 over SSH. During deployment I debugged real issues like missing GitHub secrets, SSH/security group problems, Docker container conflicts, stale Nginx proxy ports, and Django `ALLOWED_HOSTS` health check failures.
-
+I built a Dockerized Django REST Framework portfolio backend with a separate static frontend. The backend has multiple apps for projects, work experience, writings, and contact messages, all managed through Django Admin and exposed through REST APIs. I deployed it on AWS using Terraform for EC2, RDS, ECR, S3, IAM, VPC, and security groups. The live frontend runs on `https://slancer.site/`, while backend/admin traffic is routed through `https://api.slancer.site/`. GitHub Actions runs checks, builds Docker images, pushes them to ECR, and deploys to EC2 over SSH. During deployment I debugged real issues like missing GitHub secrets, SSH/security group problems, Docker container conflicts, stale Nginx proxy ports, DNS/Certbot routing, and Django `ALLOWED_HOSTS` failures.
