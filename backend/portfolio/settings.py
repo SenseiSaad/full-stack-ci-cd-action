@@ -43,6 +43,11 @@ if not SECRET_KEY:
 
 ALLOWED_HOSTS = env_list('ALLOWED_HOSTS', 'localhost,127.0.0.1,backend')
 
+# Nginx terminates public HTTPS and proxies to Gunicorn over local HTTP.
+# Trust the forwarded scheme so Django builds CSRF/admin URLs as HTTPS.
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = env_bool('USE_X_FORWARDED_HOST', True)
+
 
 # Application definition
 
@@ -169,6 +174,8 @@ STORAGES = {
 }
 
 CSRF_TRUSTED_ORIGINS = env_list('CSRF_TRUSTED_ORIGINS')
+CSRF_COOKIE_SECURE = env_bool('CSRF_COOKIE_SECURE', not DEBUG)
+SESSION_COOKIE_SECURE = env_bool('SESSION_COOKIE_SECURE', not DEBUG)
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
