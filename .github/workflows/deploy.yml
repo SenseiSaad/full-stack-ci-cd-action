@@ -115,7 +115,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: ec2-production-deploy
-      cancel-in-progress: false
+      cancel-in-progress: true
 
     steps:
       - name: Wait for images
@@ -128,7 +128,10 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           port: ${{ secrets.EC2_SSH_PORT || '22' }}
+          timeout: 60s
+          command_timeout: 10m
           script: |
+            set -e
             aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
             mkdir -p /home/ubuntu/app
             cat > /home/ubuntu/app/.env <<'ENV'
@@ -169,7 +172,8 @@ jobs:
             docker pull ${{ secrets.ECR_BACKEND_URL }}:latest
             docker pull ${{ secrets.ECR_FRONTEND_URL }}:latest
             docker compose up -d --force-recreate
-            if [ -f /etc/letsencrypt/live/slancer.site/fullchain.pem ] && [ -f /etc/letsencrypt/live/api.slancer.site/fullchain.pem ]; then
+            if sudo test -f /etc/letsencrypt/live/slancer.site/fullchain.pem && sudo test -f /etc/letsencrypt/live/api.slancer.site/fullchain.pem; then
+            echo "SSL certificates found; writing HTTPS Nginx config."
             sudo tee /etc/nginx/sites-available/portfolio >/dev/null <<'NGINX_SSL'
             server {
                 listen 80 default_server;
@@ -244,6 +248,7 @@ jobs:
             }
             NGINX_SSL
             else
+            echo "SSL certificates not found; writing HTTP bootstrap Nginx config."
             sudo tee /etc/nginx/sites-available/portfolio >/dev/null <<'NGINX'
             server {
                 listen 80 default_server;
