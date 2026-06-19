@@ -2,8 +2,16 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Project
 from .serializers import ProjectSerializer
-
+from rest_framework.pagination import PageNumberPagination
 # Get all projects
+
+
+class Pageination_projects(PageNumberPagination):
+    page_size=3
+    page_size_query_description="page_size"
+    max_page_size=6
+
+
 @api_view(['GET'])
 def project_list(request):
     projects = Project.objects.all()
