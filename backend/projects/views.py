@@ -2,24 +2,20 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Project
 from .serializers import ProjectSerializer
-from rest_framework.pagination import PageNumberPagination
 # Get all projects
 
-
-class project_pagination(PageNumberPagination):
-    page_size=2
-    page_size_query_param="page_size"
-    max_page_size=5
 
 
 @api_view(['GET'])
 def project_list(request):
-    projects=Project.objects.all()
-    paginator=project_pagination()
-    paginated_project=paginator.paginate_queryset(projects, request)
-    serializer=ProjectSerializer(paginated_project, many=True)
-    return paginator.get_paginated_response(serializer.data)
-
+    # Fetch all projects from the database
+    projects = Project.objects.all()
+    
+    # Serialize the entire queryset at once
+    serializer = ProjectSerializer(projects, many=True)
+    
+    # Return the plain list of data in the response
+    return Response(serializer.data)
 
 
 
