@@ -6,17 +6,22 @@ from rest_framework.pagination import PageNumberPagination
 # Get all projects
 
 
-class Pageination_projects(PageNumberPagination):
-    page_size=3
-    page_size_query_description="page_size"
-    max_page_size=6
+class project_pagination(PageNumberPagination):
+    page_size=2
+    page_size_query_param="page_size"
+    max_page_size=5
 
 
 @api_view(['GET'])
 def project_list(request):
-    projects = Project.objects.all()
-    serializer = ProjectSerializer(projects, many=True)
-    return Response(serializer.data)
+    projects=Project.objects.all()
+    paginator=project_pagination()
+    paginated_project=paginator.paginate_queryset(projects, request)
+    serializer=ProjectSerializer(paginated_project, many=True)
+    return paginator.get_paginated_response(serializer.data)
+
+
+
 
 # Create new project
 @api_view(['POST'])
