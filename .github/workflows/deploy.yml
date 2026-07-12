@@ -169,6 +169,9 @@ jobs:
                   - backend
             COMPOSE
             cd /home/ubuntu/app
+            docker compose down --remove-orphans || true
+            docker image prune -af || true
+            docker builder prune -af || true
             docker pull ${{ secrets.ECR_BACKEND_URL }}:latest
             docker pull ${{ secrets.ECR_FRONTEND_URL }}:latest
             docker compose up -d --force-recreate
