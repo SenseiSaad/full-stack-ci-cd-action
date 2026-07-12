@@ -9,7 +9,7 @@ from work_exp.models import WorkExp
 PROJECTS = [
     {
         'title': 'Full-Stack Portfolio Platform on AWS EC2',
-        'short_description': 'Live portfolio platform at slancer.site with a Django REST API, admin-managed content, Docker, Nginx, PostgreSQL/RDS, Terraform infrastructure, Certbot HTTPS, and GitHub Actions deployment.',
+        'short_description': 'Live portfolio platform at saadops.site with a Django REST API, admin-managed content, Docker, Nginx, PostgreSQL/RDS, Terraform infrastructure, Certbot HTTPS, and GitHub Actions deployment.',
         'long_description': (
             '<p>Built the current live portfolio as a backend-driven platform instead of a hardcoded site. Django Admin manages projects, work experience, writings/logs, and contact messages, while the frontend renders data through REST API endpoints.</p>'
             '<p>Containerized the backend and frontend with Docker, served the frontend through Nginx, and routed API, admin, static, media, and health-check traffic cleanly between services.</p>'
@@ -17,7 +17,7 @@ PROJECTS = [
             '<p>Configured GitHub Actions to run backend checks/tests, build Docker images, push to ECR, SSH into EC2, pull the latest images, recreate containers, and reload Nginx.</p>'
         ),
         'tech_stack': 'Python, Django, DRF, AWS EC2, AWS RDS, AWS ECR, Docker, Nginx, PostgreSQL, Terraform, GitHub Actions',
-        'live_url': 'https://slancer.site',
+        'live_url': 'https://saadops.site',
     },
     {
         'title': 'Serverless Cloud Infrastructure',
@@ -29,7 +29,7 @@ PROJECTS = [
             '<p>Accomplished custom domain routing through AWS Route 53 with provisioned SSL via Amplify.</p>'
         ),
         'tech_stack': 'AWS Amplify, CloudFront, Cognito, GitHub Actions, Route 53, SSL',
-        'live_url': 'https://slancer.site',
+        'live_url': 'https://saadops.site',
     },
 ]
 

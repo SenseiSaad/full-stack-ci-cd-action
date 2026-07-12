@@ -172,12 +172,12 @@ jobs:
             docker pull ${{ secrets.ECR_BACKEND_URL }}:latest
             docker pull ${{ secrets.ECR_FRONTEND_URL }}:latest
             docker compose up -d --force-recreate
-            if sudo test -f /etc/letsencrypt/live/slancer.site/fullchain.pem && sudo test -f /etc/letsencrypt/live/api.slancer.site/fullchain.pem; then
+            if sudo test -f /etc/letsencrypt/live/saadops.site/fullchain.pem && sudo test -f /etc/letsencrypt/live/api.saadops.site/fullchain.pem; then
             echo "SSL certificates found; writing HTTPS Nginx config."
             sudo tee /etc/nginx/sites-available/portfolio >/dev/null <<'NGINX_SSL'
             server {
                 listen 80 default_server;
-                server_name slancer.site www.slancer.site;
+                server_name saadops.site www.saadops.site;
 
                 location /.well-known/acme-challenge/ {
                     root /var/www/html;
@@ -190,7 +190,7 @@ jobs:
 
             server {
                 listen 80;
-                server_name api.slancer.site;
+                server_name api.saadops.site;
 
                 location /.well-known/acme-challenge/ {
                     root /var/www/html;
@@ -203,10 +203,10 @@ jobs:
 
             server {
                 listen 443 ssl http2;
-                server_name slancer.site www.slancer.site;
+                server_name saadops.site www.saadops.site;
 
-                ssl_certificate /etc/letsencrypt/live/slancer.site/fullchain.pem;
-                ssl_certificate_key /etc/letsencrypt/live/slancer.site/privkey.pem;
+                ssl_certificate /etc/letsencrypt/live/saadops.site/fullchain.pem;
+                ssl_certificate_key /etc/letsencrypt/live/saadops.site/privkey.pem;
                 include /etc/letsencrypt/options-ssl-nginx.conf;
                 ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
@@ -224,10 +224,10 @@ jobs:
 
             server {
                 listen 443 ssl http2;
-                server_name api.slancer.site;
+                server_name api.saadops.site;
 
-                ssl_certificate /etc/letsencrypt/live/api.slancer.site/fullchain.pem;
-                ssl_certificate_key /etc/letsencrypt/live/api.slancer.site/privkey.pem;
+                ssl_certificate /etc/letsencrypt/live/api.saadops.site/fullchain.pem;
+                ssl_certificate_key /etc/letsencrypt/live/api.saadops.site/privkey.pem;
                 include /etc/letsencrypt/options-ssl-nginx.conf;
                 ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
@@ -252,7 +252,7 @@ jobs:
             sudo tee /etc/nginx/sites-available/portfolio >/dev/null <<'NGINX'
             server {
                 listen 80 default_server;
-                server_name slancer.site www.slancer.site _;
+                server_name saadops.site www.saadops.site _;
 
                 client_max_body_size 20M;
 
@@ -272,7 +272,7 @@ jobs:
 
             server {
                 listen 80;
-                server_name api.slancer.site;
+                server_name api.saadops.site;
 
                 client_max_body_size 20M;
 

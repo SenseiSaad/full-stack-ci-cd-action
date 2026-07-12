@@ -28,7 +28,7 @@ chown -R ubuntu:ubuntu /home/ubuntu/app
 cat >/etc/nginx/sites-available/${local.name_prefix} <<'NGINX'
 server {
     listen 80 default_server;
-    server_name slancer.site www.slancer.site _;
+    server_name saadops.site www.saadops.site _;
 
     client_max_body_size 20M;
 
@@ -48,7 +48,7 @@ server {
 
 server {
     listen 80;
-    server_name api.slancer.site;
+    server_name api.saadops.site;
 
     client_max_body_size 20M;
 

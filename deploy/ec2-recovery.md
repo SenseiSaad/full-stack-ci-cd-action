@@ -18,7 +18,7 @@ The frontend should answer on `127.0.0.1:3000`. The backend health check should 
 sudo tee /etc/nginx/sites-available/portfolio >/dev/null <<'NGINX'
 server {
     listen 80 default_server;
-    server_name slancer.site www.slancer.site _;
+    server_name saadops.site www.saadops.site _;
 
     client_max_body_size 20M;
 
@@ -38,7 +38,7 @@ server {
 
 server {
     listen 80;
-    server_name api.slancer.site;
+    server_name api.saadops.site;
 
     client_max_body_size 20M;
 
@@ -67,17 +67,17 @@ sudo nginx -t
 sudo systemctl reload nginx
 ```
 
-After this, the EC2 IP and `http://slancer.site` should proxy to the frontend container.
+After this, the EC2 IP and `http://saadops.site` should proxy to the frontend container.
 
 ## 3. Issue certificates after DNS is correct
 
 ```bash
 sudo apt-get update
 sudo apt-get install -y certbot python3-certbot-nginx
-sudo certbot --nginx -d slancer.site -d www.slancer.site
-sudo certbot --nginx -d api.slancer.site
+sudo certbot --nginx -d saadops.site -d www.saadops.site
+sudo certbot --nginx -d api.saadops.site
 sudo nginx -t
 sudo systemctl reload nginx
 ```
 
-If the domain is registered at Namecheap but DNS is managed in Route 53, make sure Namecheap is using the Route 53 hosted zone nameservers. Then create `A` records in Route 53 for `slancer.site`, `www.slancer.site`, and `api.slancer.site` pointing to the EC2 public IP.
+If the domain is registered at Namecheap but DNS is managed in Route 53, make sure Namecheap is using the Route 53 hosted zone nameservers. Then create `A` records in Route 53 for `saadops.site`, `www.saadops.site`, and `api.saadops.site` pointing to the EC2 public IP.

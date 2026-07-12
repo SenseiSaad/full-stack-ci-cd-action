@@ -223,9 +223,9 @@ frontend: 3000:80
 Host Nginx receives public traffic and proxies to the Docker containers:
 
 ```text
-slancer.site     -> 127.0.0.1:3000
-www.slancer.site -> 127.0.0.1:3000
-api.slancer.site -> 127.0.0.1:8000
+saadops.site     -> 127.0.0.1:3000
+www.saadops.site -> 127.0.0.1:3000
+api.saadops.site -> 127.0.0.1:8000
 ```
 
 ## CI/CD
@@ -337,9 +337,9 @@ sudo systemctl reload nginx
 1. Point DNS records to the EC2 public IP:
 
 ```text
-A slancer.site     -> <EC2_PUBLIC_IP>
-A www.slancer.site -> <EC2_PUBLIC_IP>
-A api.slancer.site -> <EC2_PUBLIC_IP>
+A saadops.site     -> <EC2_PUBLIC_IP>
+A www.saadops.site -> <EC2_PUBLIC_IP>
+A api.saadops.site -> <EC2_PUBLIC_IP>
 ```
 
 2. In the EC2 security group, allow inbound traffic:
@@ -353,8 +353,8 @@ A api.slancer.site -> <EC2_PUBLIC_IP>
 3. Set GitHub Actions secrets for Django:
 
 ```text
-ALLOWED_HOSTS=<EC2_PUBLIC_IP>,slancer.site,www.slancer.site,api.slancer.site,localhost,127.0.0.1,backend
-CORS_ALLOWED_ORIGINS=http://<EC2_PUBLIC_IP>,http://slancer.site,http://www.slancer.site,https://slancer.site,https://www.slancer.site
+ALLOWED_HOSTS=<EC2_PUBLIC_IP>,saadops.site,www.saadops.site,api.saadops.site,localhost,127.0.0.1,backend
+CORS_ALLOWED_ORIGINS=http://<EC2_PUBLIC_IP>,http://saadops.site,http://www.saadops.site,https://saadops.site,https://www.saadops.site
 ```
 
 4. Deploy once so Docker containers and the HTTP Nginx config are live.
@@ -364,8 +364,8 @@ CORS_ALLOWED_ORIGINS=http://<EC2_PUBLIC_IP>,http://slancer.site,http://www.slanc
 ```bash
 sudo apt-get update
 sudo apt-get install -y certbot python3-certbot-nginx
-sudo certbot --nginx -d slancer.site -d www.slancer.site
-sudo certbot --nginx -d api.slancer.site
+sudo certbot --nginx -d saadops.site -d www.saadops.site
+sudo certbot --nginx -d api.saadops.site
 sudo nginx -t
 sudo systemctl reload nginx
 ```
@@ -373,12 +373,12 @@ sudo systemctl reload nginx
 6. After HTTPS works, update the GitHub secret:
 
 ```text
-CORS_ALLOWED_ORIGINS=https://slancer.site,https://www.slancer.site
+CORS_ALLOWED_ORIGINS=https://saadops.site,https://www.saadops.site
 ```
 
 Keep `deploy/nginx-no-ssl.conf` for the first HTTP deployment. Use `deploy/nginx-ssl.conf` as the final reference config after Certbot has created certificates.
 
-The GitHub Actions deployment is certificate-aware: before Certbot it writes the HTTP config, and after `/etc/letsencrypt/live/slancer.site/` plus `/etc/letsencrypt/live/api.slancer.site/` exist, it writes the HTTPS config automatically.
+The GitHub Actions deployment is certificate-aware: before Certbot it writes the HTTP config, and after `/etc/letsencrypt/live/saadops.site/` plus `/etc/letsencrypt/live/api.saadops.site/` exist, it writes the HTTPS config automatically.
 
 ## Important Debugging Lessons
 

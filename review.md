@@ -14,9 +14,9 @@ The project is containerized with Docker, deployed on AWS EC2, stores production
 
 Current live domain status as of May 26, 2026:
 
-- `https://slancer.site/` is the main frontend domain and returns `200 OK`.
-- `https://www.slancer.site/` is covered by the same Certbot certificate.
-- `https://api.slancer.site/` is the backend/API/admin domain.
+- `https://saadops.site/` is the main frontend domain and returns `200 OK`.
+- `https://www.saadops.site/` is covered by the same Certbot certificate.
+- `https://api.saadops.site/` is the backend/API/admin domain.
 - The EC2 public IP is `3.215.214.8`.
 - Docker containers are healthy/reachable on EC2:
   - frontend: `127.0.0.1:3000` -> container port `80`
@@ -350,9 +350,9 @@ Host Nginx runs directly on EC2 and reverse proxies traffic to the containers.
 Current production routing:
 
 ```text
-slancer.site      -> host Nginx 443 -> 127.0.0.1:3000 -> frontend container
-www.slancer.site  -> host Nginx 443 -> 127.0.0.1:3000 -> frontend container
-api.slancer.site  -> host Nginx 443 -> 127.0.0.1:8000 -> backend container
+saadops.site      -> host Nginx 443 -> 127.0.0.1:3000 -> frontend container
+www.saadops.site  -> host Nginx 443 -> 127.0.0.1:3000 -> frontend container
+api.saadops.site  -> host Nginx 443 -> 127.0.0.1:8000 -> backend container
 ```
 
 HTTP traffic on port `80` redirects to HTTPS after Certbot is installed.
@@ -535,8 +535,8 @@ This:
 
 The deploy workflow is certificate-aware:
 
-- Before Certbot certificates exist, it writes an HTTP Nginx config so `slancer.site` can work on port `80`.
-- After certificates exist at `/etc/letsencrypt/live/slancer.site/` and `/etc/letsencrypt/live/api.slancer.site/`, it writes the HTTPS Nginx config with `443 ssl`.
+- Before Certbot certificates exist, it writes an HTTP Nginx config so `saadops.site` can work on port `80`.
+- After certificates exist at `/etc/letsencrypt/live/saadops.site/` and `/etc/letsencrypt/live/api.saadops.site/`, it writes the HTTPS Nginx config with `443 ssl`.
 
 ## 16. GitHub Secrets Used
 
@@ -690,9 +690,9 @@ Fix:
 
 Include required hosts:
 
-- `slancer.site`
-- `www.slancer.site`
-- `api.slancer.site`
+- `saadops.site`
+- `www.saadops.site`
+- `api.saadops.site`
 - EC2 IP, currently `3.215.214.8`
 - `localhost`
 - `127.0.0.1`
@@ -701,7 +701,7 @@ Include required hosts:
 Current production value should look like:
 
 ```env
-ALLOWED_HOSTS=3.215.214.8,slancer.site,www.slancer.site,api.slancer.site,localhost,127.0.0.1,backend
+ALLOWED_HOSTS=3.215.214.8,saadops.site,www.saadops.site,api.saadops.site,localhost,127.0.0.1,backend
 ```
 
 ### Problem 8: Elastic IP and domain routing
@@ -714,9 +714,9 @@ Attach Elastic IP to EC2 and point Route 53 records to that Elastic IP.
 
 Desired routing:
 
-- `slancer.site` -> frontend
-- `www.slancer.site` -> frontend
-- `api.slancer.site` -> Django admin/backend
+- `saadops.site` -> frontend
+- `www.saadops.site` -> frontend
+- `api.saadops.site` -> Django admin/backend
 
 Nginx handles this with two server blocks:
 
@@ -726,9 +726,9 @@ Nginx handles this with two server blocks:
 Actual Route 53 records should be:
 
 ```text
-slancer.site      A  3.215.214.8
-www.slancer.site  A  3.215.214.8
-api.slancer.site  A  3.215.214.8
+saadops.site      A  3.215.214.8
+www.saadops.site  A  3.215.214.8
+api.saadops.site  A  3.215.214.8
 ```
 
 Because the domain was bought at Namecheap, Namecheap must use the Route 53 hosted zone nameservers. Route 53 records only matter if the domain delegates DNS to Route 53.
@@ -739,7 +739,7 @@ Symptoms:
 
 ```text
 http://EC2_IP/ -> 404 Not Found nginx/1.18.0 (Ubuntu)
-https://slancer.site/ -> loading loop or timeout
+https://saadops.site/ -> loading loop or timeout
 ```
 
 What the checks showed:
@@ -767,18 +767,18 @@ Fix:
 3. Make sure host Nginx proxies frontend traffic to `127.0.0.1:3000`.
 4. Make sure host Nginx proxies backend/API traffic to `127.0.0.1:8000`.
 5. Install/reinstall Certbot certificates for:
-   - `slancer.site`
-   - `www.slancer.site`
-   - `api.slancer.site`
+  - `saadops.site`
+  - `www.saadops.site`
+  - `api.saadops.site`
 6. Confirm Route 53 points all three records to the EC2 IP.
 
 Important command results:
 
 ```text
 curl -4 ifconfig.me -> 3.215.214.8
-dig +short slancer.site -> 3.215.214.8
-dig +short www.slancer.site -> 3.215.214.8
-dig +short api.slancer.site -> 3.215.214.8
+dig +short saadops.site -> 3.215.214.8
+dig +short www.saadops.site -> 3.215.214.8
+dig +short api.saadops.site -> 3.215.214.8
 sudo ss -tlnp | grep ':443' -> nginx listening on 0.0.0.0:443
 sudo ufw status -> inactive
 ```
@@ -786,18 +786,18 @@ sudo ufw status -> inactive
 After fixing Nginx/Certbot:
 
 ```text
-curl -Ik https://slancer.site/ -> 200 OK
+curl -Ik https://saadops.site/ -> 200 OK
 ```
 
 Remaining API/admin issue:
 
 ```text
-curl -Ik https://api.slancer.site/admin/ -> 400 Bad Request
+curl -Ik https://api.saadops.site/admin/ -> 400 Bad Request
 ```
 
 Likely cause:
 
-Django backend container environment did not include `api.slancer.site` in `ALLOWED_HOSTS`, or the backend container had not been recreated after `.env` was updated.
+Django backend container environment did not include `api.saadops.site` in `ALLOWED_HOSTS`, or the backend container had not been recreated after `.env` was updated.
 
 Fix:
 
@@ -808,8 +808,8 @@ sudo nano /home/ubuntu/app/.env
 Set:
 
 ```env
-ALLOWED_HOSTS=3.215.214.8,slancer.site,www.slancer.site,api.slancer.site,localhost,127.0.0.1,backend
-CORS_ALLOWED_ORIGINS=https://slancer.site,https://www.slancer.site,http://slancer.site,http://www.slancer.site
+ALLOWED_HOSTS=3.215.214.8,saadops.site,www.saadops.site,api.saadops.site,localhost,127.0.0.1,backend
+CORS_ALLOWED_ORIGINS=https://saadops.site,https://www.saadops.site,http://saadops.site,http://www.saadops.site
 ```
 
 Then recreate backend:
@@ -822,8 +822,8 @@ docker compose up -d --force-recreate backend
 Retest:
 
 ```bash
-curl -Ik https://api.slancer.site/admin/
-curl https://api.slancer.site/health/
+curl -Ik https://api.saadops.site/admin/
+curl https://api.saadops.site/health/
 ```
 
 ## 18. Current Condition of the Project
@@ -1009,10 +1009,10 @@ docker compose logs frontend
 curl -I http://127.0.0.1:3000
 curl http://127.0.0.1:8000/health/
 curl -I http://127.0.0.1
-curl -Ik https://slancer.site/
-curl -Ik https://api.slancer.site/admin/
+curl -Ik https://saadops.site/
+curl -Ik https://api.saadops.site/admin/
 ```
 
 ## 21. Short Interview Pitch
 
-I built a Dockerized Django REST Framework portfolio backend with a separate static frontend. The backend has multiple apps for projects, work experience, writings, and contact messages, all managed through Django Admin and exposed through REST APIs. I deployed it on AWS using Terraform for EC2, RDS, ECR, S3, IAM, VPC, and security groups. The live frontend runs on `https://slancer.site/`, while backend/admin traffic is routed through `https://api.slancer.site/`. GitHub Actions runs checks, builds Docker images, pushes them to ECR, and deploys to EC2 over SSH. During deployment I debugged real issues like missing GitHub secrets, SSH/security group problems, Docker container conflicts, stale Nginx proxy ports, DNS/Certbot routing, and Django `ALLOWED_HOSTS` failures.
+I built a Dockerized Django REST Framework portfolio backend with a separate static frontend. The backend has multiple apps for projects, work experience, writings, and contact messages, all managed through Django Admin and exposed through REST APIs. I deployed it on AWS using Terraform for EC2, RDS, ECR, S3, IAM, VPC, and security groups. The live frontend runs on `https://saadops.site/`, while backend/admin traffic is routed through `https://api.saadops.site/`. GitHub Actions runs checks, builds Docker images, pushes them to ECR, and deploys to EC2 over SSH. During deployment I debugged real issues like missing GitHub secrets, SSH/security group problems, Docker container conflicts, stale Nginx proxy ports, DNS/Certbot routing, and Django `ALLOWED_HOSTS` failures.
