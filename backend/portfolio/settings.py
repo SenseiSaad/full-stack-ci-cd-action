@@ -33,7 +33,7 @@ def env_list(name, default=''):
 
 
 # SECURITY WARNING: keep the secret key used in production secret.
-DEBUG = env_bool('DEBUG', False)
+DEBUG = env_bool('DEBUG', True)
 SECRET_KEY = os.getenv('SECRET_KEY')
 if not SECRET_KEY:
     if DEBUG:

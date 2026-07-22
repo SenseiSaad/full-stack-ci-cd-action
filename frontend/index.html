@@ -682,33 +682,65 @@
             color: var(--text-secondary);
         }
 
+        :root {
+            --project-card-height: 84px;
+            --project-card-gap: 14px;
+            --projects-workspace-height: calc(3 * var(--project-card-height) + 2 * var(--project-card-gap));
+        }
+
         .projects-split-workspace {
             display: grid;
             grid-template-columns: 4fr 7fr;
-            gap: 40px;
+            gap: 32px;
             align-items: stretch;
-            min-height: 550px;
+            height: var(--projects-workspace-height);
+            box-sizing: border-box;
         }
 
         .projects-sidebar-list {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: var(--project-card-gap);
+            height: var(--projects-workspace-height);
+            max-height: var(--projects-workspace-height);
+            overflow-y: auto;
+            padding-right: 6px;
+            box-sizing: border-box;
+        }
+
+        .projects-sidebar-list::-webkit-scrollbar {
+            width: 5px;
+        }
+        .projects-sidebar-list::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 4px;
+        }
+        .projects-sidebar-list::-webkit-scrollbar-thumb {
+            background: rgba(79, 166, 149, 0.3);
+            border-radius: 4px;
+        }
+        .projects-sidebar-list::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-accent);
         }
 
         .project-list-card {
             background-color: var(--surface-card);
             border: 1px solid var(--border-color);
             border-left: 4px solid var(--border-color);
-            border-radius: 8px;
-            padding: 20px;
+            border-radius: 10px;
+            padding: 0 20px;
+            height: var(--project-card-height);
+            min-height: var(--project-card-height);
+            max-height: var(--project-card-height);
+            box-sizing: border-box;
             cursor: pointer;
             transition: var(--transition-smooth);
             text-align: left;
             position: relative;
             display: flex;
-            flex-direction: column;
-            gap: 8px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
         }
 
         .project-list-card:hover {
@@ -720,13 +752,14 @@
 
         .project-list-card.active {
             background-color: var(--surface-elevated);
-            border-color: var(--border-color);
+            border-color: rgba(79, 166, 149, 0.4);
             border-left-color: var(--primary-accent);
             box-shadow: 0 4px 20px rgba(0,0,0,0.25);
         }
 
         .project-list-card.active.status-amber {
             border-left-color: var(--secondary-accent);
+            border-color: rgba(230, 162, 90, 0.4);
         }
 
         .project-list-card:hover.status-amber {
@@ -737,13 +770,19 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            width: 100%;
         }
 
         .project-card-title {
             font-family: var(--font-display);
-            font-size: 1.15rem;
+            font-size: 1.05rem;
             font-weight: 700;
             color: var(--text-primary);
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .project-list-card.active .project-card-title {
@@ -754,65 +793,77 @@
             color: var(--secondary-accent);
         }
 
-        .project-card-teaser {
-            font-size: 0.88rem;
-            color: var(--text-secondary);
-            line-height: 1.4;
-        }
-
-        .project-card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 4px;
-        }
-
-        .project-card-badge {
-            font-family: var(--font-mono);
-            font-size: 0.65rem;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 600;
-        }
-
-        .badge-live {
-            background-color: rgba(79, 166, 149, 0.1);
-            color: var(--primary-accent);
-            border: 1px solid rgba(79, 166, 149, 0.2);
-        }
-
-        .badge-wip {
-            background-color: rgba(230, 162, 90, 0.08);
-            color: var(--secondary-accent);
-            border: 1px solid rgba(230, 162, 90, 0.18);
-        }
-
-        .click-to-load-text {
-            font-family: var(--font-mono);
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
         .project-display-panel {
             background-color: var(--surface-card);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 40px;
+            padding: 32px;
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            justify-content: space-between;
+            gap: 16px;
             box-shadow: 0 12px 36px rgba(0,0,0,0.3);
-            position: sticky;
-            top: 100px;
-            height: fit-content;
+            height: var(--projects-workspace-height);
+            max-height: var(--projects-workspace-height);
+            overflow-y: auto;
+            box-sizing: border-box;
+            position: relative;
+            top: 0;
             transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.3s ease;
             opacity: 1;
             transform: scale(1);
+        }
+
+        .project-display-panel::-webkit-scrollbar {
+            width: 5px;
+        }
+        .project-display-panel::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 4px;
+        }
+        .project-display-panel::-webkit-scrollbar-thumb {
+            background: rgba(79, 166, 149, 0.3);
+            border-radius: 4px;
+        }
+
+        .useful-links-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .useful-link-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-family: var(--font-mono);
+            color: var(--text-primary);
+            background: var(--surface-elevated);
+            border: 1px solid var(--border-color);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+
+        .useful-link-pill:hover {
+            border-color: var(--primary-accent);
+            color: var(--primary-accent);
+            transform: translateY(-2px);
+        }
+
+        .useful-link-pill.status-amber:hover {
+            border-color: var(--secondary-accent);
+            color: var(--secondary-accent);
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.82rem;
+            border-radius: 6px;
+            font-weight: 600;
         }
 
         .project-display-panel.switching {
@@ -1326,13 +1377,21 @@
             .projects-split-workspace {
                 grid-template-columns: 1fr;
                 gap: 24px;
+                height: auto;
                 min-height: auto;
+            }
+
+            .projects-sidebar-list {
+                height: auto;
+                max-height: 280px;
             }
 
             .project-display-panel {
                 position: relative;
                 top: 0;
                 padding: 24px;
+                height: auto;
+                max-height: none;
             }
 
             .contact-layout {
@@ -1751,15 +1810,17 @@
                     </div>
 
                     <div>
-                        <span class="panel-section-heading">Implementation Highlights</span>
-                        <div class="panel-bullets" id="panel-display-bullets">
+                        <span class="panel-section-heading">Useful Links</span>
+                        <div class="useful-links-group" id="panel-display-links">
                             <!-- Populated Dynamically -->
                         </div>
                     </div>
 
-                    <a href="#contact" class="btn btn-primary panel-action-btn" id="panel-display-link">
-                        Inquire About Architecture <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
-                    </a>
+                    <div style="margin-top: 4px;">
+                        <button class="btn btn-sm btn-primary" id="panel-display-open-new" style="display: inline-flex; align-items: center; gap: 8px; cursor: pointer;">
+                            Open in new page for full info <i data-lucide="external-link" style="width: 14px; height: 14px;"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1947,7 +2008,7 @@
             try {
                 const res = await fetch(`${API_BASE}/api/experience/`);
                 if (!res.ok) throw new Error('Failed to load experience');
-                const experiences = await res.json();
+                let experiences = await res.json();
 
                 if (!experiences || experiences.length === 0) {
                     displayContainer.innerHTML = `
@@ -1961,6 +2022,13 @@
                     lucide.createIcons();
                     return;
                 }
+
+                // Sort experiences chronologically by start_date ascending (oldest first -> latest/present last)
+                experiences.sort((a, b) => {
+                    const dateA = a.start_date ? new Date(a.start_date).getTime() : 0;
+                    const dateB = b.start_date ? new Date(b.start_date).getTime() : 0;
+                    return dateA - dateB;
+                });
 
                 stepperContainer.style.display = 'flex';
                 // Remove existing node buttons except progressFill
@@ -1987,8 +2055,10 @@
                         yearLabel = `${new Date(exp.start_date).getFullYear()}`;
                     }
 
+                    const iconName = getExperienceIcon(exp, index);
+
                     nodeBtn.innerHTML = `
-                        <i data-lucide="${index === 0 ? 'briefcase' : (index === 1 ? 'server' : 'cloud')}"></i>
+                        <i data-lucide="${iconName}"></i>
                         <span class="step-label">${yearLabel}</span>
                     `;
 
@@ -2017,6 +2087,28 @@
             } catch (err) {
                 console.error('Error loading experience:', err);
             }
+        }
+
+        function getExperienceIcon(exp, index) {
+            const title = (exp.title || '').toLowerCase();
+            const tech = (exp.tech_stack || '').toLowerCase();
+            const company = (exp.company_name || '').toLowerCase();
+            const combined = `${title} ${tech} ${company}`;
+
+            if (combined.includes('full') || combined.includes('web') || combined.includes('stack')) return 'layout';
+            if (combined.includes('front') || combined.includes('ui') || combined.includes('design')) return 'code-2';
+            if (combined.includes('back') || combined.includes('api') || combined.includes('django') || combined.includes('python')) return 'terminal';
+            if (combined.includes('cloud') || combined.includes('aws') || combined.includes('gcp') || combined.includes('azure')) return 'cloud';
+            if (combined.includes('server') || combined.includes('sysadmin') || combined.includes('devops') || combined.includes('docker') || combined.includes('k8s')) return 'server';
+            if (combined.includes('game') || combined.includes('unity') || combined.includes('unreal')) return 'gamepad-2';
+            if (combined.includes('lead') || combined.includes('manager') || combined.includes('head') || combined.includes('director')) return 'award';
+            if (combined.includes('data') || combined.includes('sql') || combined.includes('database')) return 'database';
+            if (combined.includes('mobile') || combined.includes('ios') || combined.includes('android')) return 'smartphone';
+            if (combined.includes('security') || combined.includes('cyber')) return 'shield-check';
+            if (combined.includes('freelance') || combined.includes('contract')) return 'briefcase';
+
+            const iconPool = ['briefcase', 'code-2', 'server', 'terminal', 'cpu', 'cloud', 'database', 'layers', 'git-branch', 'workflow', 'shield-check', 'zap', 'globe'];
+            return iconPool[index % iconPool.length];
         }
 
         function renderExperienceDetails(exp, accent, dateRangeStr, index, total) {
@@ -2122,18 +2214,12 @@
                     card.className = `project-list-card ${index === 0 ? 'active' : ''} ${accent === 'amber' ? 'status-amber' : 'status-teal'}`;
                     card.setAttribute('data-accent', accent);
 
-                    const badgeClass = proj.live_url ? 'badge-live' : 'badge-wip';
                     const badgeText = proj.live_url ? 'Active Live' : 'Completed';
 
                     card.innerHTML = `
                         <div class="project-card-header">
                             <span class="project-card-title">${proj.title}</span>
                             <i data-lucide="chevron-right" class="arrow-indicator" style="width: 16px; height: 16px; color: ${index === 0 ? (accent === 'amber' ? 'var(--secondary-accent)' : 'var(--primary-accent)') : 'var(--text-muted)'}"></i>
-                        </div>
-                        <p class="project-card-teaser">${proj.short_description || ''}</p>
-                        <div class="project-card-footer">
-                            <span class="project-card-badge ${badgeClass}">${badgeText}</span>
-                            <span class="click-to-load-text">${index === 0 ? 'Loaded <i data-lucide="eye" style="width: 12px; height: 12px;"></i>' : 'Load Details →'}</span>
                         </div>
                     `;
 
@@ -2142,19 +2228,14 @@
 
                         listContainer.querySelectorAll('.project-list-card').forEach(c => {
                             c.classList.remove('active');
-                            const ind = c.querySelector('.click-to-load-text');
                             const icon = c.querySelector('.arrow-indicator');
-                            if (ind) ind.innerHTML = 'Load Details →';
                             if (icon) {
-                                icon.setAttribute('data-lucide', 'chevron-right');
                                 icon.style.color = 'var(--text-muted)';
                             }
                         });
 
                         card.classList.add('active');
-                        const ind = card.querySelector('.click-to-load-text');
                         const icon = card.querySelector('.arrow-indicator');
-                        if (ind) ind.innerHTML = `Loaded <i data-lucide="eye" style="width: 12px; height: 12px;"></i>`;
                         if (icon) {
                             icon.style.color = accent === 'amber' ? 'var(--secondary-accent)' : 'var(--primary-accent)';
                         }
@@ -2192,20 +2273,19 @@
                 const panelTitle = document.getElementById('panel-display-title');
                 const panelDesc = document.getElementById('panel-display-desc');
                 const panelTags = document.getElementById('panel-display-tags');
-                const panelBullets = document.getElementById('panel-display-bullets');
-                const panelLink = document.getElementById('panel-display-link');
+                const panelLinks = document.getElementById('panel-display-links');
+                const panelOpenBtn = document.getElementById('panel-display-open-new');
 
                 panelStatus.className = 'panel-eyebrow';
-                panelBullets.className = 'panel-bullets';
                 if (accent === 'amber') {
                     panelStatus.classList.add('status-amber');
-                    panelBullets.classList.add('status-amber');
                 }
 
                 panelStatus.textContent = `Case Study — ${badgeText}`;
                 panelTitle.textContent = proj.title || '';
                 panelDesc.textContent = proj.short_description || '';
 
+                // Tech stack tags
                 panelTags.innerHTML = '';
                 if (proj.tech_stack) {
                     proj.tech_stack.split(',').forEach(tag => {
@@ -2217,38 +2297,78 @@
                     });
                 }
 
-                panelBullets.innerHTML = '';
-                if (proj.long_description) {
-                    panelBullets.innerHTML = proj.long_description;
-                } else if (proj.short_description) {
-                    const li = document.createElement('li');
-                    li.innerHTML = `<i data-lucide="check-circle" style="width: 16px; height: 16px;"></i> <span>${proj.short_description}</span>`;
-                    panelBullets.appendChild(li);
+                // Useful Links
+                panelLinks.innerHTML = '';
+                let hasLinks = false;
+                if (proj.live_url) {
+                    hasLinks = true;
+                    const aLive = document.createElement('a');
+                    aLive.href = proj.live_url;
+                    aLive.target = '_blank';
+                    aLive.className = `useful-link-pill ${accent === 'amber' ? 'status-amber' : ''}`;
+                    aLive.innerHTML = `<i data-lucide="globe" style="width: 14px; height: 14px;"></i> Live Demo`;
+                    panelLinks.appendChild(aLive);
+                }
+                if (proj.github_link) {
+                    hasLinks = true;
+                    const aGit = document.createElement('a');
+                    aGit.href = proj.github_link;
+                    aGit.target = '_blank';
+                    aGit.className = `useful-link-pill ${accent === 'amber' ? 'status-amber' : ''}`;
+                    aGit.innerHTML = `<i data-lucide="github" style="width: 14px; height: 14px;"></i> GitHub Repo`;
+                    panelLinks.appendChild(aGit);
+                }
+                if (!hasLinks) {
+                    panelLinks.innerHTML = `<span style="font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-mono);">No public links registered</span>`;
                 }
 
-                if (proj.live_url) {
-                    panelLink.style.display = 'inline-flex';
-                    panelLink.href = proj.live_url;
-                    panelLink.target = '_blank';
-                    panelLink.innerHTML = `Explore Live Project <i data-lucide="external-link" style="width: 16px; height: 16px;"></i>`;
-                    panelLink.className = 'btn btn-primary panel-action-btn';
-                } else if (proj.github_link) {
-                    panelLink.style.display = 'inline-flex';
-                    panelLink.href = proj.github_link;
-                    panelLink.target = '_blank';
-                    panelLink.innerHTML = `View GitHub Repository <i data-lucide="github" style="width: 16px; height: 16px;"></i>`;
-                    panelLink.className = 'btn btn-primary panel-action-btn';
-                } else {
-                    panelLink.style.display = 'inline-flex';
-                    panelLink.href = '#contact';
-                    panelLink.target = '_self';
-                    panelLink.innerHTML = `Inquire About Architecture <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>`;
-                    panelLink.className = 'btn btn-secondary panel-action-btn';
-                }
+                // Open in new page for full info button action
+                panelOpenBtn.onclick = (e) => {
+                    e.preventDefault();
+                    if (proj.live_url) {
+                        window.open(proj.live_url, '_blank');
+                    } else if (proj.github_link) {
+                        window.open(proj.github_link, '_blank');
+                    } else {
+                        openProjectFullInfoPage(proj);
+                    }
+                };
 
                 lucide.createIcons();
                 panelContainer.classList.remove('switching');
             }, 200);
+        }
+
+        function openProjectFullInfoPage(proj) {
+            const fullHtml = `
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>${proj.title} - Full Information</title>
+                    <style>
+                        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0c1017; color: #e6edf3; padding: 40px; line-height: 1.6; max-width: 800px; margin: 0 auto; }
+                        h1 { color: #4fa695; margin-bottom: 12px; font-size: 2.2rem; }
+                        .tag { display: inline-block; background: rgba(79,166,149,0.15); color: #4fa695; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; margin-right: 6px; margin-bottom: 6px; font-family: monospace; }
+                        .desc { font-size: 1.15rem; color: #8b949e; margin-bottom: 24px; border-bottom: 1px solid #30363d; padding-bottom: 16px; }
+                        .content { background: #161b22; padding: 24px; border-radius: 8px; border: 1px solid #30363d; margin-top: 20px; }
+                        .content h3 { margin-top: 0; color: #e6edf3; }
+                    </style>
+                </head>
+                <body>
+                    <h1>${proj.title}</h1>
+                    <div class="desc">${proj.short_description || ''}</div>
+                    <div style="margin-bottom: 20px;">${(proj.tech_stack || '').split(',').map(t => `<span class="tag">${t.trim()}</span>`).join('')}</div>
+                    <div class="content">
+                        <h3>Detailed Architecture & Information</h3>
+                        <div>${proj.long_description || proj.short_description || 'Full implementation details available upon request.'}</div>
+                    </div>
+                </body>
+                </html>
+            `;
+            const blob = new Blob([fullHtml], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
         }
 
         /* ==========================================================================
