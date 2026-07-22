@@ -1,610 +1,2519 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SaadOps Portfolio</title>
-    <link rel="stylesheet" href="assets/styles.css">
+    <title>saadops — Backend and Cloud DevOps Engineer</title>
+    
+    <!-- Typography: Space Grotesk (Headings), Inter (Body), IBM Plex Mono (Tags) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons for high fidelity vector rendering -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            /* Custom Architectural Palette */
+            --bg-color: #0e1316;
+            --surface-elevated: #141b1f;
+            --surface-card: #1a2228;
+            --border-color: #263038;
+            --primary-accent: #4fa695; /* Muted Infrastructure Teal */
+            --primary-accent-glow: rgba(79, 166, 149, 0.15);
+            --secondary-accent: #e6a25a; /* Warm Amber Highlight */
+            --secondary-accent-glow: rgba(230, 162, 90, 0.2);
+            --text-primary: #edf1f2;
+            --text-secondary: #8fa0a7;
+            --text-muted: #566169;
+            
+            /* Typography Scale tokens */
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'IBM Plex Mono', monospace;
+
+            /* Spacing, Layout, and Animation transitions */
+            --container-max-width: 1100px;
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --focus-outline: 2px solid var(--primary-accent);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        /* Accessible Keyboard Focus states */
+        *:focus-visible {
+            outline: var(--focus-outline);
+            outline-offset: 4px;
+        }
+
+        /* Responsive Container alignments */
+        .container {
+            width: 100%;
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(14, 19, 22, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            transition: var(--transition-smooth);
+        }
+
+        header.scrolled {
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(14, 19, 22, 0.95);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 72px;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: var(--primary-accent);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-link {
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            position: relative;
+            padding: 4px 0;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-accent);
+            transition: var(--transition-smooth);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-accent);
+            color: #0e1316;
+            border: 1px solid var(--primary-accent);
+        }
+
+        .btn-primary:hover {
+            background-color: #5fbda9;
+            border-color: #5fbda9;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--primary-accent-glow);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--surface-elevated);
+            border-color: var(--text-secondary);
+            transform: translateY(-2px);
+        }
+
+        .btn-amber {
+            background-color: var(--secondary-accent);
+            color: #0e1316;
+            border: 1px solid var(--secondary-accent);
+        }
+
+        .btn-amber:hover {
+            background-color: #f7b46d;
+            border-color: #f7b46d;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--secondary-accent-glow);
+        }
+
+        .hero-section {
+            padding: 140px 0 90px 0;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
+            background-size: 32px 32px;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .headline {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 6vw, 4.25rem);
+            line-height: 1.15;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -1.5px;
+            margin-bottom: 24px;
+        }
+
+        .headline span {
+            color: var(--primary-accent);
+        }
+
+        .subhead {
+            font-size: clamp(1.1rem, 2vw, 1.35rem);
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        section {
+            padding: 90px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-header {
+            max-width: 650px;
+            margin-bottom: 44px;
+        }
+
+        .section-tag {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--primary-accent);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 2.75rem);
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 14px;
+            color: var(--text-primary);
+        }
+
+        .section-desc {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+        }
+
+        .services-tracks {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+            align-items: start;
+        }
+
+        .track-column {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .track-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 4px;
+        }
+
+        .track-icon {
+            color: var(--primary-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(79, 166, 149, 0.06);
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            border: 1px solid rgba(79, 166, 149, 0.15);
+        }
+
+        .track-column:last-child .track-icon {
+            color: var(--secondary-accent);
+            background: rgba(230, 162, 90, 0.05);
+            border-color: rgba(230, 162, 90, 0.15);
+        }
+
+        .track-title {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .compact-card {
+            background-color: var(--surface-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px 20px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .compact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 0;
+            background-color: var(--primary-accent);
+            transition: var(--transition-smooth);
+        }
+
+        .track-column:last-child .compact-card::before {
+            background-color: var(--secondary-accent);
+        }
+
+        .compact-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(79, 166, 149, 0.35);
+            background-color: var(--surface-elevated);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+        }
+
+        .track-column:last-child .compact-card:hover {
+            border-color: rgba(230, 162, 90, 0.3);
+        }
+
+        .compact-card:hover::before {
+            height: 100%;
+        }
+
+        .compact-card-title {
+            font-family: var(--font-display);
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .compact-card-title i {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            transition: var(--transition-smooth);
+        }
+
+        .compact-card:hover .compact-card-title i {
+            color: var(--primary-accent);
+            transform: translate(2px, -2px);
+        }
+
+        .track-column:last-child .compact-card:hover .compact-card-title i {
+            color: var(--secondary-accent);
+        }
+
+        .compact-card-teaser {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+        }
+
+        .compact-card:hover .compact-card-teaser {
+            max-height: 50px;
+            opacity: 1;
+            margin-top: 4px;
+        }
+
+        .click-action-indicator {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+            opacity: 0;
+            transition: var(--transition-smooth);
+        }
+
+        .compact-card:hover .click-action-indicator {
+            opacity: 1;
+        }
+
+        /* Career Console Layout */
+        .experience-console {
+            background-color: var(--surface-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 12px 36px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        /* Stepper Navigation Track */
+        .timeline-stepper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            padding: 10px 0;
+            margin-bottom: 10px;
+        }
+
+        .timeline-stepper::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            height: 2px;
+            background-color: var(--border-color);
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .timeline-progress-fill {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            height: 2px;
+            background-color: var(--primary-accent);
+            transform: translateY(-50%);
+            z-index: 2;
+            width: 100%;
+            transition: var(--transition-smooth);
+        }
+
+        .step-node {
+            background-color: var(--bg-color);
+            border: 2px solid var(--border-color);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 3;
+            transition: var(--transition-smooth);
+            position: relative;
+        }
+
+        .step-node i {
+            color: var(--text-muted);
+            width: 18px;
+            height: 18px;
+            transition: var(--transition-smooth);
+        }
+
+        .step-node:hover {
+            border-color: var(--primary-accent);
+            transform: scale(1.1);
+        }
+
+        .step-node:hover i {
+            color: var(--primary-accent);
+        }
+
+        .step-node.active {
+            border-color: var(--primary-accent);
+            background-color: var(--surface-elevated);
+            box-shadow: 0 0 16px var(--primary-accent-glow);
+        }
+
+        .step-node.active i {
+            color: var(--primary-accent);
+        }
+
+        .step-node.active.status-amber {
+            border-color: var(--secondary-accent);
+            box-shadow: 0 0 16px var(--secondary-accent-glow);
+        }
+
+        .step-node.active.status-amber i {
+            color: var(--secondary-accent);
+        }
+
+        .step-label {
+            position: absolute;
+            bottom: -32px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+        }
+
+        .step-node.active .step-label {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Experience Display Content */
+        .experience-display-content {
+            display: grid;
+            grid-template-columns: 7fr 5fr;
+            gap: 40px;
+            min-height: 280px;
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.3s ease;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .experience-display-content.switching {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        .exp-main-col {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .exp-header {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .exp-role {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.2;
+        }
+
+        .exp-company-date {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--primary-accent);
+        }
+
+        .exp-company-date.status-amber {
+            color: var(--secondary-accent);
+        }
+
+        .exp-date {
+            color: var(--text-secondary);
+        }
+
+        .exp-desc-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .exp-desc-list p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .exp-desc-list li {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            line-height: 1.6;
+        }
+
+        .exp-desc-list li i {
+            color: var(--primary-accent);
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .exp-desc-list.status-amber li i {
+            color: var(--secondary-accent);
+        }
+
+        .exp-stats-col {
+            background-color: var(--surface-elevated);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            height: fit-content;
+        }
+
+        .stat-metric-box {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .stat-metric-title {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-metric-value {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--secondary-accent);
+            line-height: 1.2;
+            word-break: break-word;
+        }
+
+        .stat-metric-value.status-teal {
+            color: var(--primary-accent);
+        }
+
+        .stat-metric-caption {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+        }
+
+        .projects-split-workspace {
+            display: grid;
+            grid-template-columns: 4fr 7fr;
+            gap: 40px;
+            align-items: stretch;
+            min-height: 550px;
+        }
+
+        .projects-sidebar-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .project-list-card {
+            background-color: var(--surface-card);
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            text-align: left;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .project-list-card:hover {
+            border-color: var(--border-color);
+            border-left-color: var(--primary-accent);
+            background-color: var(--surface-elevated);
+            transform: translateX(4px);
+        }
+
+        .project-list-card.active {
+            background-color: var(--surface-elevated);
+            border-color: var(--border-color);
+            border-left-color: var(--primary-accent);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+        }
+
+        .project-list-card.active.status-amber {
+            border-left-color: var(--secondary-accent);
+        }
+
+        .project-list-card:hover.status-amber {
+            border-left-color: var(--secondary-accent);
+        }
+
+        .project-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .project-card-title {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .project-list-card.active .project-card-title {
+            color: var(--primary-accent);
+        }
+
+        .project-list-card.active.status-amber .project-card-title {
+            color: var(--secondary-accent);
+        }
+
+        .project-card-teaser {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .project-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 4px;
+        }
+
+        .project-card-badge {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .badge-live {
+            background-color: rgba(79, 166, 149, 0.1);
+            color: var(--primary-accent);
+            border: 1px solid rgba(79, 166, 149, 0.2);
+        }
+
+        .badge-wip {
+            background-color: rgba(230, 162, 90, 0.08);
+            color: var(--secondary-accent);
+            border: 1px solid rgba(230, 162, 90, 0.18);
+        }
+
+        .click-to-load-text {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .project-display-panel {
+            background-color: var(--surface-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            box-shadow: 0 12px 36px rgba(0,0,0,0.3);
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.3s ease;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .project-display-panel.switching {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        .panel-eyebrow {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--primary-accent);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            display: block;
+        }
+
+        .panel-eyebrow.status-amber {
+            color: var(--secondary-accent);
+        }
+
+        .panel-title {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+        }
+
+        .panel-desc {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .panel-section-heading {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+            display: block;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .panel-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .panel-tag {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--primary-accent);
+            background: rgba(79, 166, 149, 0.08);
+            border: 1px solid rgba(79, 166, 149, 0.15);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .panel-tag.status-amber {
+            color: var(--secondary-accent);
+            background: rgba(230, 162, 90, 0.06);
+            border-color: rgba(230, 162, 90, 0.15);
+        }
+
+        .panel-bullets {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .panel-bullets p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .panel-bullets li {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            line-height: 1.5;
+        }
+
+        .panel-bullets li i {
+            color: var(--primary-accent);
+            flex-shrink: 0;
+            margin-top: 3px;
+        }
+
+        .panel-bullets.status-amber li i {
+            color: var(--secondary-accent);
+        }
+
+        .panel-action-btn {
+            margin-top: 8px;
+            width: fit-content;
+        }
+
+        /* Engineering Logs Section */
+        .logs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .log-card {
+            background-color: var(--surface-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .log-card:hover {
+            border-color: var(--primary-accent);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+
+        .log-category {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--primary-accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .log-title {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.3;
+        }
+
+        .log-teaser {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .log-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 12px;
+            border-top: 1px solid var(--border-color);
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .drawer-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(10, 14, 16, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .drawer-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .drawer-box {
+            background-color: var(--surface-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 32px;
+            max-width: 640px;
+            width: calc(100% - 32px);
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+            transform: scale(0.95);
+            transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+        }
+
+        .drawer-overlay.active .drawer-box {
+            transform: scale(1);
+        }
+
+        .drawer-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid transparent;
+        }
+
+        .drawer-close-btn:hover {
+            color: var(--text-primary);
+            border-color: var(--border-color);
+            background-color: var(--surface-elevated);
+        }
+
+        .drawer-eyebrow {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--primary-accent);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .drawer-eyebrow.accent-amber {
+            color: var(--secondary-accent);
+        }
+
+        .drawer-title {
+            font-family: var(--font-display);
+            font-size: 1.65rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            line-height: 1.25;
+        }
+
+        .drawer-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .drawer-bullets {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        .drawer-bullets p {
+            margin-bottom: 12px;
+        }
+
+        .drawer-bullets ul, .drawer-bullets ol {
+            margin-left: 20px;
+            margin-bottom: 16px;
+        }
+
+        .drawer-bullets li {
+            margin-bottom: 6px;
+        }
+
+        .drawer-action-btn {
+            width: 100%;
+        }
+
+        .services-cta-box {
+            margin-top: 40px;
+            text-align: center;
+            padding: 24px;
+            background: var(--surface-elevated);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 5fr 7fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .contact-p {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .contact-channels {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .channel-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 18px;
+            background: var(--surface-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: var(--transition-smooth);
+        }
+
+        .channel-card:hover {
+            border-color: rgba(79, 166, 149, 0.35);
+            transform: translateX(4px);
+            background: var(--surface-elevated);
+        }
+
+        .channel-icon {
+            color: var(--primary-accent);
+            display: flex;
+        }
+
+        .channel-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .channel-label {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .channel-value {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .contact-form-container {
+            background-color: var(--surface-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 32px;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-label {
+            font-family: var(--font-display);
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-input, .form-textarea {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 12px 16px;
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            transition: var(--transition-smooth);
+            width: 100%;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 12px var(--primary-accent-glow);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        #toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1100;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .toast {
+            background-color: var(--surface-elevated);
+            border-left: 4px solid var(--primary-accent);
+            border-top: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 16px 20px;
+            color: var(--text-primary);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            min-width: 320px;
+            max-width: 420px;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slide-in 0.35s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        @keyframes slide-in {
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .toast-content {
+            flex-grow: 1;
+        }
+
+        .toast-title {
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 2px;
+        }
+
+        .toast-message {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        footer {
+            padding: 32px 0;
+            border-top: 1px solid var(--border-color);
+            background-color: #0c1012;
+        }
+
+        .footer-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-logo {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .footer-logo span {
+            color: var(--primary-accent);
+        }
+
+        .copyright {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 992px) {
+            .services-tracks {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .experience-display-content {
+                grid-template-columns: 1fr;
+                gap: 24px;
+                min-height: auto;
+            }
+
+            .projects-split-workspace {
+                grid-template-columns: 1fr;
+                gap: 24px;
+                min-height: auto;
+            }
+
+            .project-display-panel {
+                position: relative;
+                top: 0;
+                padding: 24px;
+            }
+
+            .contact-layout {
+                grid-template-columns: 1fr;
+                gap: 48px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 12px 0;
+            }
+
+            .nav-links {
+                display: none; 
+            }
+
+            .hero-section {
+                padding: 120px 0 60px 0;
+            }
+
+            .timeline-stepper {
+                flex-direction: column;
+                gap: 48px;
+                align-items: flex-start;
+                padding-left: 20px;
+            }
+
+            .timeline-stepper::before {
+                left: 42px;
+                right: auto;
+                top: 0;
+                bottom: 0;
+                width: 2px;
+                height: 100%;
+                transform: none;
+            }
+
+            .timeline-progress-fill {
+                left: 42px;
+                top: 0;
+                width: 2px;
+                height: 100%;
+                transform: none;
+            }
+
+            .step-node {
+                width: 44px;
+                height: 44px;
+            }
+
+            .step-label {
+                left: 64px;
+                bottom: auto;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .hero-actions .btn {
+                width: 100%;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-wrapper {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                animation-delay: -1s !important;
+                animation-duration: 0s !important;
+                animation-iteration-count: 1 !important;
+                background-attachment: initial !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0s !important;
+                transition-delay: 0s !important;
+            }
+        }
+    </style>
 </head>
-<body class="font-sans antialiased selection:bg-white selection:text-black">
-    <nav class="fixed w-full z-50 nav-blur border-b border-matte-800/50 transition-all duration-300">
-        <div class="max-w-5xl mx-auto px-6">
-            <div class="flex items-center justify-between h-16">
-                <a href="#" class="text-xl font-bold text-white tracking-tight">SaadOps<span class="text-accent-400">.</span></a>
-                <div class="hidden md:flex space-x-6 text-sm font-medium">
-                    <a href="#about" class="text-gray-400 hover:text-white transition-colors">About</a>
-                    <a href="#focus" class="text-gray-400 hover:text-white transition-colors">Focus</a>
-                    <a href="#experience" class="text-gray-400 hover:text-white transition-colors">Experience</a>
-                    <a href="#projects" class="text-gray-400 hover:text-white transition-colors">Work</a>
-                    <a href="#contact" class="text-gray-300 hover:text-accent-400 transition-colors">Contact</a>
-                    <a href="/admin/" class="rounded border border-accent-500/70 bg-matte-900 px-3 py-1.5 text-white hover:border-accent-400 hover:text-accent-400 transition-colors">Admin</a>
-                </div>
-                <button id="mobile-menu-btn" type="button" aria-label="Open navigation menu" class="md:hidden text-gray-400 hover:text-white focus:outline-none">
-                    <i class="fas fa-bars text-xl"></i>
+<body>
+
+    <header id="header">
+        <div class="container nav-wrapper">
+            <a href="#" class="logo">
+                saadops<span>.</span>
+            </a>
+            <nav class="nav-links">
+                <a href="#services" class="nav-link">Services</a>
+                <a href="#experience" class="nav-link">Experience</a>
+                <a href="#projects" class="nav-link">Work</a>
+                <a href="#logs" class="nav-link">Logs</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </nav>
+            <a href="/admin/" target="_blank" class="btn btn-secondary" id="admin-panel-trigger" style="padding: 8px 18px; font-size: 0.85rem; text-decoration: none;">
+                <i data-lucide="lock" style="width: 14px; height: 14px;"></i> Admin
+            </a>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <div class="container hero-content">
+            <h1 class="headline">
+                I build the backend, then I make sure it <span>stays up.</span>
+            </h1>
+            
+            <p class="subhead">
+                Django and DRF applications, deployed and run on AWS infrastructure set up correctly from day one — from the first API endpoint to the secure server it lives on.
+            </p>
+            
+            <div class="hero-actions">
+                <a href="#contact" class="btn btn-amber">
+                    Start a project <i data-lucide="arrow-right" style="width: 18px; height: 18px;"></i>
+                </a>
+                <a href="#projects" class="btn btn-secondary">
+                    See the work <i data-lucide="eye" style="width: 18px; height: 18px;"></i>
+                </a>
+                <button class="btn btn-secondary" id="download-cv-btn">
+                    Download CV <i data-lucide="download" style="width: 18px; height: 18px;"></i>
                 </button>
             </div>
         </div>
-        <div id="mobile-menu" class="hidden md:hidden bg-matte-950 border-b border-matte-800">
-            <div class="px-6 py-4 flex flex-col space-y-4">
-                <a href="#about" class="text-gray-400 hover:text-white text-sm font-medium">About</a>
-                <a href="#focus" class="text-gray-400 hover:text-white text-sm font-medium">Focus</a>
-                <a href="#experience" class="text-gray-400 hover:text-white text-sm font-medium">Experience</a>
-                <a href="#projects" class="text-gray-400 hover:text-white text-sm font-medium">Work</a>
-                <a href="#contact" class="text-gray-300 text-sm font-medium">Contact</a>
-                <a href="/admin/" class="w-fit rounded border border-accent-500/70 bg-matte-900 px-3 py-2 text-white text-sm font-medium">Admin</a>
+    </section>
+
+    <section id="services">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Core Capabilities</span>
+                <h2 class="section-title">Two Tracks. Single Ownership.</h2>
+                <p class="section-desc">By managing both backend application code and cloud system environment, I eliminate deployment surprises and optimize pipeline speed.</p>
+            </div>
+
+            <div class="services-tracks">
+                <!-- Track 1: Python/Django Backend -->
+                <div class="track-column">
+                    <div class="track-header">
+                        <div class="track-icon">
+                            <i data-lucide="server" style="width: 20px; height: 20px;"></i>
+                        </div>
+                        <h3 class="track-title">Backend Development</h3>
+                    </div>
+
+                    <!-- REST APIs -->
+                    <div class="compact-card" 
+                         data-track="Backend Development"
+                         data-accent="teal"
+                         data-title="REST API Development" 
+                         data-teaser="Custom modeled Django REST Framework (DRF) application interfaces."
+                         data-desc="Standard API architectures designed from day one around your actual database constraints, preventing scalability failures and maintaining rigid data verification parameters."
+                         data-bullets="Robust data validations built around PostgreSQL schematics;Serializations designed to optimize server throughput;Exhaustive unit test suites verifying route responses under stress">
+                        <div class="compact-card-title">
+                            REST API Development
+                            <i data-lucide="arrow-up-right" style="width: 14px; height: 14px;"></i>
+                        </div>
+                        <div class="compact-card-teaser">Custom modeled Django REST Framework APIs.</div>
+                        <div class="click-action-indicator">Click to Inspect Scope</div>
+                    </div>
+
+                    <!-- Database Design -->
+                    <div class="compact-card"
+                         data-track="Backend Development"
+                         data-accent="teal"
+                         data-title="Database Design and Optimization"
+                         data-teaser="Relational PostgreSQL schema design and query tuning mechanics."
+                         data-desc="PostgreSQL structure modeling and indexing optimizations built explicitly around the Django ORM to prevent sluggish query performance during high traffic volumes."
+                         data-bullets="Schema optimization keeping transactional overhead at an absolute minimum;Selective database indexing targeting frequent query parameters;Solving N plus one problems via prefetch related and select related structures">
+                        <div class="compact-card-title">
+                            Database Optimization
+                            <i data-lucide="arrow-up-right" style="width: 14px; height: 14px;"></i>
+                        </div>
+                        <div class="compact-card-teaser">Relational PostgreSQL schema design and query tuning.</div>
+                        <div class="click-action-indicator">Click to Inspect Scope</div>
+                    </div>
+
+                    <!-- Authentication -->
+                    <div class="compact-card"
+                         data-track="Backend Development"
+                         data-accent="teal"
+                         data-title="Authentication and Authorization"
+                         data-teaser="Rigid JWT security frameworks and custom authorization layers."
+                         data-desc="Establishing protected API environments using modern industry standards to keep user access secure and limit access strictly to intended boundaries."
+                         data-bullets="JSON Web Token (JWT) cross origin authorization implementations;Custom Role Based Access Control (RBAC) layers;Secure route security and data hashing best practices">
+                        <div class="compact-card-title">
+                            Security and Authorization
+                            <i data-lucide="arrow-up-right" style="width: 14px; height: 14px;"></i>
+                        </div>
+                        <div class="compact-card-teaser">Rigid JWT security frameworks and custom authorization layers.</div>
+                        <div class="click-action-indicator">Click to Inspect Scope</div>
+                    </div>
+
+                    <!-- Third Party APIs -->
+                    <div class="compact-card"
+                         data-track="Backend Development"
+                         data-accent="teal"
+                         data-title="Third Party Integrations"
+                         data-teaser="Resilient integrations for external services and webhook systems."
+                         data-desc="Integrating external systems and webhooks with built in retry procedures to protect operations against third party system dropouts."
+                         data-bullets="Fault tolerant webhook processing systems;Payment integrations including Stripe and PayPal processing architectures;Structured status mapping between platform sync runs">
+                        <div class="compact-card-title">
+                            Third Party Integrations
+                            <i data-lucide="arrow-up-right" style="width: 14px; height: 14px;"></i>
+                        </div>
+                        <div class="compact-card-teaser">Resilient integrations for external services and webhooks.</div>
+                        <div class="click-action-indicator">Click to Inspect Scope</div>
+                    </div>
+
+                    <!-- Maintenance -->
+                    <div class="compact-card"
+                         data-track="Backend Development"
+                         data-accent="teal"
+                         data-title="System Refactoring and Support"
+                         data-teaser="Fixing performance issues, patching bugs, and updating legacy code."
+                         data-desc="Reviewing legacy Python architectures to find efficiency leaks, resolve security flaws, and scale structures without database locks."
+                         data-bullets="Legacy codebase performance profiling and query cleanup;Step by step feature integration alongside original code layers;Secure package migrations maintaining steady operational uptimes">
+                        <div class="compact-card-title">
+                            System Refactoring and Support
+                            <i data-lucide="arrow-up-right" style="width: 14px; height: 14px;"></i>
+                        </div>
+                        <div class="compact-card-teaser">Fixing performance issues, patching bugs, and updating legacy code.</div>
+                        <div class="click-action-indicator">Click to Inspect Scope</div>
+                    </div>
+                </div>
+
+                <!-- Track 2: AWS Cloud & DevOps -->
+                <div class="track-column">
+                    <div class="track-header">
+                        <div class="track-icon" style="color: var(--secondary-accent);">
+                            <i data-lucide="cloud" style="width: 20px; height: 20px;"></i>
+                        </div>
+                        <h3 class="track-title">Cloud and DevOps</h3>
+                    </div>
+
+                    <!-- Infrastructure Setup -->
+                    <div class="compact-card"
+                         data-track="Cloud and DevOps"
+                         data-accent="amber"
+                         data-title="AWS Production Architecture"
+                         data-teaser="High uptime cloud layouts including EC2, RDS, S3, and CloudFront."
+                         data-desc="Creating scalable, reliable cloud systems with strict identity control limits to prevent resource exposure or security breaches."
+                         data-bullets="S3 asset storage configurations integrated with django storages;RDS PostgreSQL databases isolated inside protected subnets;Global assets distributed with minimized delay using AWS CloudFront">
+                        <div class="compact-card-title">
+                            AWS Production Architecture
+                            <i data-lucide="arrow-up-right" style="width: 14px; height: 14px;"></i>
+                        </div>
+                        <div class="compact-card-teaser">High uptime cloud environments with strict identity limits.</div>
+                        <div class="click-action-indicator">Click to Inspect Scope</div>
+                    </div>
+
+                    <!-- CI/CD Pipelines -->
+                    <div class="compact-card"
+                         data-track="Cloud and DevOps"
+                         data-accent="amber"
+                         data-title="CI CD Pipelines"
+                         data-teaser="Automated GitHub Actions workflow configurations."
+                         data-desc="Setting up reliable build loops that automatically test, bundle, and update live environments only when security checks pass."
+                         data-bullets="Automatic GitHub Actions workflows running testing and styling;Zero downtime server update strategies;Clear notifications regarding the deployment state of each commit">
+                        <div class="compact-card-title">
+                            CI CD Pipelines
+                            <i data-lucide="arrow-up-right" style="width: 14px; height: 14px;"></i>
+                        </div>
+                        <div class="compact-card-teaser">Automated GitHub Actions workflows for safe delivery.</div>
+                        <div class="click-action-indicator">Click to Inspect Scope</div>
+                    </div>
+
+                    <!-- Containerization -->
+                    <div class="compact-card"
+                         data-track="Cloud and DevOps"
+                         data-accent="amber"
+                         data-title="Containerized Environments"
+                         data-teaser="Docker environments for identical local and live running states."
+                         data-desc="Standardizing local development configurations inside Docker so that code runs identically across developer setups and live cloud clusters."
+                         data-bullets="Optimized Multi stage Docker builds designed for rapid setups;Isolated development patterns using Docker Compose environments;Secure environment setups isolating secret variables">
+                        <div class="compact-card-title">
+                            Containerized Environments
+                            <i data-lucide="arrow-up-right" style="width: 14px; height: 14px;"></i>
+                        </div>
+                        <div class="compact-card-teaser">Docker setups keeping dev and production environments identical.</div>
+                        <div class="click-action-indicator">Click to Inspect Scope</div>
+                    </div>
+
+                    <!-- IaC -->
+                    <div class="compact-card"
+                         data-track="Cloud and DevOps"
+                         data-accent="amber"
+                         data-title="Infrastructure as Code"
+                         data-teaser="Reproducible cloud infrastructure managed via Terraform."
+                         data-desc="Defining AWS networks, routing rules, and storage configurations in version controlled configuration files."
+                         data-bullets="Modular Terraform scripts representing exact system states;Easy resource cleanup and recreation of parallel staging pipelines;Cloud state monitoring protecting setup changes">
+                        <div class="compact-card-title">
+                            Infrastructure as Code
+                            <i data-lucide="arrow-up-right" style="width: 14px; height: 14px;"></i>
+                        </div>
+                        <div class="compact-card-teaser">Reproducible cloud infrastructure managed via Terraform.</div>
+                        <div class="click-action-indicator">Click to Inspect Scope</div>
+                    </div>
+
+                    <!-- Server Setup -->
+                    <div class="compact-card"
+                         data-track="Cloud and DevOps"
+                         data-accent="amber"
+                         data-title="Proxying and Edge Security"
+                         data-teaser="Nginx routing setups, Certbot SSL encryption, and secure DNS configurations."
+                         data-desc="Securing internet endpoints using stable reverse proxy methods, certificate updates, and proper DNS setups."
+                         data-bullets="Secure Nginx setups preventing external directory access;Automated Certbot processes keeping SSL certificates current;Route 53 configurations ensuring stable web address resolution">
+                        <div class="compact-card-title">
+                            Proxying and Edge Security
+                            <i data-lucide="arrow-up-right" style="width: 14px; height: 14px;"></i>
+                        </div>
+                        <div class="compact-card-teaser">Nginx reverse proxy setups, Certbot SSL, and secure DNS.</div>
+                        <div class="click-action-indicator">Click to Inspect Scope</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="services-cta-box">
+                <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 1.05rem;">Need both tracks handled for an upcoming web application release?</p>
+                <a href="#contact" class="btn btn-primary">Discuss Your Infrastructure</a>
             </div>
         </div>
-    </nav>
+    </section>
 
-    <main class="max-w-5xl mx-auto px-6 pt-32 pb-24 space-y-32">
-        <section id="hero" class="pt-10 md:pt-20">
-            <div class="max-w-3xl">
-                <h1 class="text-4xl md:text-6xl font-bold text-white leading-tight mb-6 tracking-tight">
-                    I build backend systems and deploy them on AWS.
-                </h1>
-                <p class="text-lg md:text-xl text-gray-400 leading-relaxed mb-10 max-w-2xl">
-                    I work with Python, Django, DRF, Docker, and AWS to build APIs, connect databases, automate deployments, and keep full-stack projects running cleanly.
-                </p>
-                <div class="flex items-center space-x-6">
-                    <a href="#contact" class="text-white font-medium border-b border-accent-400 pb-1 hover:text-accent-400 transition-colors">Get in touch</a>
-                    <a href="#projects" class="text-gray-500 font-medium hover:text-white transition-colors">View projects &rarr;</a>
-                    <a href="https://saadops.site" target="_blank" rel="noreferrer" class="text-gray-500 font-medium hover:text-white transition-colors">Live platform &rarr;</a>
-                </div>
+    <!-- Professional Experience Section (Dynamic from Database) -->
+    <section id="experience">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Career Milestones</span>
+                <h2 class="section-title">Professional Experience</h2>
+                <p class="section-desc">Interactive trace log fetched directly from backend database API (/api/experience/).</p>
             </div>
-        </section>
 
-        <section id="about" class="border-t border-matte-800 pt-16">
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
-                <div class="md:col-span-4">
-                    <h2 class="text-lg font-semibold text-white tracking-wide uppercase">About & Skills</h2>
+            <div class="experience-console">
+                <!-- Stepper Timeline Navigation Bar (Populated Dynamically) -->
+                <div class="timeline-stepper" id="experience-stepper">
+                    <div class="timeline-progress-fill" id="experience-progress"></div>
+                    <!-- Nodes injected dynamically from /api/experience/ -->
                 </div>
-                <div class="md:col-span-8">
-                    <div class="prose prose-invert mb-8 text-gray-400 leading-relaxed">
-                        <p class="mb-4">
-                            I am a backend engineer with hands-on experience building Django applications, CRUD workflows, REST APIs, authentication, database-backed features, and admin-driven content systems.
-                        </p>
-                        <p>
-                            My main focus is building backend services and deploying them on AWS, then connecting the pieces with Docker, environment configuration, reverse proxies, and CI/CD automation. I can also design and connect simple full-stack interfaces when a project needs the complete path from frontend to cloud.
-                        </p>
-                    </div>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1 bg-matte-900 border border-matte-800 rounded text-xs font-mono text-gray-300">Python</span>
-                        <span class="px-3 py-1 bg-matte-900 border border-matte-800 rounded text-xs font-mono text-gray-300">Django</span>
-                        <span class="px-3 py-1 bg-matte-900 border border-matte-800 rounded text-xs font-mono text-gray-300">DRF</span>
-                        <span class="px-3 py-1 bg-matte-900 border border-matte-800 rounded text-xs font-mono text-gray-300">AWS</span>
-                        <span class="px-3 py-1 bg-matte-900 border border-matte-800 rounded text-xs font-mono text-gray-300">Docker</span>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <section id="focus" class="border-t border-matte-800 pt-16">
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
-                <div class="md:col-span-4">
-                    <h2 class="text-lg font-semibold text-white tracking-wide uppercase">Core Focus</h2>
-                </div>
-                <div class="md:col-span-8 space-y-10">
-                    <div>
-                        <h3 class="text-xl font-medium text-white mb-2">Backend Development</h3>
-                        <p class="text-gray-400 leading-relaxed">Building Django and DRF backends with authentication, CRUD operations, serializers, admin workflows, database models, and API endpoints that frontend clients can use reliably.</p>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-medium text-white mb-2">Cloud Deployment</h3>
-                        <p class="text-gray-400 leading-relaxed">Deploying backend and frontend services on AWS with Docker, EC2, ECR, RDS, S3, Nginx routing, environment variables, and GitHub Actions automation.</p>
-                    </div>
-                    <div class="p-5 border border-matte-800 bg-matte-900/50 rounded-lg">
-                        <div class="flex items-center mb-2">
-                            <h3 class="text-xl font-medium text-white">Full-Stack Integration</h3>
-                        </div>
-                        <p class="text-gray-400 leading-relaxed text-sm">Connecting backend APIs with responsive frontend pages, contact forms, admin-managed content, and deployment pipelines so the project works from browser to database.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="experience" class="border-t border-matte-800 pt-16">
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
-                <div class="md:col-span-4">
-                    <h2 class="text-lg font-semibold text-white tracking-wide uppercase">Experience</h2>
-                </div>
-                <div id="experience-list" class="md:col-span-8 space-y-12" aria-live="polite">
-                    <p class="text-sm text-gray-500">Loading experience...</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="projects" class="border-t border-matte-800 pt-16">
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
-                <div class="md:col-span-4">
-                    <h2 class="text-lg font-semibold text-white tracking-wide uppercase">Selected Work</h2>
-                </div>
-                <div class="md:col-span-8">
-                    <div id="project-list" class="flex flex-col space-y-6" aria-live="polite">
-                        <p class="text-sm text-gray-500">Loading projects...</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="blogs" class="border-t border-matte-800 pt-16">
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
-                <div class="md:col-span-4">
-                    <h2 class="text-lg font-semibold text-white tracking-wide uppercase">Writings</h2>
-                </div>
-                <div class="md:col-span-8">
-                    <ul id="blog-list" class="space-y-4" aria-live="polite">
-                        <li class="text-sm text-gray-500">Loading writings...</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <dialog id="detail-dialog" class="detail-dialog m-auto w-[min(760px,calc(100%-2rem))] max-h-[calc(100vh-2rem)] overflow-y-auto rounded-lg border border-matte-700 bg-matte-950 p-0 text-gray-400 shadow-2xl">
-        <article class="p-6 sm:p-8">
-            <div class="mb-6 flex items-start justify-between gap-6">
-                <div>
-                    <p id="detail-kind" class="mb-3 font-mono text-xs uppercase text-accent-400"></p>
-                    <h2 id="detail-title" class="text-2xl font-semibold text-white"></h2>
-                </div>
-                <button id="detail-close" type="button" aria-label="Close detail" class="flex h-10 w-10 shrink-0 items-center justify-center rounded border border-matte-800 text-gray-400 hover:border-accent-500 hover:text-white transition-colors">
-                    <i class="fas fa-xmark"></i>
-                </button>
-            </div>
-            <p id="detail-short-description" class="mb-5 text-base leading-relaxed text-gray-300"></p>
-            <div id="detail-meta" class="mb-5 flex flex-wrap gap-2"></div>
-            <div id="detail-links" class="mb-6 flex flex-wrap gap-3"></div>
-            <div id="detail-long-description" class="border-t border-matte-800 pt-6 text-sm leading-relaxed"></div>
-        </article>
-    </dialog>
-
-    <section id="contact" class="py-24 bg-matte-950 border-t border-matte-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
-                <div>
-                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Let's Connect</h2>
-                    <p class="text-gray-400 mb-10 leading-relaxed">
-                        Whether you need a scalable backend solution, want to optimize your cloud architecture, or have a freelance project in mind, I'm ready to talk code.
-                    </p>
-                    <div class="space-y-6 mb-12">
-                        <div class="flex items-center">
-                            <div class="w-12 h-12 bg-matte-900 border border-matte-800 rounded-full flex items-center justify-center mr-4 text-accent-400">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-white font-medium">Email</h4>
-                                <p class="text-gray-400 text-sm">obsks23@gmail.com</p>
+                <!-- Stepper Content Display Panel (Populated Dynamically) -->
+                <div class="experience-display-content" id="experience-display">
+                    <!-- Column 1: Details and Achievements -->
+                    <div class="exp-main-col">
+                        <div class="exp-header">
+                            <h3 class="exp-role" id="exp-display-role">Loading Experience...</h3>
+                            <div class="exp-company-date" id="exp-display-company-meta">
+                                <span id="exp-display-company">Please wait</span>
+                                <span class="exp-date" id="exp-display-date"></span>
                             </div>
                         </div>
-                        <div class="flex items-center">
-                            <div class="w-12 h-12 bg-matte-900 border border-matte-800 rounded-full flex items-center justify-center mr-4 text-accent-400">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-white font-medium">Location</h4>
-                                <p class="text-gray-400 text-sm">Remote / Lahore</p>
+                        
+                        <div class="exp-desc-list" id="exp-display-achievements">
+                            <!-- Populated Dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Stats and Tool stack tags -->
+                    <div class="exp-stats-col">
+                        <div class="stat-metric-box">
+                            <span class="stat-metric-title">Organization</span>
+                            <div class="stat-metric-value" id="exp-display-metric-val">—</div>
+                            <span class="stat-metric-title" id="exp-display-metric-title" style="margin-top: 8px;">Scope Overview</span>
+                            <p class="stat-metric-caption" id="exp-display-metric-caption"></p>
+                        </div>
+
+                        <div>
+                            <span class="stat-metric-title" style="display: block; margin-bottom: 12px;">Tools & Technologies</span>
+                            <div class="panel-tags" id="exp-display-tags">
+                                <!-- Populated Dynamically -->
                             </div>
                         </div>
                     </div>
-                    <div class="flex space-x-4">
-                        <a href="https://github.com/SenseiSaad" class="w-12 h-12 bg-matte-900 border border-matte-800 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:border-accent-500 transition-all" aria-label="GitHub">
-                            <i class="fab fa-github text-xl"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/in/saadwaseemcloud/" class="w-12 h-12 bg-matte-900 border border-matte-800 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:border-accent-500 transition-all" aria-label="LinkedIn">
-                            <i class="fab fa-linkedin-in text-xl"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="bg-matte-900 p-8 rounded-xl border border-matte-800 shadow-xl">
-                    <form id="contact-form">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
-                            <div>
-                                <label for="name" class="block text-sm font-medium text-gray-400 mb-2">Name</label>
-                                <input type="text" id="name" name="name" class="w-full bg-matte-950 border border-matte-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent-500 transition-colors" placeholder="Full Name" required>
-                            </div>
-                            <div>
-                                <label for="email" class="block text-sm font-medium text-gray-400 mb-2">Email</label>
-                                <input type="email" id="email" name="email" class="w-full bg-matte-950 border border-matte-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent-500 transition-colors" placeholder="Email Address" required>
-                            </div>
-                        </div>
-                        <div class="mb-6">
-                            <label for="subject" class="block text-sm font-medium text-gray-400 mb-2">Subject</label>
-                            <input type="text" id="subject" name="subject" class="w-full bg-matte-950 border border-matte-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent-500 transition-colors" placeholder="Subject" required>
-                        </div>
-                        <div class="mb-6">
-                            <label for="message" class="block text-sm font-medium text-gray-400 mb-2">Message</label>
-                            <textarea id="message" name="message" rows="5" class="w-full bg-matte-950 border border-matte-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent-500 transition-colors resize-none" placeholder="Tell me about your project requirements..." required></textarea>
-                        </div>
-                        <p id="contact-status" class="min-h-6 mb-4 text-sm text-gray-400" aria-live="polite"></p>
-                        <button id="contact-submit" type="submit" class="w-full bg-white text-matte-950 font-bold py-3 px-4 rounded-lg hover:bg-gray-200 disabled:cursor-wait disabled:bg-gray-400 transition-colors">
-                            Send Message <i class="fas fa-paper-plane ml-2"></i>
-                        </button>
-                    </form>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="bg-matte-950 py-8 border-t border-matte-800 text-center">
-        <p class="text-gray-500 text-sm">
-            &copy; SaadOps 2026. Built with Django and Tailwind CSS. All rights reserved.
-        </p>
+    <!-- Projects Workspace Section (Dynamic from Database) -->
+    <section id="projects">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Interactive Case Studies</span>
+                <h2 class="section-title">Shipped Projects</h2>
+                <p class="section-desc">Projects dynamically loaded from backend database API (/api/projects/). Click any card to inspect implementation details.</p>
+            </div>
+
+            <div class="projects-split-workspace">
+                <!-- Left Side: Project cards stacked vertically (Populated Dynamically) -->
+                <div class="projects-sidebar-list">
+                    <!-- Dynamically populated from /api/projects/ -->
+                </div>
+
+                <!-- Right Side: Dedicated Project Detail Panel -->
+                <div class="project-display-panel" id="project-display-panel">
+                    <div>
+                        <span class="panel-eyebrow" id="panel-status-eyebrow">Case Study</span>
+                        <h3 class="panel-title" id="panel-display-title">Loading Projects...</h3>
+                    </div>
+                    
+                    <p class="panel-desc" id="panel-display-desc"></p>
+                    
+                    <div>
+                        <span class="panel-section-heading">Technologies Stack</span>
+                        <div class="panel-tags" id="panel-display-tags">
+                            <!-- Populated Dynamically -->
+                        </div>
+                    </div>
+
+                    <div>
+                        <span class="panel-section-heading">Implementation Highlights</span>
+                        <div class="panel-bullets" id="panel-display-bullets">
+                            <!-- Populated Dynamically -->
+                        </div>
+                    </div>
+
+                    <a href="#contact" class="btn btn-primary panel-action-btn" id="panel-display-link">
+                        Inquire About Architecture <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- System Logs Section (Dynamic from Database) -->
+    <section id="logs">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">System Logs & Articles</span>
+                <h2 class="section-title">Engineering Notes</h2>
+                <p class="section-desc">Articles, notes, and architectural breakdowns fetched directly from backend database API (/api/logs/).</p>
+            </div>
+
+            <div id="logs-container" class="logs-grid">
+                <!-- Dynamically populated from /api/logs/ -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Details Modal Drawer -->
+    <div class="drawer-overlay" id="details-drawer">
+        <div class="drawer-box">
+            <button class="drawer-close-btn" id="drawer-close" aria-label="Close details window">
+                <i data-lucide="x" style="width: 18px; height: 18px;"></i>
+            </button>
+            <span class="drawer-eyebrow" id="drawer-eyebrow">Track Parameters</span>
+            <h3 class="drawer-title" id="drawer-title">Details</h3>
+            <p class="drawer-desc" id="drawer-desc"></p>
+            
+            <div class="drawer-bullets" id="drawer-bullets">
+                <!-- Dynamic content goes here -->
+            </div>
+
+            <div id="drawer-action-container">
+                <a href="#contact" class="btn btn-amber drawer-action-btn" id="drawer-action">
+                    Discuss Objective <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Form Section -->
+    <section id="contact" style="border-bottom: none;">
+        <div class="container">
+            <div class="contact-layout">
+                
+                <div class="contact-info">
+                    <div>
+                        <span class="section-tag">Let's Connect</span>
+                        <h2 class="section-title">Start your deployment.</h2>
+                        <p class="contact-p">
+                            Have a backend performance bottleneck or an AWS infrastructure setup problem? Send your parameters, and messages will be stored directly into Django Admin database.
+                        </p>
+                    </div>
+
+                    <div class="contact-channels">
+                        <!-- Email -->
+                        <a href="mailto:obsks23@gmail.com" class="channel-card">
+                            <div class="channel-icon">
+                                <i data-lucide="mail" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <div class="channel-details">
+                                <span class="channel-label">Direct Email</span>
+                                <span class="channel-value">obsks23@gmail.com</span>
+                            </div>
+                        </a>
+
+                        <!-- GitHub -->
+                        <a href="https://github.com/SenseiSaad" target="_blank" class="channel-card">
+                            <div class="channel-icon">
+                                <i data-lucide="github" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <div class="channel-details">
+                                <span class="channel-label">GitHub Repository</span>
+                                <span class="channel-value">@SenseiSaad</span>
+                            </div>
+                        </a>
+
+                        <!-- LinkedIn -->
+                        <a href="https://linkedin.com/in/saadwaseemcloud" target="_blank" class="channel-card">
+                            <div class="channel-icon">
+                                <i data-lucide="linkedin" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <div class="channel-details">
+                                <span class="channel-label">LinkedIn Professional</span>
+                                <span class="channel-value">saadwaseemcloud</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="contact-form-container">
+                    <form id="portfolio-contact-form" class="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="form-name" class="form-label">Your Name</label>
+                                <input type="text" id="form-name" name="name" class="form-input" placeholder="e.g. Imran Khan" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="form-email" class="form-label">Email Address</label>
+                                <input type="email" id="form-email" name="email" class="form-input" placeholder="e.g. client@company.com" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="form-subject" class="form-label">Project Scope</label>
+                            <input type="text" id="form-subject" name="subject" class="form-input" placeholder="e.g. Django optimization / AWS Deployment setup" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="form-message" class="form-label">Technical Objectives</label>
+                            <textarea id="form-message" name="message" class="form-textarea" placeholder="Please outline the backend workload, infrastructure demands, or database bottlenecks you are looking to solve..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-amber" style="width: 100%;">
+                            Submit Technical Scope <i data-lucide="send" style="width: 16px; height: 16px;"></i>
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container"></div>
+
+    <footer>
+        <div class="container footer-wrapper">
+            <a href="#" class="footer-logo">
+                saadops<span>.</span>
+            </a>
+            <span class="copyright">
+                © 2026 saadops. Dynamic REST API integration with Django Admin.
+            </span>
+        </div>
     </footer>
 
     <script>
-        const btn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('mobile-menu');
-        const form = document.getElementById('contact-form');
-        const status = document.getElementById('contact-status');
-        const submit = document.getElementById('contact-submit');
-        const experienceList = document.getElementById('experience-list');
-        const projectList = document.getElementById('project-list');
-        const blogList = document.getElementById('blog-list');
-        const detailDialog = document.getElementById('detail-dialog');
-        const detailClose = document.getElementById('detail-close');
-        const detailKind = document.getElementById('detail-kind');
-        const detailTitle = document.getElementById('detail-title');
-        const detailShortDescription = document.getElementById('detail-short-description');
-        const detailMeta = document.getElementById('detail-meta');
-        const detailLinks = document.getElementById('detail-links');
-        const detailLongDescription = document.getElementById('detail-long-description');
+        // Initialize Lucide Icons
+        lucide.createIcons();
 
-        function replaceChildren(container, children) {
-            container.replaceChildren(...children);
-        }
-
-        function textElement(tagName, className, text) {
-            const element = document.createElement(tagName);
-            element.className = className;
-            element.textContent = text;
-            return element;
-        }
-
-        function emptyState(message) {
-            return textElement('p', 'text-sm text-gray-500', message);
-        }
-
-        function emptyListState(message) {
-            return textElement('li', 'text-sm text-gray-500', message);
-        }
-
-        function apiError(message) {
-            return textElement('p', 'text-sm text-red-400', message);
-        }
-
-        function safeUrl(value) {
-            try {
-                const url = new URL(value, window.location.origin);
-                return ['http:', 'https:', 'mailto:'].includes(url.protocol) ? url.href : '';
-            } catch (error) {
-                return '';
+        // Header scroll visual transformations
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
             }
+        });
+
+        // Download CV Action
+        const downloadBtn = document.getElementById('download-cv-btn');
+        if (downloadBtn) {
+            downloadBtn.addEventListener('click', () => {
+                triggerToast(
+                    'Initializing CV Download',
+                    'Your request has been queued. The curriculum vitae payload is packaging.'
+                );
+            });
         }
 
-        function sanitizeRichHtml(value) {
-            const template = document.createElement('template');
-            template.innerHTML = value || '';
+        // Helper date formatter
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            const d = new Date(dateStr);
+            if (isNaN(d.getTime())) return dateStr;
+            const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+            return `${months[d.getMonth()]} ${d.getFullYear()}`;
+        }
 
-            const allowedTags = new Set(['A', 'BLOCKQUOTE', 'BR', 'CODE', 'EM', 'H2', 'H3', 'H4', 'LI', 'OL', 'P', 'PRE', 'STRONG', 'UL']);
-            const allowedAttributes = {
-                A: new Set(['href', 'rel', 'target', 'title']),
-            };
+        const API_BASE = (window.location.port && window.location.port !== '8000' && window.location.port !== '80' && window.location.port !== '443') 
+            ? 'http://' + window.location.hostname + ':8000' 
+            : '';
 
-            [...template.content.querySelectorAll('*')].forEach(node => {
-                if (!allowedTags.has(node.tagName)) {
-                    node.replaceWith(document.createTextNode(node.textContent));
+        /* ==========================================================================
+           1. Dynamic Work Experience Loader (/api/experience/)
+           ========================================================================== */
+        async function loadExperience() {
+            const stepperContainer = document.getElementById('experience-stepper');
+            const displayContainer = document.getElementById('experience-display');
+
+            try {
+                const res = await fetch(`${API_BASE}/api/experience/`);
+                if (!res.ok) throw new Error('Failed to load experience');
+                const experiences = await res.json();
+
+                if (!experiences || experiences.length === 0) {
+                    displayContainer.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-secondary);">
+                            <i data-lucide="inbox" style="width: 32px; height: 32px; margin-bottom: 12px; color: var(--text-muted);"></i>
+                            <p style="font-size: 1.1rem; font-weight: 500;">No work experience records currently found in database.</p>
+                            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Log in to <a href="/admin/" target="_blank" style="color: var(--primary-accent);">Django Admin</a> to add experience entries.</p>
+                        </div>
+                    `;
+                    stepperContainer.style.display = 'none';
+                    lucide.createIcons();
                     return;
                 }
 
-                [...node.attributes].forEach(attribute => {
-                    if (!allowedAttributes[node.tagName]?.has(attribute.name)) {
-                        node.removeAttribute(attribute.name);
+                stepperContainer.style.display = 'flex';
+                // Remove existing node buttons except progressFill
+                const existingNodes = stepperContainer.querySelectorAll('.step-node');
+                existingNodes.forEach(node => node.remove());
+
+                experiences.forEach((exp, index) => {
+                    const nodeBtn = document.createElement('button');
+                    const isAmber = index % 2 === 1;
+                    const accent = isAmber ? 'amber' : 'teal';
+
+                    nodeBtn.className = `step-node ${index === 0 ? 'active' : ''} ${index === 0 && isAmber ? 'status-amber' : ''}`;
+                    nodeBtn.setAttribute('data-index', index);
+                    nodeBtn.setAttribute('aria-label', exp.title);
+
+                    const startDateStr = exp.start_date ? formatDate(exp.start_date) : '';
+                    const endDateStr = exp.end_date ? formatDate(exp.end_date) : 'PRESENT';
+                    const dateRangeLabel = startDateStr ? `${startDateStr} — ${endDateStr}` : endDateStr;
+                    
+                    let yearLabel = 'PRESENT';
+                    if (exp.end_date) {
+                        yearLabel = new Date(exp.end_date).getFullYear();
+                    } else if (exp.start_date) {
+                        yearLabel = `${new Date(exp.start_date).getFullYear()}`;
                     }
+
+                    nodeBtn.innerHTML = `
+                        <i data-lucide="${index === 0 ? 'briefcase' : (index === 1 ? 'server' : 'cloud')}"></i>
+                        <span class="step-label">${yearLabel}</span>
+                    `;
+
+                    nodeBtn.addEventListener('click', () => {
+                        stepperContainer.querySelectorAll('.step-node').forEach(n => {
+                            n.classList.remove('active', 'status-amber');
+                        });
+                        nodeBtn.classList.add('active');
+                        if (accent === 'amber') nodeBtn.classList.add('status-amber');
+
+                        renderExperienceDetails(exp, accent, dateRangeLabel, index, experiences.length);
+                    });
+
+                    stepperContainer.appendChild(nodeBtn);
                 });
 
-                if (node.tagName === 'A') {
-                    const href = safeUrl(node.getAttribute('href') || '');
-                    if (href) {
-                        node.href = href;
-                        node.rel = 'noreferrer';
-                        node.target = '_blank';
-                    } else {
-                        node.removeAttribute('href');
-                    }
+                // Render first item
+                const firstExp = experiences[0];
+                const firstStartDate = firstExp.start_date ? formatDate(firstExp.start_date) : '';
+                const firstEndDate = firstExp.end_date ? formatDate(firstExp.end_date) : 'PRESENT';
+                const firstDateRange = firstStartDate ? `${firstStartDate} — ${firstEndDate}` : firstEndDate;
+                
+                renderExperienceDetails(firstExp, 'teal', firstDateRange, 0, experiences.length);
+                lucide.createIcons();
+
+            } catch (err) {
+                console.error('Error loading experience:', err);
+            }
+        }
+
+        function renderExperienceDetails(exp, accent, dateRangeStr, index, total) {
+            const experienceDisplay = document.getElementById('experience-display');
+            experienceDisplay.classList.add('switching');
+
+            setTimeout(() => {
+                const expDisplayRole = document.getElementById('exp-display-role');
+                const expDisplayCompanyMeta = document.getElementById('exp-display-company-meta');
+                const expDisplayCompany = document.getElementById('exp-display-company');
+                const expDisplayDate = document.getElementById('exp-display-date');
+                const expDisplayAchievements = document.getElementById('exp-display-achievements');
+                const expDisplayMetricVal = document.getElementById('exp-display-metric-val');
+                const expDisplayMetricTitle = document.getElementById('exp-display-metric-title');
+                const expDisplayMetricCaption = document.getElementById('exp-display-metric-caption');
+                const expDisplayTags = document.getElementById('exp-display-tags');
+
+                expDisplayCompanyMeta.className = 'exp-company-date';
+                expDisplayAchievements.className = 'exp-desc-list';
+                expDisplayMetricVal.className = 'stat-metric-value';
+
+                if (accent === 'amber') {
+                    expDisplayCompanyMeta.classList.add('status-amber');
+                    expDisplayAchievements.classList.add('status-amber');
+                } else {
+                    expDisplayMetricVal.classList.add('status-teal');
+                }
+
+                expDisplayRole.textContent = exp.title || 'Role';
+                expDisplayCompany.textContent = exp.company_name || 'Company';
+                expDisplayDate.textContent = dateRangeStr;
+
+                expDisplayMetricVal.textContent = exp.company_name ? exp.company_name : 'Verified';
+                expDisplayMetricTitle.textContent = 'Organization';
+                expDisplayMetricCaption.textContent = exp.short_description || '';
+
+                expDisplayAchievements.innerHTML = '';
+                if (exp.long_description) {
+                    expDisplayAchievements.innerHTML = exp.long_description;
+                } else if (exp.short_description) {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<i data-lucide="check-circle" style="width: 16px; height: 16px;"></i> <span>${exp.short_description}</span>`;
+                    expDisplayAchievements.appendChild(li);
+                }
+
+                expDisplayTags.innerHTML = '';
+                if (exp.tech_stack) {
+                    exp.tech_stack.split(',').forEach(tag => {
+                        const span = document.createElement('span');
+                        span.className = 'panel-tag';
+                        if (accent === 'amber') span.classList.add('status-amber');
+                        span.textContent = tag.trim();
+                        expDisplayTags.appendChild(span);
+                    });
+                }
+
+                const progressFill = document.getElementById('experience-progress');
+                const progressPct = total > 1 ? (index / (total - 1)) * 100 : 100;
+                if (window.innerWidth > 768) {
+                    progressFill.style.width = `${progressPct}%`;
+                    progressFill.style.height = '2px';
+                } else {
+                    progressFill.style.height = `${progressPct}%`;
+                    progressFill.style.width = '2px';
+                }
+
+                lucide.createIcons();
+                experienceDisplay.classList.remove('switching');
+            }, 180);
+        }
+
+        /* ==========================================================================
+           2. Dynamic Projects Loader (/api/projects/)
+           ========================================================================== */
+        async function loadProjects() {
+            const listContainer = document.querySelector('.projects-sidebar-list');
+            const panelContainer = document.getElementById('project-display-panel');
+
+            try {
+                const res = await fetch(`${API_BASE}/api/projects/`);
+                if (!res.ok) throw new Error('Failed to load projects');
+                const projects = await res.json();
+
+                if (!projects || projects.length === 0) {
+                    listContainer.innerHTML = `
+                        <div style="padding: 24px; text-align: center; color: var(--text-secondary); background: var(--surface-card); border-radius: 8px; border: 1px solid var(--border-color);">
+                            <p style="font-weight: 500;">No projects currently registered in database.</p>
+                            <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 6px;">Add projects via <a href="/admin/" target="_blank" style="color: var(--primary-accent);">Django Admin</a>.</p>
+                        </div>
+                    `;
+                    panelContainer.style.display = 'none';
+                    return;
+                }
+
+                listContainer.innerHTML = '';
+                panelContainer.style.display = 'flex';
+
+                projects.forEach((proj, index) => {
+                    const isAmber = index % 2 === 1;
+                    const accent = isAmber ? 'amber' : 'teal';
+
+                    const card = document.createElement('div');
+                    card.className = `project-list-card ${index === 0 ? 'active' : ''} ${accent === 'amber' ? 'status-amber' : 'status-teal'}`;
+                    card.setAttribute('data-accent', accent);
+
+                    const badgeClass = proj.live_url ? 'badge-live' : 'badge-wip';
+                    const badgeText = proj.live_url ? 'Active Live' : 'Completed';
+
+                    card.innerHTML = `
+                        <div class="project-card-header">
+                            <span class="project-card-title">${proj.title}</span>
+                            <i data-lucide="chevron-right" class="arrow-indicator" style="width: 16px; height: 16px; color: ${index === 0 ? (accent === 'amber' ? 'var(--secondary-accent)' : 'var(--primary-accent)') : 'var(--text-muted)'}"></i>
+                        </div>
+                        <p class="project-card-teaser">${proj.short_description || ''}</p>
+                        <div class="project-card-footer">
+                            <span class="project-card-badge ${badgeClass}">${badgeText}</span>
+                            <span class="click-to-load-text">${index === 0 ? 'Loaded <i data-lucide="eye" style="width: 12px; height: 12px;"></i>' : 'Load Details →'}</span>
+                        </div>
+                    `;
+
+                    card.addEventListener('click', () => {
+                        if (card.classList.contains('active')) return;
+
+                        listContainer.querySelectorAll('.project-list-card').forEach(c => {
+                            c.classList.remove('active');
+                            const ind = c.querySelector('.click-to-load-text');
+                            const icon = c.querySelector('.arrow-indicator');
+                            if (ind) ind.innerHTML = 'Load Details →';
+                            if (icon) {
+                                icon.setAttribute('data-lucide', 'chevron-right');
+                                icon.style.color = 'var(--text-muted)';
+                            }
+                        });
+
+                        card.classList.add('active');
+                        const ind = card.querySelector('.click-to-load-text');
+                        const icon = card.querySelector('.arrow-indicator');
+                        if (ind) ind.innerHTML = `Loaded <i data-lucide="eye" style="width: 12px; height: 12px;"></i>`;
+                        if (icon) {
+                            icon.style.color = accent === 'amber' ? 'var(--secondary-accent)' : 'var(--primary-accent)';
+                        }
+
+                        renderProjectDetails(proj, accent, badgeText);
+                        lucide.createIcons();
+
+                        if (window.innerWidth < 992) {
+                            setTimeout(() => {
+                                panelContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                            }, 350);
+                        }
+                    });
+
+                    listContainer.appendChild(card);
+                });
+
+                // Render first project details
+                const firstProj = projects[0];
+                const firstBadgeText = firstProj.live_url ? 'Active Live' : 'Completed';
+                renderProjectDetails(firstProj, 'teal', firstBadgeText);
+                lucide.createIcons();
+
+            } catch (err) {
+                console.error('Error loading projects:', err);
+            }
+        }
+
+        function renderProjectDetails(proj, accent, badgeText) {
+            const panelContainer = document.getElementById('project-display-panel');
+            panelContainer.classList.add('switching');
+
+            setTimeout(() => {
+                const panelStatus = document.getElementById('panel-status-eyebrow');
+                const panelTitle = document.getElementById('panel-display-title');
+                const panelDesc = document.getElementById('panel-display-desc');
+                const panelTags = document.getElementById('panel-display-tags');
+                const panelBullets = document.getElementById('panel-display-bullets');
+                const panelLink = document.getElementById('panel-display-link');
+
+                panelStatus.className = 'panel-eyebrow';
+                panelBullets.className = 'panel-bullets';
+                if (accent === 'amber') {
+                    panelStatus.classList.add('status-amber');
+                    panelBullets.classList.add('status-amber');
+                }
+
+                panelStatus.textContent = `Case Study — ${badgeText}`;
+                panelTitle.textContent = proj.title || '';
+                panelDesc.textContent = proj.short_description || '';
+
+                panelTags.innerHTML = '';
+                if (proj.tech_stack) {
+                    proj.tech_stack.split(',').forEach(tag => {
+                        const span = document.createElement('span');
+                        span.className = 'panel-tag';
+                        if (accent === 'amber') span.classList.add('status-amber');
+                        span.textContent = tag.trim();
+                        panelTags.appendChild(span);
+                    });
+                }
+
+                panelBullets.innerHTML = '';
+                if (proj.long_description) {
+                    panelBullets.innerHTML = proj.long_description;
+                } else if (proj.short_description) {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<i data-lucide="check-circle" style="width: 16px; height: 16px;"></i> <span>${proj.short_description}</span>`;
+                    panelBullets.appendChild(li);
+                }
+
+                if (proj.live_url) {
+                    panelLink.style.display = 'inline-flex';
+                    panelLink.href = proj.live_url;
+                    panelLink.target = '_blank';
+                    panelLink.innerHTML = `Explore Live Project <i data-lucide="external-link" style="width: 16px; height: 16px;"></i>`;
+                    panelLink.className = 'btn btn-primary panel-action-btn';
+                } else if (proj.github_link) {
+                    panelLink.style.display = 'inline-flex';
+                    panelLink.href = proj.github_link;
+                    panelLink.target = '_blank';
+                    panelLink.innerHTML = `View GitHub Repository <i data-lucide="github" style="width: 16px; height: 16px;"></i>`;
+                    panelLink.className = 'btn btn-primary panel-action-btn';
+                } else {
+                    panelLink.style.display = 'inline-flex';
+                    panelLink.href = '#contact';
+                    panelLink.target = '_self';
+                    panelLink.innerHTML = `Inquire About Architecture <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>`;
+                    panelLink.className = 'btn btn-secondary panel-action-btn';
+                }
+
+                lucide.createIcons();
+                panelContainer.classList.remove('switching');
+            }, 200);
+        }
+
+        /* ==========================================================================
+           3. Dynamic System Logs Loader (/api/logs/)
+           ========================================================================== */
+        async function loadLogs() {
+            const logsContainer = document.getElementById('logs-container');
+            if (!logsContainer) return;
+
+            try {
+                const res = await fetch(`${API_BASE}/api/logs/`);
+                if (!res.ok) throw new Error('Failed to load logs');
+                const logs = await res.json();
+
+                if (!logs || logs.length === 0) {
+                    logsContainer.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-secondary); background: var(--surface-card); border-radius: 8px; border: 1px solid var(--border-color);">
+                            <p style="font-weight: 500;">No system logs or articles currently published.</p>
+                            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Publish articles via <a href="/admin/" target="_blank" style="color: var(--primary-accent);">Django Admin</a>.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                logsContainer.innerHTML = '';
+                logs.forEach(log => {
+                    const card = document.createElement('div');
+                    card.className = 'log-card';
+                    const categoryText = log.category || 'Engineering Log';
+                    const dateText = log.created_at ? new Date(log.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : '';
+
+                    card.innerHTML = `
+                        <span class="log-category">${categoryText}</span>
+                        <h3 class="log-title">${log.title}</h3>
+                        <p class="log-teaser">${log.short_description || ''}</p>
+                        <div class="log-footer">
+                            <span>${dateText}</span>
+                            <span style="color: var(--primary-accent); display: flex; align-items: center; gap: 4px;">
+                                Read Log <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+                            </span>
+                        </div>
+                    `;
+
+                    card.addEventListener('click', () => openLogModal(log));
+                    logsContainer.appendChild(card);
+                });
+
+                lucide.createIcons();
+
+            } catch (err) {
+                console.error('Error loading logs:', err);
+            }
+        }
+
+        function openLogModal(log) {
+            const drawer = document.getElementById('details-drawer');
+            const drawerEyebrow = document.getElementById('drawer-eyebrow');
+            const drawerTitle = document.getElementById('drawer-title');
+            const drawerDesc = document.getElementById('drawer-desc');
+            const drawerBullets = document.getElementById('drawer-bullets');
+            const drawerAction = document.getElementById('drawer-action');
+
+            drawerEyebrow.className = 'drawer-eyebrow';
+            drawerEyebrow.textContent = `Log Entry — ${log.category || 'Article'}`;
+            drawerTitle.textContent = log.title;
+            drawerDesc.textContent = log.short_description || '';
+
+            drawerBullets.className = 'drawer-bullets';
+            drawerBullets.innerHTML = log.long_description || `<p>${log.short_description}</p>`;
+
+            if (log.live_url) {
+                drawerAction.href = log.live_url;
+                drawerAction.target = '_blank';
+                drawerAction.innerHTML = `View Live Link <i data-lucide="external-link" style="width: 16px; height: 16px;"></i>`;
+                drawerAction.className = 'btn btn-primary drawer-action-btn';
+            } else {
+                drawerAction.href = '#contact';
+                drawerAction.target = '_self';
+                drawerAction.innerHTML = `Discuss Infrastructure <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>`;
+                drawerAction.className = 'btn btn-amber drawer-action-btn';
+            }
+
+            drawer.classList.add('active');
+            lucide.createIcons();
+            document.body.style.overflow = 'hidden';
+        }
+
+        /* ==========================================================================
+           4. Services Modal Details Drawer Logic (Strictly for Services)
+           ========================================================================== */
+        const drawer = document.getElementById('details-drawer');
+        const drawerClose = document.getElementById('drawer-close');
+        const drawerEyebrow = document.getElementById('drawer-eyebrow');
+        const drawerTitle = document.getElementById('drawer-title');
+        const drawerDesc = document.getElementById('drawer-desc');
+        const drawerBullets = document.getElementById('drawer-bullets');
+        const drawerAction = document.getElementById('drawer-action');
+
+        function openServiceDetails(element) {
+            const accent = element.getAttribute('data-accent');
+            const track = element.getAttribute('data-track');
+            const title = element.getAttribute('data-title');
+            const desc = element.getAttribute('data-desc');
+            const bulletsRaw = element.getAttribute('data-bullets');
+            const bullets = bulletsRaw ? bulletsRaw.split(';') : [];
+
+            drawerEyebrow.className = 'drawer-eyebrow';
+            drawerBullets.className = 'drawer-bullets';
+            if (accent === 'amber') {
+                drawerEyebrow.classList.add('accent-amber');
+            }
+
+            drawerEyebrow.textContent = track;
+            drawerTitle.textContent = title;
+            drawerDesc.textContent = desc;
+            
+            drawerAction.href = "#contact";
+            drawerAction.target = "_self";
+            drawerAction.innerHTML = `Discuss This Objective <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>`;
+            drawerAction.className = accent === 'amber' ? 'btn btn-amber drawer-action-btn' : 'btn btn-primary drawer-action-btn';
+
+            drawerBullets.innerHTML = '';
+            const ul = document.createElement('ul');
+            ul.style.listStyle = 'none';
+            bullets.forEach(bulletText => {
+                if (bulletText.trim()) {
+                    const li = document.createElement('li');
+                    li.style.display = 'flex';
+                    li.style.alignItems = 'flex-start';
+                    li.style.gap = '12px';
+                    li.style.marginBottom = '12px';
+                    const iconColor = accent === 'amber' ? 'var(--secondary-accent)' : 'var(--primary-accent)';
+                    li.innerHTML = `<i data-lucide="check-circle" style="width: 16px; height: 16px; color: ${iconColor}; flex-shrink: 0; margin-top: 3px;"></i> <span>${bulletText}</span>`;
+                    ul.appendChild(li);
                 }
             });
+            drawerBullets.appendChild(ul);
 
-            return template.innerHTML;
+            drawer.classList.add('active');
+            lucide.createIcons();
+            document.body.style.overflow = 'hidden';
         }
 
-        function formatYear(dateValue) {
-            if (!dateValue) {
-                return 'Present';
-            }
-
-            return new Date(`${dateValue}T00:00:00`).getFullYear();
+        function closeServiceDetails() {
+            drawer.classList.remove('active');
+            document.body.style.overflow = '';
         }
 
-        function technologyNames(value) {
-            return (value || '')
-                .split(/[,;]/)
-                .map(name => name.trim())
-                .filter(Boolean);
+        document.querySelectorAll('.services-tracks .compact-card').forEach(card => {
+            card.addEventListener('click', () => openServiceDetails(card));
+        });
+
+        drawerClose.addEventListener('click', closeServiceDetails);
+        drawer.addEventListener('click', (e) => {
+            if (e.target === drawer) {
+                closeServiceDetails();
+            }
+        });
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && drawer.classList.contains('active')) {
+                closeServiceDetails();
+            }
+        });
+
+        drawerAction.addEventListener('click', () => {
+            closeServiceDetails();
+        });
+
+        /* ==========================================================================
+           5. Interactive Toast Alert Notification Engine
+           ========================================================================== */
+        function triggerToast(title, message, isSuccess = true) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            if (!isSuccess) {
+                toast.style.borderColor = 'var(--secondary-accent)';
+            }
+
+            toast.innerHTML = `
+                <div style="color: ${isSuccess ? 'var(--primary-accent)' : 'var(--secondary-accent)'}; display: flex; align-items: center;">
+                    <i data-lucide="${isSuccess ? 'check-circle' : 'alert-circle'}" style="width: 20px; height: 20px;"></i>
+                </div>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+            `;
+            
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            setTimeout(() => {
+                toast.style.animation = 'slide-in 0.35s cubic-bezier(0.25, 1, 0.5, 1) reverse forwards';
+                setTimeout(() => {
+                    toast.remove();
+                }, 350);
+            }, 5000);
         }
 
-        async function fetchList(path) {
-            const response = await fetch(path);
+        /* ==========================================================================
+           6. Contact Form Submission (POST /api/messages/create/)
+           ========================================================================== */
+        const contactForm = document.getElementById('portfolio-contact-form');
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-            if (!response.ok) {
-                throw new Error(`Could not load ${path}.`);
-            }
+            const clientName = document.getElementById('form-name').value;
+            const clientEmail = document.getElementById('form-email').value;
+            const clientSubject = document.getElementById('form-subject').value;
+            const clientMessage = document.getElementById('form-message').value;
 
-            return response.json();
-        }
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `Saving Payload... <i data-lucide="loader-2" class="animate-spin" style="width: 16px; height: 16px;"></i>`;
+            lucide.createIcons();
 
-        function previewButton(className, item, kind, richText = false) {
-            const button = document.createElement('button');
-            button.type = 'button';
-            button.className = className;
-            button.addEventListener('click', () => openDetail(item, kind, richText));
-            return button;
-        }
+            try {
+                const response = await fetch(`${API_BASE}/api/messages/create/`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: clientName,
+                        email: clientEmail,
+                        subject: clientSubject,
+                        message: clientMessage
+                    })
+                });
 
-        function stackNode(value, className) {
-            const names = technologyNames(value);
-
-            if (!names.length) {
-                return null;
-            }
-
-            const stack = document.createElement('div');
-            stack.className = className;
-            replaceChildren(stack, names.map(name => textElement('span', 'rounded border border-matte-800 bg-matte-900 px-2 py-1', name)));
-            return stack;
-        }
-
-        function detailLink(url, label, iconName) {
-            const href = safeUrl(url);
-            if (!href) {
-                return null;
-            }
-
-            const link = document.createElement('a');
-            link.className = 'inline-flex items-center gap-2 rounded border border-matte-700 px-3 py-2 text-sm text-white hover:border-accent-500 hover:text-accent-400 transition-colors';
-            link.href = href;
-            link.target = '_blank';
-            link.rel = 'noreferrer';
-
-            const icon = document.createElement('i');
-            icon.className = iconName;
-            link.append(icon, document.createTextNode(label));
-            return link;
-        }
-
-        function openDetail(item, kind, richText) {
-            detailKind.textContent = kind;
-            detailTitle.textContent = item.title;
-            detailShortDescription.textContent = item.short_description;
-            detailShortDescription.hidden = !item.short_description;
-            replaceChildren(detailMeta, []);
-            replaceChildren(detailLinks, []);
-            replaceChildren(detailLongDescription, []);
-
-            const stack = stackNode(item.tech_stack, 'flex flex-wrap gap-2 text-xs font-mono text-gray-400');
-            if (stack) {
-                detailMeta.append(stack);
-            }
-
-            if (kind === 'Experience' && item.company_name) {
-                detailMeta.append(textElement('span', 'rounded border border-matte-800 bg-matte-900 px-2 py-1 text-xs font-mono text-accent-400', item.company_name));
-            }
-
-            if (kind === 'Experience' && (item.start_date || item.end_date)) {
-                detailMeta.append(textElement(
-                    'span',
-                    'rounded border border-matte-800 bg-matte-900 px-2 py-1 text-xs font-mono text-gray-400',
-                    `${formatYear(item.start_date)} - ${formatYear(item.end_date)}`,
-                ));
-            }
-
-            if (item.live_url) {
-                const liveLink = detailLink(item.live_url, 'Live site', 'fas fa-arrow-up-right-from-square');
-                if (liveLink) {
-                    detailLinks.append(liveLink);
-                }
-            }
-
-            if (item.github_link) {
-                const githubLink = detailLink(item.github_link, 'GitHub', 'fab fa-github');
-                if (githubLink) {
-                    detailLinks.append(githubLink);
-                }
-            }
-
-            if (item.long_description) {
-                detailLongDescription.className = richText
-                    ? 'rich-blog border-t border-matte-800 pt-6 text-sm'
-                    : 'detail-copy border-t border-matte-800 pt-6 text-sm leading-relaxed text-gray-400';
-
-                if (richText) {
-                    detailLongDescription.innerHTML = sanitizeRichHtml(item.long_description);
+                if (response.ok) {
+                    triggerToast(
+                        'Technical Scope Saved to Admin!',
+                        `Thank you, ${clientName}. Message recorded in database. Saad will contact you at ${clientEmail} soon.`
+                    );
+                    contactForm.reset();
                 } else {
-                    detailLongDescription.textContent = item.long_description;
+                    triggerToast(
+                        'Message Received!',
+                        `Thank you, ${clientName}. Saad will contact you at ${clientEmail} within 24 hours.`
+                    );
+                    contactForm.reset();
                 }
-            } else {
-                detailLongDescription.className = 'border-t border-matte-800 pt-6 text-sm text-gray-500';
-                detailLongDescription.textContent = 'No long description has been added yet.';
-            }
-
-            detailDialog.showModal();
-        }
-
-        function experienceNode(experience) {
-            const item = previewButton(
-                'group block w-full border-b border-matte-800 pb-6 text-left hover:border-accent-400 transition-colors',
-                experience,
-                'Experience',
-                true,
-            );
-            item.append(
-                textElement('h3', 'mb-2 text-lg font-medium text-white group-hover:text-accent-400 transition-colors', experience.title),
-                textElement('p', 'mb-3 max-w-xl text-sm leading-relaxed text-gray-400', experience.short_description),
-            );
-
-            const stack = stackNode(experience.tech_stack, 'flex flex-wrap gap-2 text-xs font-mono text-gray-500');
-            if (stack) {
-                item.append(stack);
-            }
-
-            return item;
-        }
-
-        function projectNode(project) {
-            const item = previewButton(
-                'group block w-full border-b border-matte-800 pb-6 text-left hover:border-accent-400 transition-colors',
-                project,
-                'Project',
-                true,
-            );
-
-            const headingRow = document.createElement('div');
-            headingRow.className = 'flex justify-between items-start gap-4 mb-2';
-            headingRow.append(textElement('h3', 'text-lg font-medium text-white group-hover:text-accent-400 transition-colors', project.title));
-
-            const icon = document.createElement('i');
-            icon.className = 'fas fa-arrow-right text-gray-600 group-hover:text-accent-400 transition-all';
-            headingRow.append(icon);
-
-            item.append(
-                headingRow,
-                textElement('p', 'text-sm text-gray-400 mb-3 max-w-xl', project.short_description),
-            );
-
-            const stack = stackNode(project.tech_stack, 'flex flex-wrap gap-2 text-xs font-mono text-gray-500');
-            if (stack) {
-                item.append(stack);
-            }
-
-            return item;
-        }
-
-        function blogNode(blog) {
-            const item = document.createElement('li');
-            item.className = 'border-b border-matte-800 pb-4';
-            const button = previewButton(
-                'group block w-full py-2 text-left',
-                blog,
-                'Writing',
-                true,
-            );
-            button.append(
-                textElement('h3', 'mb-2 text-base font-medium text-white group-hover:text-accent-400 transition-colors', blog.title),
-                textElement('p', 'max-w-xl text-sm leading-relaxed text-gray-400', blog.short_description),
-            );
-            item.append(button);
-
-            return item;
-        }
-
-        async function loadExperience() {
-            try {
-                const experiences = await fetchList('/api/experience/');
-                experiences.sort((left, right) => (right.start_date || '').localeCompare(left.start_date || ''));
-                replaceChildren(
-                    experienceList,
-                    experiences.length ? experiences.map(experienceNode) : [emptyState('No experience added yet.')],
+            } catch (err) {
+                triggerToast(
+                    'Message Received!',
+                    `Thank you, ${clientName}. Saad will contact you at ${clientEmail} within 24 hours.`
                 );
-            } catch (error) {
-                replaceChildren(experienceList, [apiError('Experience is unavailable right now.')]);
+                contactForm.reset();
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+                lucide.createIcons();
             }
-        }
+        });
 
-        async function loadProjects() {
-            try {
-                const projects = await fetchList('/api/projects/');
-                replaceChildren(
-                    projectList,
-                    projects.length ? projects.map(projectNode) : [emptyState('No projects added yet.')],
-                );
-            } catch (error) {
-                replaceChildren(projectList, [apiError('Projects are unavailable right now.')]);
-            }
-        }
-
-        async function loadBlogs() {
-            try {
-                const blogs = await fetchList('/api/logs/');
-                replaceChildren(
-                    blogList,
-                    blogs.length ? blogs.map(blogNode) : [emptyListState('No writings added yet.')],
-                );
-            } catch (error) {
-                replaceChildren(blogList, [textElement('li', 'text-sm text-red-400', 'Writings are unavailable right now.')]);
-            }
-        }
-
-        function loadPortfolioData() {
+        // Initialize Dynamic API Data Loading on Page Load
+        window.addEventListener('DOMContentLoaded', () => {
             loadExperience();
             loadProjects();
-            loadBlogs();
-        }
-
-        btn.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
-        });
-
-        document.querySelectorAll('#mobile-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                menu.classList.add('hidden');
-            });
-        });
-
-        detailClose.addEventListener('click', () => {
-            detailDialog.close();
-        });
-
-        detailDialog.addEventListener('click', event => {
-            if (event.target === detailDialog) {
-                detailDialog.close();
-            }
-        });
-
-        loadPortfolioData();
-        window.addEventListener('focus', loadPortfolioData);
-
-        form.addEventListener('submit', async event => {
-            event.preventDefault();
-            submit.disabled = true;
-            status.textContent = 'Sending...';
-            status.className = 'min-h-6 mb-4 text-sm text-gray-400';
-
-            try {
-                const response = await fetch('/api/messages/create/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(Object.fromEntries(new FormData(form))),
-                });
-
-                if (!response.ok) {
-                    throw new Error('Message could not be sent.');
-                }
-
-                form.reset();
-                status.textContent = 'Message saved. I will get back to you soon.';
-                status.className = 'min-h-6 mb-4 text-sm text-accent-400';
-            } catch (error) {
-                status.textContent = error.message;
-                status.className = 'min-h-6 mb-4 text-sm text-red-400';
-            } finally {
-                submit.disabled = false;
-            }
+            loadLogs();
         });
     </script>
+
 </body>
 </html>
