@@ -1,0 +1,24 @@
+# Python / Django
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+backend/db.sqlite3
+
+# Node / Vite
+node_modules/
+dist/
+*.local
+
+# Env files
+.env
+.env.*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+
+# Local-only reference docs & media (not part of the codebase)
+docs/
+
