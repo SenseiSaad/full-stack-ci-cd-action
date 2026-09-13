@@ -18,9 +18,10 @@ resume-portfolio/
 │   ├── vite.config.ts
 │   ├── public/               # Static assets served as-is (resume.pdf)
 │   └── src/                  # App code (main.tsx, dark_glow_portfolio.tsx, styles.css)
-├── docs/                     # Reference notes & media (resume.pdf copy, videos, markdown notes)
 └── README.md
 ```
+
+*(A local `docs/` folder — reference notes, media, and a resume copy — is kept out of version control via `.gitignore`.)*
 
 ## Tech stack
 
