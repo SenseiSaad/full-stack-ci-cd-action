@@ -5,9 +5,12 @@ __pycache__/
 venv/
 backend/db.sqlite3
 
-# Node / Vite
+# Node / Next.js
 node_modules/
-dist/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
 *.local
 
 # Env files
@@ -17,8 +20,24 @@ dist/
 # OS / editor
 .DS_Store
 Thumbs.db
-.idea/
+.idea
+.vscode
+
+# Stray shell/home dotfiles that live in this folder (never part of the repo)
+.bashrc
+.bash_profile
+.zshrc
+.zprofile
+.profile
+.gitconfig
+.gitmodules
+.ripgreprc
+.zcodeignore
 
 # Local-only reference docs & media (not part of the codebase)
 docs/
+
+# Local tooling config (not part of the codebase)
+.claude/
+.mcp.json
 

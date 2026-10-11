@@ -1,0 +1,24 @@
+# AWS Amplify monorepo build spec.
+# The app lives in frontend/ (Next.js). Amplify builds only that folder;
+# backend/ is ignored here and deploys independently.
+# next.config.mjs uses `output: "export"`, so the build emits a fully static
+# site to frontend/out/ — Amplify hosts it on CDN with no server runtime.
+version: 1
+applications:
+  - appRoot: frontend
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - npm ci
+        build:
+          commands:
+            - npm run build
+      artifacts:
+        baseDirectory: out
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - node_modules/**/*
+          - .next/cache/**/*
