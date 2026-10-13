@@ -101,14 +101,14 @@ export default function About() {
           <div className="about__panel" data-reveal>
             <figure className="about__frame">
               <Image
-                src="/art/paris-rain.jpg"
-                alt="Cover image for the OpenVault project"
+                src="/art/About.jpeg"
+                alt="Workspace file tree and architecture layout"
                 width={736}
                 height={920}
                 priority={false}
               />
               <figcaption className="caption">
-                <span>Featured project: OpenVault</span>
+                <span>Workspace &amp; Architecture</span>
               </figcaption>
             </figure>
           </div>

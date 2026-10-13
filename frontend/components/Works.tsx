@@ -8,7 +8,7 @@ const PROJECTS = [
   {
     idx: "01",
     title: "OpenVault",
-    img: "/art/legend-44.jpg",
+    img: "/art/Project_1.png",
     alt: "Cover image for OpenVault",
     tag: "SaaS · Backend",
     year: "2026",

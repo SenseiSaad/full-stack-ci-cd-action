@@ -30,6 +30,8 @@ const JOBS: Job[] = [
     tech: ["WordPress", "Responsive design", "DNS", "SSL", "Hosting"],
     description:
       "Built a 10+ page responsive website for a church organization in Minnesota: events, service schedules and media, with custom theme work. Set up the domain, hosting and SSL and handed over a site the team can maintain themselves.",
+    img: "/art/work_exp1.png",
+    alt: "Celestial Church of Christ, Miracle Parish website project",
   },
   {
     year: "2026",
@@ -50,6 +52,8 @@ const JOBS: Job[] = [
     tech: ["Python", "Django / DRF", "REST APIs", "AWS"],
     description:
       "Building and maintaining backend services for an AI product: REST APIs and data flows, and supporting the cloud deployment. Working with the team to ship features and keep the backend reliable.",
+    img: "/art/work_exp3.png",
+    alt: "FlyRank AI Backend internship platform",
   },
 ];
 
