@@ -9,6 +9,7 @@ const PROJECTS = [
     idx: "01",
     title: "OpenVault",
     img: "/art/Project_1.png",
+    mobileImg: "/art/project_1_mobile.png",
     alt: "Cover image for OpenVault",
     tag: "SaaS · Backend",
     year: "2026",
@@ -80,14 +81,35 @@ export default function Works() {
         {PROJECTS.map((w, i) => (
           <div className="work-pin" key={w.idx} style={{ zIndex: i + 1 }}>
             <article className="work-screen">
-              <Image
-                className="work-screen__bg"
-                src={w.img}
-                alt={w.alt}
-                fill
-                sizes="100vw"
-                priority={i === 0}
-              />
+              {w.mobileImg ? (
+                <>
+                  <Image
+                    className="work-screen__bg work-screen__bg--desktop"
+                    src={w.img}
+                    alt={w.alt}
+                    fill
+                    sizes="100vw"
+                    priority={i === 0}
+                  />
+                  <Image
+                    className="work-screen__bg work-screen__bg--mobile"
+                    src={w.mobileImg}
+                    alt={w.alt}
+                    fill
+                    sizes="100vw"
+                    priority={i === 0}
+                  />
+                </>
+              ) : (
+                <Image
+                  className="work-screen__bg"
+                  src={w.img}
+                  alt={w.alt}
+                  fill
+                  sizes="100vw"
+                  priority={i === 0}
+                />
+              )}
               <div className="work-screen__scrim" aria-hidden />
               <div className="container work-screen__content">
                 <span className="work-screen__tag">{w.tag}</span>

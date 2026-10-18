@@ -41,3 +41,8 @@ docs/
 .claude/
 .mcp.json
 
+
+# Next.js build output
+node_modules/
+.next/
+out/
