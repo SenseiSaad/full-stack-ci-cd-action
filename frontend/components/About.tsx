@@ -5,10 +5,9 @@ import Image from "next/image";
 import { gsap, revealOnScroll, splitReveal, prefersReducedMotion } from "@/lib/gsap";
 
 const STATS = [
-  { num: 2, suffix: "+", label: "Years hands-on" },
-  { num: 10, suffix: "+", label: "Projects shipped" },
-  { num: 5, suffix: "+", label: "Production servers run" },
-  { num: 2027, suffix: "", label: "BSc CS, expected" },
+  { num: 2, suffix: "+", label: "Years experience" },
+  { num: 5, suffix: "+", label: "Projects shipped" },
+  { num: 2, suffix: "+", label: "Live deployments" },
 ];
 
 export default function About() {

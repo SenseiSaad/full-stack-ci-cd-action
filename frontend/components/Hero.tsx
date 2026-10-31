@@ -71,22 +71,24 @@ export default function Hero() {
           <span className="l2">WASEEM</span>
         </h1>
 
-        <p className="hero__sub" data-hero>
-          I&rsquo;m a Lahore-based <em>Cloud &amp; DevOps engineer</em>. I run
-          Linux backends in production on AWS: Terraform and CI/CD to build
-          the infrastructure, Nginx, Docker and PM2 to keep services online.
-          In plain terms: I set servers up, keep them online, and make deploys
-          boring and repeatable. Backend code (Django, Node.js) is the
-          supporting act.
-        </p>
+        <div className="hero__side">
+          <p className="hero__sub" data-hero>
+            I&rsquo;m a Lahore-based <em>Cloud &amp; DevOps engineer</em>. I run
+            Linux backends in production on AWS: Terraform and CI/CD to build
+            the infrastructure, Nginx, Docker and PM2 to keep services online.
+            In plain terms: I set servers up, keep them online, and make deploys
+            boring and repeatable. Backend code (Django, Node.js) is the
+            supporting act.
+          </p>
 
-        <div className="hero__cta" data-hero>
-          <a href="#projects" data-scroll-to="#projects" className="btn btn--solid">
-            View projects <span className="arrow">→</span>
-          </a>
-          <a href="#contact" data-scroll-to="#contact" className="btn">
-            Get in touch
-          </a>
+          <div className="hero__cta" data-hero>
+            <a href="#projects" data-scroll-to="#projects" className="btn btn--solid">
+              View projects <span className="arrow">→</span>
+            </a>
+            <a href="#contact" data-scroll-to="#contact" className="btn">
+              Get in touch
+            </a>
+          </div>
         </div>
       </div>
 
