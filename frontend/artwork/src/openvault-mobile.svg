@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="520" viewBox="0 0 750 520">
+  <defs>
+    <pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse">
+      <path d="M44 0H0V44" fill="none" stroke="#ffffff" stroke-opacity="0.05" stroke-width="1"/>
+    </pattern>
+    <radialGradient id="glowT" cx="0.5" cy="0.05" r="0.75">
+      <stop offset="0" stop-color="#2dd4bf" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#2dd4bf" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowS" cx="0.9" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ef9fb4" stop-opacity="0.10"/>
+      <stop offset="1" stop-color="#ef9fb4" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="winShade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#17171a"/>
+      <stop offset="1" stop-color="#111113"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="750" height="520" fill="#0a0a0b"/>
+  <rect width="750" height="520" fill="url(#grid)"/>
+  <rect width="750" height="520" fill="url(#glowT)"/>
+  <rect width="750" height="520" fill="url(#glowS)"/>
+
+  <text x="84" y="52" font-family="IBM Plex Mono, monospace" font-size="15" letter-spacing="4" fill="#ededee" fill-opacity="0.42">PROJECT 03 // OPENVAULT</text>
+
+  <!-- phone frame -->
+  <rect x="252" y="88" width="246" height="400" rx="34" fill="url(#winShade)" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.5"/>
+  <rect x="264" y="100" width="222" height="376" rx="26" fill="none" stroke="#ef9fb4" stroke-opacity="0.28" stroke-width="1.5"/>
+  <image x="258" y="94" width="234" height="388" href="data:image/png;base64,__OVM_B64__" preserveAspectRatio="xMidYMid slice"/>
+
+  <!-- side annotations -->
+  <g font-family="IBM Plex Mono, monospace">
+    <text x="84" y="150" font-size="15" font-weight="500" fill="#ededee">Next.js front end</text>
+    <text x="84" y="178" font-size="13" fill="#ededee" fill-opacity="0.5">Django REST API</text>
+    <text x="84" y="206" font-size="13" fill="#ededee" fill-opacity="0.5">PostgreSQL · Docker</text>
+    <text x="84" y="234" font-size="13" fill="#ededee" fill-opacity="0.5">AWS EC2</text>
+    <text x="84" y="290" font-size="13" letter-spacing="1.5" fill="#ededee" fill-opacity="0.62">ROLE-BASED</text>
+    <text x="84" y="314" font-size="13" letter-spacing="1.5" fill="#ededee" fill-opacity="0.62">ACCESS</text>
+    <text x="84" y="346" font-size="13" letter-spacing="1.5" fill="#ededee" fill-opacity="0.62">RAG PIPELINES</text>
+  </g>
+</svg>

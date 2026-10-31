@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="520" viewBox="0 0 750 520">
+  <defs>
+    <pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse">
+      <path d="M44 0H0V44" fill="none" stroke="#ffffff" stroke-opacity="0.05" stroke-width="1"/>
+    </pattern>
+    <radialGradient id="glowT" cx="0.5" cy="0.05" r="0.75">
+      <stop offset="0" stop-color="#2dd4bf" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#2dd4bf" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowS" cx="0.92" cy="0.55" r="0.5">
+      <stop offset="0" stop-color="#ef9fb4" stop-opacity="0.10"/>
+      <stop offset="1" stop-color="#ef9fb4" stop-opacity="0"/>
+    </radialGradient>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#ffffff" fill-opacity="0.45"/>
+    </marker>
+  </defs>
+
+  <rect width="750" height="520" fill="#0a0a0b"/>
+  <rect width="750" height="520" fill="url(#grid)"/>
+  <rect width="750" height="520" fill="url(#glowT)"/>
+  <rect width="750" height="520" fill="url(#glowS)"/>
+
+  <text x="84" y="52" font-family="IBM Plex Mono, monospace" font-size="15" letter-spacing="4" fill="#ededee" fill-opacity="0.42">PROJECT 01 // INFRA AS CODE</text>
+
+  <!-- terraform badge -->
+  <g>
+    <rect x="80" y="80" width="590" height="54" rx="14" fill="#121214" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.5"/>
+    <rect x="102" y="93" width="28" height="28" rx="8" fill="none" stroke="#c39a5b" stroke-width="1.6"/>
+    <text x="116" y="113" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="13" font-weight="600" fill="#c39a5b">Tf</text>
+    <text x="148" y="104" font-family="IBM Plex Mono, monospace" font-size="16" font-weight="500" fill="#ededee">Terraform: infrastructure as code</text>
+    <text x="148" y="124" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="#ededee" fill-opacity="0.5">one command rebuilds the whole stack</text>
+  </g>
+
+  <!-- connectors -->
+  <line x1="118" y1="152" x2="118" y2="196" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="118" y1="240" x2="118" y2="284" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- route 53 -->
+  <g>
+    <rect x="80" y="150" width="590" height="56" rx="14" fill="#121214" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.5"/>
+    <circle cx="118" cy="178" r="12" fill="none" stroke="#2dd4bf" stroke-width="1.6"/>
+    <ellipse cx="118" cy="178" rx="5" ry="12" fill="none" stroke="#2dd4bf" stroke-opacity="0.7" stroke-width="1.2"/>
+    <line x1="106" y1="178" x2="130" y2="178" stroke="#2dd4bf" stroke-opacity="0.7" stroke-width="1.2"/>
+    <text x="152" y="174" font-family="IBM Plex Mono, monospace" font-size="17" font-weight="500" fill="#ededee">Route 53</text>
+    <text x="152" y="194" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="#ededee" fill-opacity="0.5">public DNS for the app</text>
+  </g>
+  <!-- EC2 -->
+  <g>
+    <rect x="80" y="238" width="590" height="56" rx="14" fill="#121214" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.5"/>
+    <rect x="106" y="248" width="24" height="36" rx="4" fill="none" stroke="#c9402a" stroke-width="1.6"/>
+    <line x1="106" y1="260" x2="130" y2="260" stroke="#c9402a" stroke-opacity="0.7" stroke-width="1.2"/>
+    <line x1="106" y1="272" x2="130" y2="272" stroke="#c9402a" stroke-opacity="0.7" stroke-width="1.2"/>
+    <text x="152" y="262" font-family="IBM Plex Mono, monospace" font-size="17" font-weight="500" fill="#ededee">EC2 Ubuntu</text>
+    <text x="152" y="282" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="#ededee" fill-opacity="0.5">Nginx · PM2 · app containers</text>
+  </g>
+  <!-- RDS -->
+  <g>
+    <rect x="80" y="326" width="590" height="56" rx="14" fill="#121214" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.5"/>
+    <ellipse cx="118" cy="342" rx="12" ry="4.5" fill="none" stroke="#ef9fb4" stroke-width="1.6"/>
+    <path d="M106 342 v18 a12 4.5 0 0 0 24 0 v-18" fill="none" stroke="#ef9fb4" stroke-width="1.6"/>
+    <path d="M106 351 a12 4.5 0 0 0 24 0" fill="none" stroke="#ef9fb4" stroke-opacity="0.7" stroke-width="1.2"/>
+    <text x="152" y="350" font-family="IBM Plex Mono, monospace" font-size="17" font-weight="500" fill="#ededee">RDS PostgreSQL</text>
+    <text x="152" y="370" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="#ededee" fill-opacity="0.5">private subnet · encrypted</text>
+  </g>
+
+  <!-- side rows -->
+  <g>
+    <rect x="80" y="400" width="590" height="44" rx="12" fill="#121214" stroke="#ffffff" stroke-opacity="0.18" stroke-width="1.2"/>
+    <text x="106" y="427" font-family="IBM Plex Mono, monospace" font-size="13.5" fill="#ededee" fill-opacity="0.75"><tspan font-weight="500" fill="#ededee">ECR</tspan><tspan fill="#ededee" fill-opacity="0.45">: container images, pushed by CI</tspan></text>
+  </g>
+  <g>
+    <rect x="80" y="452" width="590" height="44" rx="12" fill="#121214" stroke="#ffffff" stroke-opacity="0.18" stroke-width="1.2"/>
+    <text x="106" y="479" font-family="IBM Plex Mono, monospace" font-size="13.5" fill="#ededee" fill-opacity="0.75"><tspan font-weight="500" fill="#ededee">S3</tspan><tspan fill="#ededee" fill-opacity="0.45">: terraform remote state · IAM roles · security groups</tspan></text>
+  </g>
+</svg>

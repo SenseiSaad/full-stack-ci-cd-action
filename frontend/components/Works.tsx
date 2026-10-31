@@ -15,36 +15,36 @@ const PROJECTS = [
     year: "2026",
     role: "Design & provision",
     stack: "Terraform · AWS · GitHub Actions",
-    desc: "The full AWS stack for a SaaS app written in Terraform: EC2, RDS PostgreSQL, ECR, Route 53 and security groups — reproducible from scratch. GitHub Actions builds container images, pushes them to Amazon ECR and deploys to EC2 on every push, with credentials in encrypted secrets and IAM roles.",
+    desc: "Provisioned a complete, reproducible AWS infrastructure stack using Terraform: EC2, RDS PostgreSQL, ECR, Route 53 and security groups. Automated GitHub Actions CI/CD pipelines build container images, push them to Amazon ECR and deploy updates to EC2 on every code push using secure IAM roles.",
     chips: ["Terraform", "EC2", "RDS", "ECR", "Route 53"],
     href: "https://github.com/SenseiSaad/Saas_devops",
   },
   {
     idx: "02",
-    title: "Full-Stack CI/CD Pipeline",
-    img: "/art/cicd-desktop.png",
-    mobileImg: "/art/cicd-mobile.png",
-    alt: "Pipeline diagram: git push, GitHub Actions build and test, Docker image to Amazon ECR, deploy to EC2",
-    tag: "DevOps · CI/CD",
+    title: "Modular REST API Backend",
+    img: "/art/modular-desktop.png",
+    mobileImg: "/art/modular-mobile.png",
+    alt: "Diagram of the Django REST Framework API modules and Docker Compose services",
+    tag: "Backend · REST API",
     year: "2026",
-    role: "Automation & deployment",
-    stack: "GitHub Actions · Docker · AWS",
-    desc: "A site that deploys itself. Every push runs the pipeline — install, type-check, tests — then builds the container, pushes it to Amazon ECR and ships it to EC2. No manual steps, no forgotten servers.",
-    chips: ["GitHub Actions", "Docker", "AWS", "Nginx"],
-    href: "https://github.com/SenseiSaad/full-stack-ci-cd-action",
+    role: "Design & build",
+    stack: "Django REST Framework · Docker · PostgreSQL",
+    desc: "Designed and developed a modular DRF API managing projects, work experience, logs and contact submissions to back this portfolio site. Fully containerized with Docker and Docker Compose to guarantee parity between local development and production environments.",
+    chips: ["Django DRF", "PostgreSQL", "Docker", "Docker Compose"],
+    href: "https://github.com/SenseiSaad/Portfolio-backend",
   },
   {
     idx: "03",
     title: "OpenVault",
     img: "/art/openvault-desktop.png",
     mobileImg: "/art/openvault-mobile.png",
-    alt: "OpenVault web app shown in a browser window: private company knowledge platform",
-    tag: "SaaS · Backend",
+    alt: "OpenVault web app shown in a browser window: enterprise document repository and AI knowledge platform",
+    tag: "SaaS · AI Platform",
     year: "2026",
     role: "Backend & infrastructure",
-    stack: "Django · PostgreSQL · Docker · AWS",
-    desc: "A SaaS platform that lets companies share internal knowledge with employees securely, with role-based access and audit logs. Dockerized Django REST backend, deployed on AWS EC2.",
-    chips: ["Django", "PostgreSQL", "Docker", "AWS"],
+    stack: "Next.js · Django DRF · PostgreSQL · Docker · AWS",
+    desc: "Multi-tenant enterprise document repository and AI knowledge platform built with secure role-based access control, comprehensive audit logs and integrated RAG pipelines. Dockerized Django REST backend, deployed on AWS EC2.",
+    chips: ["Next.js", "Django DRF", "PostgreSQL", "Docker", "AWS"],
     href: "https://github.com/SenseiSaad/openvault",
   },
 ];
@@ -73,7 +73,7 @@ export default function Works() {
             </h2>
           </div>
           <p className="note" data-reveal>
-            Three builds from 2025–2026, each deployed and kept running. Scroll
+            Three builds from 2026, each deployed and kept running. Scroll
             to flip through them.
           </p>
         </div>

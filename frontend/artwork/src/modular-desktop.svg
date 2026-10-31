@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse">
+      <path d="M44 0H0V44" fill="none" stroke="#ffffff" stroke-opacity="0.05" stroke-width="1"/>
+    </pattern>
+    <radialGradient id="glowT" cx="0.8" cy="0.18" r="0.6">
+      <stop offset="0" stop-color="#2dd4bf" stop-opacity="0.10"/>
+      <stop offset="1" stop-color="#2dd4bf" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowS" cx="0.72" cy="0.95" r="0.5">
+      <stop offset="0" stop-color="#ef9fb4" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#ef9fb4" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1600" height="1000" fill="#0a0a0b"/>
+  <rect width="1600" height="1000" fill="url(#grid)"/>
+  <rect width="1600" height="1000" fill="url(#glowT)"/>
+  <rect width="1600" height="1000" fill="url(#glowS)"/>
+
+  <text x="1552" y="66" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="15" letter-spacing="4" fill="#ededee" fill-opacity="0.42">PROJECT 02 // BACKEND API</text>
+  <text x="1560" y="966" font-family="Syne, sans-serif" font-weight="800" font-size="300" fill="#ffffff" fill-opacity="0.045">02</text>
+
+  <!-- DRF badge -->
+  <g>
+    <rect x="920" y="140" width="470" height="58" rx="14" fill="#121214" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.5"/>
+    <rect x="944" y="155" width="28" height="28" rx="7" fill="none" stroke="#2dd4bf" stroke-width="1.6"/>
+    <text x="958" y="175" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="13" font-weight="600" fill="#2dd4bf">DR</text>
+    <text x="992" y="165" font-family="IBM Plex Mono, monospace" font-size="15" font-weight="500" fill="#ededee">Django REST Framework</text>
+    <text x="992" y="185" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="#ededee" fill-opacity="0.5">the modular API backing this portfolio</text>
+  </g>
+
+  <!-- endpoints -->
+  <g>
+    <rect x="920" y="240" width="460" height="56" rx="14" fill="#121214" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.5"/>
+    <circle cx="952" cy="268" r="6" fill="#2dd4bf"/>
+    <text x="984" y="263" font-family="IBM Plex Mono, monospace" font-size="15" font-weight="500" fill="#ededee">GET /api/projects</text>
+    <text x="984" y="284" font-family="IBM Plex Mono, monospace" font-size="12" fill="#ededee" fill-opacity="0.5">portfolio projects</text>
+  </g>
+  <g>
+    <rect x="920" y="312" width="460" height="56" rx="14" fill="#121214" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.5"/>
+    <circle cx="952" cy="340" r="6" fill="#c39a5b"/>
+    <text x="984" y="335" font-family="IBM Plex Mono, monospace" font-size="15" font-weight="500" fill="#ededee">GET /api/experience</text>
+    <text x="984" y="356" font-family="IBM Plex Mono, monospace" font-size="12" fill="#ededee" fill-opacity="0.5">work history</text>
+  </g>
+  <g>
+    <rect x="920" y="384" width="460" height="56" rx="14" fill="#121214" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.5"/>
+    <circle cx="952" cy="412" r="6" fill="#ef9fb4"/>
+    <text x="984" y="407" font-family="IBM Plex Mono, monospace" font-size="15" font-weight="500" fill="#ededee">GET /api/logs</text>
+    <text x="984" y="428" font-family="IBM Plex Mono, monospace" font-size="12" fill="#ededee" fill-opacity="0.5">engineering write-ups</text>
+  </g>
+  <g>
+    <rect x="920" y="456" width="460" height="56" rx="14" fill="#121214" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.5"/>
+    <circle cx="952" cy="484" r="6" fill="#c9402a"/>
+    <text x="984" y="479" font-family="IBM Plex Mono, monospace" font-size="15" font-weight="500" fill="#ededee">POST /api/contact</text>
+    <text x="984" y="500" font-family="IBM Plex Mono, monospace" font-size="12" fill="#ededee" fill-opacity="0.5">contact form intake</text>
+  </g>
+
+  <!-- side cards -->
+  <polyline points="1380,340 1400,340 1400,344 1420,344" fill="none" stroke="#ffffff" stroke-opacity="0.3" stroke-width="1.5"/>
+  <polyline points="1380,412 1402,412 1402,434 1420,434" fill="none" stroke="#ffffff" stroke-opacity="0.3" stroke-width="1.5" stroke-dasharray="4 5"/>
+  <g>
+    <rect x="1420" y="312" width="160" height="64" rx="12" fill="#121214" stroke="#ffffff" stroke-opacity="0.18" stroke-width="1.2"/>
+    <text x="1440" y="338" font-family="IBM Plex Mono, monospace" font-size="14" font-weight="500" fill="#ededee">Docker</text>
+    <text x="1440" y="358" font-family="IBM Plex Mono, monospace" font-size="11" fill="#ededee" fill-opacity="0.45">compose parity</text>
+  </g>
+  <g>
+    <rect x="1420" y="402" width="160" height="64" rx="12" fill="#121214" stroke="#ffffff" stroke-opacity="0.18" stroke-width="1.2"/>
+    <text x="1440" y="428" font-family="IBM Plex Mono, monospace" font-size="14" font-weight="500" fill="#ededee">PostgreSQL</text>
+    <text x="1440" y="448" font-family="IBM Plex Mono, monospace" font-size="11" fill="#ededee" fill-opacity="0.45">relational store</text>
+  </g>
+
+  <text x="920" y="576" font-family="IBM Plex Mono, monospace" font-size="13.5" fill="#ededee" fill-opacity="0.5">Docker Compose: local development matches production, container for container</text>
+</svg>

@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse">
+      <path d="M44 0H0V44" fill="none" stroke="#ffffff" stroke-opacity="0.05" stroke-width="1"/>
+    </pattern>
+    <radialGradient id="glowT" cx="0.82" cy="0.14" r="0.6">
+      <stop offset="0" stop-color="#2dd4bf" stop-opacity="0.10"/>
+      <stop offset="1" stop-color="#2dd4bf" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowS" cx="0.72" cy="0.95" r="0.55">
+      <stop offset="0" stop-color="#ef9fb4" stop-opacity="0.09"/>
+      <stop offset="1" stop-color="#ef9fb4" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="winShade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#17171a"/>
+      <stop offset="1" stop-color="#111113"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="1000" fill="#0a0a0b"/>
+  <rect width="1600" height="1000" fill="url(#grid)"/>
+  <rect width="1600" height="1000" fill="url(#glowT)"/>
+  <rect width="1600" height="1000" fill="url(#glowS)"/>
+
+  <text x="1552" y="66" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="15" letter-spacing="4" fill="#ededee" fill-opacity="0.42">PROJECT 03 // BACKEND SAAS</text>
+
+  <!-- print-misregistration accent frame -->
+  <rect x="938" y="166" width="620" height="382" rx="18" fill="none" stroke="#ef9fb4" stroke-opacity="0.30" stroke-width="1.5"/>
+
+  <!-- browser window -->
+  <g>
+    <rect x="920" y="148" width="620" height="382" rx="18" fill="url(#winShade)" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.5"/>
+    <line x1="920" y1="192" x2="1540" y2="192" stroke="#ffffff" stroke-opacity="0.10" stroke-width="1"/>
+    <circle cx="950" cy="170" r="6" fill="#c9402a" fill-opacity="0.9"/>
+    <circle cx="974" cy="170" r="6" fill="#c39a5b" fill-opacity="0.9"/>
+    <circle cx="998" cy="170" r="6" fill="#2dd4bf" fill-opacity="0.9"/>
+    <rect x="1028" y="158" width="300" height="24" rx="12" fill="#0a0a0b" stroke="#ffffff" stroke-opacity="0.10"/>
+    <text x="1044" y="174.5" font-family="IBM Plex Mono, monospace" font-size="12" fill="#ededee" fill-opacity="0.55">openvault · knowledge</text>
+    <image x="921" y="193" width="618" height="285" href="data:image/png;base64,__OV_B64__" preserveAspectRatio="xMidYMid slice"/>
+    <!-- in-window status bar -->
+    <line x1="920" y1="478" x2="1540" y2="478" stroke="#ffffff" stroke-opacity="0.10" stroke-width="1"/>
+    <circle cx="950" cy="504" r="5" fill="#2dd4bf"/>
+    <text x="968" y="509" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="#ededee" fill-opacity="0.62">compose: api up · db healthy</text>
+    <text x="1518" y="509" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11" letter-spacing="2" fill="#ededee" fill-opacity="0.38">DOCKER COMPOSE</text>
+  </g>
+
+  <!-- feature pills -->
+  <g font-family="IBM Plex Mono, monospace" font-size="11.5" letter-spacing="1.5">
+    <rect x="920" y="576" width="188" height="30" rx="15" fill="#121214" stroke="#ffffff" stroke-opacity="0.14"/>
+    <text x="942" y="595.5" fill="#ededee" fill-opacity="0.62">ROLE-BASED ACCESS</text>
+    <rect x="1122" y="576" width="130" height="30" rx="15" fill="#121214" stroke="#ffffff" stroke-opacity="0.14"/>
+    <text x="1144" y="595.5" fill="#ededee" fill-opacity="0.62">AUDIT LOGS</text>
+    <rect x="1266" y="576" width="160" height="30" rx="15" fill="#121214" stroke="#ffffff" stroke-opacity="0.14"/>
+    <text x="1288" y="595.5" fill="#ededee" fill-opacity="0.62">RAG PIPELINES</text>
+  </g>
+
+  <text x="920" y="650" font-family="IBM Plex Mono, monospace" font-size="13" fill="#ededee" fill-opacity="0.45">Next.js · Django REST API · PostgreSQL · Docker · AWS</text>
+</svg>
