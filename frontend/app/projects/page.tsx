@@ -8,14 +8,14 @@ export const metadata = {
 };
 
 const PROJECTS = [
-  { name: "OpenVault", stack: "Django · PostgreSQL · Docker · AWS", desc: "SaaS platform for companies to share internal data with employees securely, with role-based access and auditing.", repo: "openvault" },
-  { name: "Full-Stack CI/CD Pipeline", stack: "Django · AWS · GitHub Actions", desc: "Portfolio site with a Django backend and static front end that builds and deploys itself on every push.", repo: "full-stack-ci-cd-action" },
-  { name: "SaaS DevOps Infrastructure", stack: "Terraform · AWS · HCL", desc: "Complete AWS infrastructure for a SaaS app, defined entirely as code and rebuildable from scratch.", repo: "Saas_devops" },
+  { name: "Cloud Infrastructure Automation", stack: "Terraform · AWS · GitHub Actions", desc: "Complete AWS infrastructure for a SaaS app — EC2, RDS PostgreSQL, ECR, Route 53, security groups — defined entirely as code and rebuildable from scratch.", repo: "Saas_devops" },
+  { name: "Full-Stack CI/CD Pipeline", stack: "GitHub Actions · Docker · AWS", desc: "A site that deploys itself: every push builds the container, pushes it to Amazon ECR and deploys to EC2, with credentials in GitHub encrypted secrets and IAM roles.", repo: "full-stack-ci-cd-action" },
+  { name: "OpenVault", stack: "Django · PostgreSQL · Docker · AWS", desc: "SaaS platform for companies to share internal data with employees securely, with role-based access and auditing. Dockerized Django REST backend on AWS EC2.", repo: "openvault" },
+  { name: "Modular REST API Backend", stack: "Django REST Framework · Docker · PostgreSQL", desc: "Modular DRF API (projects, experience, blog logs, contact messages) backing saadops.site, containerized with Docker Compose for consistent local and deployed environments.", repo: "Portfolio-backend" },
   { name: "Showroom", stack: "Python · Django", desc: "Backend for a vehicle website with login, specs, and replica pricing and tax information.", repo: "Showroom" },
   { name: "Apothecary", stack: "TypeScript · Node.js", desc: "A full-stack app with a separate TypeScript backend and front end.", repo: "apo-backend" },
   { name: "Interactive Game Web App", stack: "WebGL · Unity · Vercel", desc: "A responsive front end running a voice-controlled in-browser 3D game, with optimized assets.", repo: "Unity-web-game" },
   { name: "Leo Clone", stack: "TypeScript", desc: "A near-finished marketing website clone built to practice layout and motion.", repo: "leo-clone" },
-  { name: "Portfolio Backend", stack: "Python · Django", desc: "An earlier Django backend powering a freelance portfolio site.", repo: "Portfolio-backend" },
 ];
 
 export default function ProjectsPage() {

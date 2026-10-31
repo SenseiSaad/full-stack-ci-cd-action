@@ -23,8 +23,8 @@
   --line-l-strong: rgba(243, 236, 223, 0.45);
 
   --font-d: "Syne", sans-serif;
-  --font-j: "Zen Old Mincho", serif;
-  --font-b: "Zen Kaku Gothic New", sans-serif;
+  --font-serif: Georgia, "Times New Roman", serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-m: "IBM Plex Mono", monospace;
 
   --gut: clamp(20px, 5vw, 88px);
@@ -56,7 +56,7 @@ html.is-loading body {
 body {
   background: var(--ink);
   color: var(--paper);
-  font-family: var(--font-b);
+  font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
@@ -143,14 +143,6 @@ html.lenis body {
   background: currentColor;
   opacity: 0.6;
 }
-.label .jp {
-  font-family: var(--font-j);
-  font-size: 12px;
-  letter-spacing: 0.3em;
-  text-transform: none;
-  opacity: 0.75;
-}
-
 .h-sec {
   font-family: var(--font-d);
   font-weight: 700;
@@ -160,26 +152,10 @@ html.lenis body {
   text-wrap: balance;
 }
 
-.h-sec .jp-inline {
-  font-family: var(--font-j);
-  font-weight: 400;
-  font-size: 0.42em;
-  letter-spacing: 0.18em;
-  vertical-align: 0.5em;
-  opacity: 0.65;
-}
-
 .lead {
   font-size: clamp(1rem, 1.25vw, 1.15rem);
   line-height: 1.9;
   max-width: 56ch;
-}
-
-.jp-v {
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  font-family: var(--font-j);
-  letter-spacing: 0.34em;
 }
 
 /* split-text scaffolding */
@@ -200,22 +176,6 @@ html.lenis body {
 }
 
 /* ---------- decorative atoms ---------- */
-.hanko {
-  display: inline-grid;
-  place-items: center;
-  width: 58px;
-  height: 58px;
-  background: var(--verm);
-  color: #fdf3ea;
-  font-family: var(--font-j);
-  font-weight: 900;
-  font-size: 26px;
-  line-height: 1;
-  border-radius: 6px;
-  box-shadow: 0 4px 22px rgba(201, 64, 42, 0.35);
-  transform: rotate(-4deg);
-  user-select: none;
-}
 
 .screentone::after {
   content: "";
@@ -382,8 +342,8 @@ html.lenis body {
   place-items: center;
   gap: 26px;
 }
-.loader__kanji {
-  font-family: var(--font-j);
+.loader__mark {
+  font-family: var(--font-serif);
   font-weight: 900;
   font-size: clamp(64px, 10vw, 120px);
   line-height: 1;
@@ -531,14 +491,7 @@ html.lenis body {
   font-weight: 800;
   font-size: 20px;
   letter-spacing: 0.02em;
-}
-.nav__logo .jp {
-  font-family: var(--font-j);
-  font-weight: 700;
-  color: var(--verm);
-  font-size: 22px;
-}
-.nav__logo .r {
+}.nav__logo .r {
   font-size: 9px;
   vertical-align: super;
   opacity: 0.6;
@@ -559,14 +512,7 @@ html.lenis body {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   padding: 4px 0;
-}
-.nav__link .jp {
-  font-family: var(--font-j);
-  font-size: 10px;
-  letter-spacing: 0.4em;
-  opacity: 0.45;
-}
-.nav__link::after {
+}.nav__link::after {
   content: "";
   position: absolute;
   left: 0;
@@ -672,15 +618,7 @@ html.lenis body {
 .mmenu.is-open .mmenu__link:nth-child(2) { transition-delay: 0.26s; }
 .mmenu.is-open .mmenu__link:nth-child(3) { transition-delay: 0.34s; }
 .mmenu.is-open .mmenu__link:nth-child(4) { transition-delay: 0.42s; }
-.mmenu.is-open .mmenu__link:nth-child(5) { transition-delay: 0.5s; }
-.mmenu__link .jp {
-  font-family: var(--font-j);
-  font-weight: 400;
-  font-size: 14px;
-  color: var(--verm);
-  letter-spacing: 0.3em;
-}
-.mmenu__foot {
+.mmenu.is-open .mmenu__link:nth-child(5) { transition-delay: 0.5s; }.mmenu__foot {
   margin-top: 40px;
   display: flex;
   justify-content: space-between;
@@ -742,36 +680,12 @@ html.lenis body {
   z-index: 2;
 }
 .hero__title .l2 {
-  font-family: var(--font-j);
+  font-family: var(--font-serif);
   font-weight: 900;
   color: var(--verm);
   font-size: 0.72em;
   margin-left: 0.06em;
-}
-.hero__hanko {
-  position: absolute;
-  z-index: 3;
-  right: clamp(20px, 16vw, 260px);
-  bottom: -14px;
-  width: clamp(40px, 4vw, 58px);
-  height: clamp(40px, 4vw, 58px);
-  font-size: clamp(18px, 1.8vw, 26px);
-}
-.hero__jp-side {
-  position: absolute;
-  top: clamp(110px, 17vh, 190px);
-  right: var(--gut);
-  font-size: clamp(15px, 1.4vw, 20px);
-  color: rgba(243, 236, 223, 0.82);
-  height: clamp(240px, 34vh, 380px);
-}
-.hero__jp-side .small {
-  font-size: 12px;
-  opacity: 0.5;
-  margin-left: 18px;
-  letter-spacing: 0.5em;
-}
-.hero__sub {
+}.hero__sub {
   position: relative;
   z-index: 2;
   max-width: 44ch;
@@ -881,14 +795,7 @@ html.lenis body {
   letter-spacing: 0.04em;
   text-transform: uppercase;
   white-space: nowrap;
-}
-.marquee__item .jp {
-  font-family: var(--font-j);
-  font-weight: 400;
-  letter-spacing: 0.22em;
-  opacity: 0.85;
-}
-.marquee__item .star {
+}.marquee__item .star {
   color: var(--verm);
 }
 .marquee--verm {
@@ -927,7 +834,7 @@ html.lenis body {
   margin-top: 1.2em;
 }
 .about__body .hi {
-  font-family: var(--font-j);
+  font-family: var(--font-serif);
   font-weight: 700;
   color: var(--verm);
 }
@@ -958,7 +865,7 @@ html.lenis body {
   overflow: hidden;
   border: 1px solid var(--ink);
   background: var(--ink);
-  /* portrait source 736×1349 */
+  /* portrait source 1000×1792 (VS Code project tree) */
   aspect-ratio: 736 / 920;
 }
 .about__frame img {
@@ -983,28 +890,7 @@ html.lenis body {
   font-size: 10px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-}
-.about__frame .caption .jp {
-  font-family: var(--font-j);
-  font-size: 11px;
-  color: var(--sakura);
-  letter-spacing: 0.3em;
-}
-.about__bubble {
-  position: absolute;
-  top: -34px;
-  right: -14px;
-  background: var(--ink);
-  color: var(--paper);
-  font-family: var(--font-j);
-  font-size: 14px;
-  letter-spacing: 0.14em;
-  padding: 12px 18px;
-  border-radius: 18px 18px 18px 2px;
-  box-shadow: 6px 6px 0 var(--verm);
-  transform: rotate(2deg);
-}
-.about__stats {
+}.about__stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   border: 1px solid var(--ink);
@@ -1039,7 +925,7 @@ html.lenis body {
   opacity: 0.7;
 }
 .stat__jp {
-  font-family: var(--font-j);
+  font-family: var(--font-serif);
   font-size: 12px;
   color: var(--verm);
   letter-spacing: 0.3em;
@@ -1149,15 +1035,7 @@ html.lenis body {
 .work__info {
   position: relative;
   z-index: 2;
-}
-.work__jp-title {
-  font-family: var(--font-j);
-  font-size: clamp(15px, 1.3vw, 19px);
-  letter-spacing: 0.42em;
-  color: var(--sakura);
-  margin-bottom: 16px;
-}
-.work__title {
+}.work__title {
   font-family: var(--font-d);
   font-weight: 700;
   font-size: clamp(2rem, 3.6vw, 3.6rem);
@@ -1346,22 +1224,6 @@ html.lenis body {
 .cap__card:hover::before {
   transform: translateY(0);
 }
-.cap__kanji {
-  position: absolute;
-  right: 6px;
-  bottom: -0.18em;
-  font-family: var(--font-j);
-  font-weight: 900;
-  font-size: clamp(7rem, 12vw, 11rem);
-  line-height: 1;
-  color: var(--verm);
-  opacity: 0.1;
-  transition: opacity 0.5s, color 0.5s;
-  pointer-events: none;
-}
-.cap__card:hover .cap__kanji {
-  opacity: 0.28;
-}
 .cap__top {
   display: flex;
   justify-content: space-between;
@@ -1379,7 +1241,7 @@ html.lenis body {
   margin: 18px 0 6px;
 }
 .cap__jp {
-  font-family: var(--font-j);
+  font-family: var(--font-serif);
   font-size: 13px;
   letter-spacing: 0.32em;
   color: var(--verm);
@@ -1451,7 +1313,7 @@ html.lenis body {
   opacity: 0.75;
 }
 .process__verb {
-  font-family: var(--font-j);
+  font-family: var(--font-serif);
   font-weight: 900;
   font-size: clamp(4.4rem, 8vw, 8rem);
   line-height: 1.05;
@@ -1595,20 +1457,10 @@ html.lenis body {
   text-transform: uppercase;
   letter-spacing: -0.01em;
 }
-.archive__card--type .jp {
-  display: block;
-  font-family: var(--font-j);
-  font-weight: 400;
-  font-size: 0.4em;
-  letter-spacing: 0.4em;
-  color: var(--verm);
-  margin-top: 8px;
-  text-align: center;
-}
 .archive__card--verm {
   background: var(--verm);
   color: #fdf3ea;
-  font-family: var(--font-j);
+  font-family: var(--font-serif);
   font-weight: 900;
   font-size: clamp(2.4rem, 4vw, 4rem);
   display: grid;
@@ -1648,11 +1500,11 @@ html.lenis body {
 }
 .contact__title .accent {
   color: var(--verm);
-  font-family: var(--font-j);
+  font-family: var(--font-serif);
   font-weight: 900;
 }
 .contact__jp {
-  font-family: var(--font-j);
+  font-family: var(--font-serif);
   font-size: clamp(14px, 1.3vw, 18px);
   letter-spacing: 0.4em;
   color: rgba(243, 236, 223, 0.75);
@@ -1720,10 +1572,6 @@ html.lenis body {
   font-size: 12px;
   opacity: 0.5;
 }
-.contact__note .jp {
-  font-family: var(--font-j);
-  letter-spacing: 0.2em;
-}
 
 /* ============================================================
    FOOTER
@@ -1753,7 +1601,7 @@ html.lenis body {
 .footer__word .fill {
   color: var(--verm);
   -webkit-text-stroke: 0;
-  font-family: var(--font-j);
+  font-family: var(--font-serif);
   font-weight: 900;
   font-size: 0.82em;
 }
@@ -1789,14 +1637,7 @@ html.lenis body {
 .footer__col ul a:hover {
   color: var(--sakura);
   opacity: 1;
-}
-.footer__jp-line {
-  font-family: var(--font-j);
-  letter-spacing: 0.3em;
-  color: var(--sakura);
-  font-size: 14px;
-}
-.footer__base {
+}.footer__base {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -1906,9 +1747,6 @@ html.no-anim [data-reveal] {
   .hero__kicker::before {
     display: none;
   }
-  .hero__kicker .jp {
-    display: none;
-  }
   .hero__title .l2 {
     color: var(--cream);
   }
@@ -1935,10 +1773,7 @@ html.no-anim [data-reveal] {
   .stat:nth-child(-n + 2) {
     border-bottom: 1px solid var(--ink);
   }
-  .hero__jp-side {
-    display: none;
-  }
-  .hero__bottom {
+    .hero__bottom {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
@@ -2017,14 +1852,7 @@ body::after {
 .rail,
 .hero__burst,
 .hero__spark,
-.hero__hanko,
-.hero__jp-side,
-.about__bubble,
-.cap__kanji,
-.cap__jp,
-.process__verb,
-.label .jp,
-.h-sec .jp-inline { display: none !important; }
+.process__verb { display: none !important; }
 
 /* all sections share the matte surface (kill paper/verm panels) */
 .hero,
@@ -2237,11 +2065,13 @@ body::after {
 }
 .work-screen__bg {
   object-fit: cover;
-  filter: grayscale(0.4) brightness(0.5);
+  /* artwork is designed dark on purpose — no CSS filter here, it would gray
+     out the teal/vermilion accents */
   z-index: 0;
 }
-.work-screen__bg--mobile {
-  display: none !important;
+.work-screen__art {
+  /* mobile-only framed artwork card (rendered in flow, no overlap) */
+  display: none;
 }
 .work-screen__scrim {
   position: absolute;
@@ -2260,6 +2090,9 @@ body::after {
   justify-content: center;
   gap: 14px;
   max-width: 760px;
+  /* pin text to the left gutter — the artwork lives on the right side */
+  margin-left: 0;
+  margin-right: auto;
 }
 .work-screen__tag {
   width: fit-content;
@@ -2509,11 +2342,11 @@ body::after {
 .mmenu__foot { color: var(--fg-dim); }
 .nav__logo { font-family: var(--font-d); letter-spacing: -0.01em; }
 
-/* loader on the matte surface (no kanji / vermilion) */
+/* loader on the matte surface */
 .loader { color: var(--fg); }
 .loader__panel { background: var(--bg) !important; }
 .loader__panel--trail { background: var(--bg-3) !important; }
-.loader__kanji {
+.loader__mark {
   font-family: var(--font-d) !important;
   font-weight: 800 !important;
   letter-spacing: 0.06em;
@@ -2525,17 +2358,41 @@ body::after {
 
 /* responsive: mobile layout */
 @media (max-width: 820px) {
-  /* PROJECTS: keep the full-screen sticky slide/swap animation on mobile */
+  /* PROJECTS: artwork becomes a framed card, content flows below it —
+     full-bleed art under the text was unreadable on phones */
+  .work-pin {
+    position: relative;
+    height: auto;
+  }
+  .work-screen {
+    height: auto;
+    min-height: 0;
+    padding: 86px 0 10px;
+  }
   .work-screen__bg--desktop {
     display: none !important;
   }
-  .work-screen__bg--mobile {
-    display: block !important;
-    object-position: center top;
+  .work-screen__scrim {
+    display: none;
+  }
+  .work-screen__art {
+    display: block;
+    margin: 0 var(--gut) 24px;
+    border: 1px solid var(--hair-strong);
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--bg-2);
+  }
+  .work-screen__art img {
+    width: 100%;
+    height: auto;
+    display: block;
   }
   .work-screen__content {
-    justify-content: flex-end;
-    padding-bottom: clamp(70px, 16vh, 130px);
+    position: static;
+    height: auto;
+    justify-content: flex-start;
+    padding-bottom: 8px;
     gap: 12px;
     max-width: none;
   }

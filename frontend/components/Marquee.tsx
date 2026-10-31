@@ -2,7 +2,7 @@
 
 import { CSSProperties } from "react";
 
-type Item = { en: string; jp?: string };
+type Item = { en: string };
 
 export default function Marquee({
   items,
@@ -24,7 +24,6 @@ export default function Marquee({
       {items.map((it, i) => (
         <span className="marquee__item" key={i}>
           <span className="star">✦</span> {it.en}
-          {it.jp && <span className="jp">{it.jp}</span>}
         </span>
       ))}
     </div>

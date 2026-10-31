@@ -25,7 +25,7 @@ const CARDS = [
   {
     idx: "04",
     title: "Backend & Data",
-    desc: "APIs other people can run: typed, documented and migrated safely.",
+    desc: "The supporting layer: APIs other people can run — typed, documented and migrated safely.",
     list: ["Python", "Django & DRF", "REST / JWT", "Node.js", "TypeScript", "PostgreSQL", "Redis", "Migrations"],
   },
 ];

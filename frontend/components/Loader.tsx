@@ -55,7 +55,7 @@ export default function Loader() {
       <div className="loader__panel loader__panel--trail" />
       <div className="loader__panel" />
       <div className="loader__inner">
-        <div className="loader__kanji">SW</div>
+        <div className="loader__mark">SW</div>
         <div className="loader__bar">
           <div className="loader__bar-fill" />
         </div>

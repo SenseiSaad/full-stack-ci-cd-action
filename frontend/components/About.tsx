@@ -71,21 +71,24 @@ export default function About() {
             <div className="about__body lead" data-reveal>
               <p>
                 <span className="hi">Hi, I&rsquo;m Saad.</span> I&rsquo;m a cloud
-                and DevOps engineer from Lahore. I run Linux backends in
-                production on AWS, and I like them predictable: infrastructure
-                you can rebuild from code, pipelines that deploy themselves, and
+                and DevOps engineer from Lahore, and my main focus is keeping
+                Linux servers running in production on AWS: infrastructure you
+                can rebuild from code, pipelines that deploy themselves, and
                 clear steps to follow when something breaks.
               </p>
               <p>
-                So far that has meant fixing out-of-memory builds on small
-                servers, moving a live site to a new server with DNS and SSL
-                handled over a weekend, wiring up Terraform and GitHub Actions
-                end to end, and shipping Django and Node.js services other
-                people can actually run. I&rsquo;m finishing a BSc in Computer
-                Science (2027) and open to full-time and freelance work.
+                That has meant resolving live incidents &mdash; out-of-memory
+                build failures, service startup errors &mdash; moving a live
+                site to a new server over a weekend with DNS and SSL cutover,
+                and wiring Terraform and GitHub Actions end to end. Backend
+                development (Python, Django, Node.js) is my supporting skill:
+                the APIs that run on top of the infrastructure I manage.
+                I&rsquo;m finishing a BSc in Computer Science (2027) and open to
+                full-time and freelance work.
               </p>
             </div>
             <ul className="about__tools" data-reveal>
+              <li>AWS</li>
               <li>Terraform</li>
               <li>Docker</li>
               <li>GitHub Actions</li>
@@ -94,7 +97,6 @@ export default function About() {
               <li>PostgreSQL</li>
               <li>Redis</li>
               <li>Django</li>
-              <li>React</li>
             </ul>
           </div>
 
@@ -102,13 +104,13 @@ export default function About() {
             <figure className="about__frame">
               <Image
                 src="/art/About.jpeg"
-                alt="Workspace file tree and architecture layout"
-                width={736}
-                height={920}
+                alt="VS Code file tree of a project with Terraform modules, GitHub Actions workflows and Docker files"
+                width={1000}
+                height={1792}
                 priority={false}
               />
               <figcaption className="caption">
-                <span>Workspace &amp; Architecture</span>
+                <span>IaC &amp; CI/CD project tree</span>
               </figcaption>
             </figure>
           </div>

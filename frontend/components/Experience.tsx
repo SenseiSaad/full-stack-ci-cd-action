@@ -22,26 +22,26 @@ type Job = {
 // swap in a real photo/screenshot.
 const JOBS: Job[] = [
   {
-    year: "2024",
-    period: "Jun 2024 – Aug 2024",
+    year: "2025",
+    period: "Nov 2025 – May 2026",
     role: "Freelance Web Developer",
-    org: "Celestial Church of Christ, Miracle Parish · Minnesota, US (remote)",
+    org: "Church organization platform + game web app · Remote, US clients",
     icon: "code",
-    tech: ["WordPress", "Responsive design", "DNS", "SSL", "Hosting"],
+    tech: ["WordPress", "Responsive design", "DNS", "Hosting", "Vercel"],
     description:
-      "Built a 10+ page responsive website for a church organization in Minnesota: events, service schedules and media, with custom theme work. Set up the domain, hosting and SSL and handed over a site the team can maintain themselves.",
+      "Built a 10+ page responsive WordPress site for a church organization in the US — events, forms and dynamic content — and an interactive game web app with an in-browser 3D runtime. Handled theme optimization, DNS, hosting and SSL for both, and shipped them on Vercel.",
     img: "/art/work_exp1.png",
     alt: "Celestial Church of Christ, Miracle Parish website project",
   },
   {
     year: "2026",
     period: "Jun 2026 – Aug 2026",
-    role: "DevOps Engineer",
-    org: "thinkwell · Freelance, remote (US client)",
+    role: "DevOps & Backend Engineer",
+    org: "Healthcare clinic web platform · Freelance, remote (US client)",
     icon: "ops",
-    tech: ["AWS EC2", "Docker", "Nginx", "PM2", "Redis"],
+    tech: ["AWS EC2 (Ubuntu)", "Nginx", "PM2", "Redis", "SSL/TLS · DNS"],
     description:
-      "Ran a production Node.js backend on AWS: Docker, Nginx reverse proxy, PM2, Redis, SSL and DNS. Tracked down a recurring out-of-memory crash during builds on a 908 MB instance, migrated the server with an EC2 AMI snapshot at minimal downtime, and documented the deploy and recovery steps for the client.",
+      "Operated a production Node.js/TypeScript backend on AWS: Nginx reverse proxy, PM2, Redis, SSL/TLS certificates and DNS. Fixed live incidents — an out-of-memory build failure on a 908 MB instance and a service startup error traced through PM2 logs — then migrated the server with an EC2 AMI snapshot, sequencing DNS and SSL cutover for minimal downtime. Documented deploys and recovery so the client could run the stack solo.",
   },
   {
     year: "Now",
@@ -51,7 +51,7 @@ const JOBS: Job[] = [
     icon: "code",
     tech: ["Python", "Django / DRF", "REST APIs", "AWS"],
     description:
-      "Building and maintaining backend services for an AI product: REST APIs and data flows, and supporting the cloud deployment. Working with the team to ship features and keep the backend reliable.",
+      "Building and maintaining backend services for an AI product: REST APIs and data flows, plus supporting the cloud deployment. Working with the team to ship features and keep the backend reliable.",
     img: "/art/work_exp3.png",
     alt: "FlyRank AI Backend internship platform",
   },

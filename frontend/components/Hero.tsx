@@ -72,11 +72,12 @@ export default function Hero() {
         </h1>
 
         <p className="hero__sub" data-hero>
-          I&rsquo;m a Lahore-based <em>Cloud &amp; DevOps engineer</em>. I keep
-          Linux backends running in production on AWS, using Terraform, Docker,
-          Nginx and CI/CD pipelines, with Django and TypeScript in the toolbox.
-          In plain terms: I set servers up, keep them online, and make deploys
-          boring and repeatable.
+          I&rsquo;m a Lahore-based <em>Cloud &amp; DevOps engineer</em>. I run
+          Linux backends in production on AWS &mdash; Terraform and CI/CD to
+          build the infrastructure, Nginx, Docker and PM2 to keep services
+          online. In plain terms: I set servers up, keep them online, and make
+          deploys boring and repeatable. Backend code (Django, Node.js) is the
+          supporting act.
         </p>
 
         <div className="hero__cta" data-hero>

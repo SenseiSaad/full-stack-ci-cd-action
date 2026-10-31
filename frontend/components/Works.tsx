@@ -7,43 +7,45 @@ import { revealOnScroll, splitReveal } from "@/lib/gsap";
 const PROJECTS = [
   {
     idx: "01",
-    title: "OpenVault",
-    img: "/art/Project_1.png",
-    mobileImg: "/art/project_1_mobile.png",
-    alt: "Cover image for OpenVault",
-    tag: "SaaS · Backend",
+    title: "Cloud Infrastructure Automation",
+    img: "/art/infra-desktop.png",
+    mobileImg: "/art/infra-mobile.png",
+    alt: "Diagram of the AWS stack: Route 53, EC2, RDS PostgreSQL, with Terraform, ECR and S3 around them",
+    tag: "Infrastructure as Code",
     year: "2026",
-    role: "Backend & Infrastructure",
-    stack: "Django · PostgreSQL · Docker · AWS",
-    desc: "A SaaS platform that lets companies share internal data with employees securely, with role-based access and audit logs. Dockerized Django backend.",
-    chips: ["Django", "PostgreSQL", "Docker", "AWS"],
-    href: "https://github.com/SenseiSaad/openvault",
+    role: "Design & provision",
+    stack: "Terraform · AWS · GitHub Actions",
+    desc: "The full AWS stack for a SaaS app written in Terraform: EC2, RDS PostgreSQL, ECR, Route 53 and security groups — reproducible from scratch. GitHub Actions builds container images, pushes them to Amazon ECR and deploys to EC2 on every push, with credentials in encrypted secrets and IAM roles.",
+    chips: ["Terraform", "EC2", "RDS", "ECR", "Route 53"],
+    href: "https://github.com/SenseiSaad/Saas_devops",
   },
   {
     idx: "02",
     title: "Full-Stack CI/CD Pipeline",
-    img: "/art/paris-rain.jpg",
-    alt: "Cover image for the CI/CD pipeline project",
+    img: "/art/cicd-desktop.png",
+    mobileImg: "/art/cicd-mobile.png",
+    alt: "Pipeline diagram: git push, GitHub Actions build and test, Docker image to Amazon ECR, deploy to EC2",
     tag: "DevOps · CI/CD",
     year: "2026",
-    role: "Automation & Deployment",
-    stack: "Django · AWS · GitHub Actions",
-    desc: "A site that deploys itself. Every push to GitHub runs the build and ships it to AWS automatically, with no manual steps.",
-    chips: ["GitHub Actions", "AWS", "Django", "Nginx"],
+    role: "Automation & deployment",
+    stack: "GitHub Actions · Docker · AWS",
+    desc: "A site that deploys itself. Every push runs the pipeline — install, type-check, tests — then builds the container, pushes it to Amazon ECR and ships it to EC2. No manual steps, no forgotten servers.",
+    chips: ["GitHub Actions", "Docker", "AWS", "Nginx"],
     href: "https://github.com/SenseiSaad/full-stack-ci-cd-action",
   },
   {
     idx: "03",
-    title: "SaaS DevOps Infrastructure",
-    img: "/art/rosso-ducati.jpg",
-    alt: "Cover image for the DevOps infrastructure project",
-    tag: "Infrastructure as Code",
+    title: "OpenVault",
+    img: "/art/openvault-desktop.png",
+    mobileImg: "/art/openvault-mobile.png",
+    alt: "OpenVault web app shown in a browser window: private company knowledge platform",
+    tag: "SaaS · Backend",
     year: "2026",
-    role: "Design & Provision",
-    stack: "Terraform · AWS · HCL",
-    desc: "The full AWS stack for a SaaS app, written in Terraform: compute, database, container registry and networking. Rebuildable from scratch.",
-    chips: ["Terraform", "AWS", "IAM", "RDS"],
-    href: "https://github.com/SenseiSaad/Saas_devops",
+    role: "Backend & infrastructure",
+    stack: "Django · PostgreSQL · Docker · AWS",
+    desc: "A SaaS platform that lets companies share internal knowledge with employees securely, with role-based access and audit logs. Dockerized Django REST backend, deployed on AWS EC2.",
+    chips: ["Django", "PostgreSQL", "Docker", "AWS"],
+    href: "https://github.com/SenseiSaad/openvault",
   },
 ];
 
@@ -91,14 +93,16 @@ export default function Works() {
                     sizes="100vw"
                     priority={i === 0}
                   />
-                  <Image
-                    className="work-screen__bg work-screen__bg--mobile"
-                    src={w.mobileImg}
-                    alt={w.alt}
-                    fill
-                    sizes="100vw"
-                    priority={i === 0}
-                  />
+                  {/* mobile: framed card in flow (see .work-screen__art) */}
+                  <div className="work-screen__art">
+                    <Image
+                      src={w.mobileImg}
+                      alt={w.alt}
+                      width={750}
+                      height={520}
+                      priority={i === 0}
+                    />
+                  </div>
                 </>
               ) : (
                 <Image
