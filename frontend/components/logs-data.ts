@@ -11,27 +11,27 @@ export const LOGS: Log[] = [
     tag: "Incident",
     title: "The build that kept dying at 2am",
     summary:
-      "A deploy kept failing with no clear error. It turned out the 908 MB server was running out of memory mid-build. Here is how I spotted it and the one change that fixed it.",
+      "A production deployment kept failing silently without clear error messages. Traced the root cause to a 908 MB server running out of memory during TypeScript compilation, resolved by optimizing build memory allocation.",
   },
   {
     date: "Jul 2026",
     tag: "How-to",
     title: "Moving a live site with almost no downtime",
     summary:
-      "Swapping servers without taking a site offline is mostly about doing DNS and SSL in the right order. My checklist for a clean cutover.",
+      "A practical checklist for swapping production servers without taking services offline, focusing on the exact sequence for AWS AMI snapshots, DNS record updates and SSL certificate cutovers.",
   },
   {
     date: "Jun 2026",
     tag: "Infra",
     title: "Why I keep Terraform state in S3",
     summary:
-      "Storing infrastructure state on your laptop is a trap. A short note on remote state, locking, and why your team will thank you.",
+      "Storing infrastructure state locally on a laptop introduces high risk. A short write-up on configuring remote S3 state storage with DynamoDB locking for team safety and reliable deployments.",
   },
   {
     date: "May 2026",
     tag: "Notes",
     title: "Deploys should be boring",
     summary:
-      "If a deploy makes you nervous, something is wrong. A few habits that turn releases into a non-event.",
+      "Establishing solid automation habits and CI/CD pipelines so that software releases become a predictable, stress-free routine rather than a late-night firefighting event.",
   },
 ];

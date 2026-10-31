@@ -71,20 +71,26 @@ export default function About() {
             <div className="about__body lead" data-reveal>
               <p>
                 <span className="hi">Hi, I&rsquo;m Saad.</span> I&rsquo;m a cloud
-                and DevOps engineer from Lahore, and my main focus is keeping
-                Linux servers running in production on AWS: infrastructure you
-                can rebuild from code, pipelines that deploy themselves, and
-                clear steps to follow when something breaks.
+                and DevOps practitioner with hands-on freelance and remote
+                development experience. I focus on operating Linux backends in
+                production on AWS, writing infrastructure as code with
+                Terraform, automating workflows through GitHub Actions CI/CD,
+                and managing containerized deployments with Docker, Nginx, and
+                Redis.
               </p>
               <p>
-                That has meant resolving live incidents &mdash; out-of-memory
-                build failures, service startup errors &mdash; moving a live
-                site to a new server over a weekend with DNS and SSL cutover,
-                and wiring Terraform and GitHub Actions end to end. Backend
-                development (Python, Django, Node.js) is my supporting skill:
-                the APIs that run on top of the infrastructure I manage.
-                I&rsquo;m finishing a BSc in Computer Science (2027) and open to
-                full-time and freelance work.
+                My core expertise centers on cloud infrastructure, system
+                reliability, and deployment automation, supported by a solid
+                background in building APIs with Python and Django. I am
+                currently expanding my experience as a Backend AI Engineer
+                Intern at FlyRank AI while handling remote freelance deployment
+                and engineering tasks.
+              </p>
+              <p>
+                I am looking for Cloud, DevOps, or Backend engineering roles
+                where I can contribute operational ownership and practical
+                execution to a dynamic team, whether remote or on site in
+                Lahore.
               </p>
             </div>
             <ul className="about__tools" data-reveal>

@@ -6,27 +6,33 @@ import { revealOnScroll, splitReveal } from "@/lib/gsap";
 const CARDS = [
   {
     idx: "01",
-    title: "Cloud / AWS",
-    desc: "Production AWS: compute, storage and networking I can stand behind when something goes wrong at night.",
+    title: "Cloud (AWS)",
+    desc: "Production AWS: compute, storage, networking and secrets management I can stand behind when something goes wrong at night.",
     list: ["EC2", "S3", "RDS PostgreSQL", "ECR", "Route 53", "IAM", "CloudWatch", "Secrets Manager"],
   },
   {
     idx: "02",
     title: "DevOps & Automation",
     desc: "If I have to do it twice by hand, I turn it into a pipeline. Infrastructure and deploys written as code.",
-    list: ["Terraform + S3 state", "Docker & Compose", "GitHub Actions", "Git", "Bash"],
+    list: ["Terraform + S3 remote state", "Docker", "Docker Compose", "GitHub Actions CI/CD", "Git", "Bash"],
   },
   {
     idx: "03",
     title: "Linux & Web Servers",
     desc: "Boring servers on purpose: hardened, supervised, logged and easy to recover.",
-    list: ["Ubuntu admin", "Nginx reverse proxy", "PM2", "systemd", "SSH", "SSL/TLS (Certbot)", "DNS"],
+    list: ["Ubuntu administration", "Nginx reverse proxy", "PM2", "Systemd", "SSH", "SSL/TLS Certbot", "DNS"],
   },
   {
     idx: "04",
-    title: "Backend & Data",
-    desc: "The supporting layer: APIs other people can run — typed, documented and migrated safely.",
-    list: ["Python", "Django & DRF", "REST / JWT", "Node.js", "TypeScript", "PostgreSQL", "Redis", "Migrations"],
+    title: "Backend Development",
+    desc: "The supporting layer: robust REST APIs other people can run, with typed contracts and JWT authentication.",
+    list: ["Python", "Django", "Django REST Framework", "REST APIs", "JWT authentication", "Node.js", "TypeScript"],
+  },
+  {
+    idx: "05",
+    title: "Databases & Caching",
+    desc: "Data modelled properly and served fast: ORM discipline, schema migrations and caching where it counts.",
+    list: ["PostgreSQL", "Redis", "SQLite", "Django ORM", "Database migrations"],
   },
 ];
 
@@ -69,10 +75,6 @@ export default function Capabilities() {
             </article>
           ))}
         </div>
-
-        <p className="note" data-reveal style={{ marginTop: "clamp(22px, 3vh, 34px)", maxWidth: "60ch" }}>
-          Currently strengthening: Kubernetes and container orchestration.
-        </p>
       </div>
     </section>
   );

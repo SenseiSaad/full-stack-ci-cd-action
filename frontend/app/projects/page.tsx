@@ -8,14 +8,10 @@ export const metadata = {
 };
 
 const PROJECTS = [
-  { name: "Cloud Infrastructure Automation", stack: "Terraform · AWS · GitHub Actions", desc: "Complete AWS infrastructure for a SaaS app — EC2, RDS PostgreSQL, ECR, Route 53, security groups — defined entirely as code and rebuildable from scratch.", repo: "Saas_devops" },
-  { name: "Full-Stack CI/CD Pipeline", stack: "GitHub Actions · Docker · AWS", desc: "A site that deploys itself: every push builds the container, pushes it to Amazon ECR and deploys to EC2, with credentials in GitHub encrypted secrets and IAM roles.", repo: "full-stack-ci-cd-action" },
-  { name: "OpenVault", stack: "Django · PostgreSQL · Docker · AWS", desc: "SaaS platform for companies to share internal data with employees securely, with role-based access and auditing. Dockerized Django REST backend on AWS EC2.", repo: "openvault" },
-  { name: "Modular REST API Backend", stack: "Django REST Framework · Docker · PostgreSQL", desc: "Modular DRF API (projects, experience, blog logs, contact messages) backing saadops.site, containerized with Docker Compose for consistent local and deployed environments.", repo: "Portfolio-backend" },
-  { name: "Showroom", stack: "Python · Django", desc: "Backend for a vehicle website with login, specs, and replica pricing and tax information.", repo: "Showroom" },
-  { name: "Apothecary", stack: "TypeScript · Node.js", desc: "A full-stack app with a separate TypeScript backend and front end.", repo: "apo-backend" },
-  { name: "Interactive Game Web App", stack: "WebGL · Unity · Vercel", desc: "A responsive front end running a voice-controlled in-browser 3D game, with optimized assets.", repo: "Unity-web-game" },
-  { name: "Leo Clone", stack: "TypeScript", desc: "A near-finished marketing website clone built to practice layout and motion.", repo: "leo-clone" },
+  { name: "Cloud Infrastructure Automation & Deployment", stack: "Terraform · AWS · GitHub Actions", desc: "Provisioned a complete, reproducible AWS infrastructure stack using Terraform. Built automated GitHub Actions CI/CD pipelines that build container images, push them to Amazon ECR, and deploy updates to EC2 on every code push using secure IAM roles.", repo: "Saas_devops" },
+  { name: "Modular REST API Backend", stack: "Django REST Framework · Docker · PostgreSQL", desc: "Designed and developed a modular DRF API managing projects, work experience, logs, and contact submissions to back the personal portfolio site. Fully containerized with Docker and Docker Compose to guarantee parity between local development and production environments.", repo: "Portfolio-backend" },
+  { name: "OpenVault", stack: "Next.js · Django REST Framework · PostgreSQL · Docker · AWS", desc: "Multi-tenant enterprise document repository and AI knowledge platform built with secure role-based access control, comprehensive audit logs, and integrated RAG pipelines.", repo: "openvault" },
+  { name: "Vehicle Showroom Management API", stack: "Python · Django · React · JWT", desc: "Built a comprehensive vehicle catalog backend and frontend featuring multi-parameter filtering, secure JWT authentication, and Swagger/OpenAPI documentation.", repo: "Showroom" },
 ];
 
 export default function ProjectsPage() {

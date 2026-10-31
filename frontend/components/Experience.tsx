@@ -22,26 +22,36 @@ type Job = {
 // swap in a real photo/screenshot.
 const JOBS: Job[] = [
   {
-    year: "2025",
-    period: "Nov 2025 – May 2026",
+    year: "2024",
+    period: "Jun 2024 – Aug 2024",
     role: "Freelance Web Developer",
-    org: "Church organization platform + game web app · Remote, US clients",
+    org: "Celestial Church of Christ Miracle Parish · Minnesota, US",
     icon: "code",
-    tech: ["WordPress", "Responsive design", "DNS", "Hosting", "Vercel"],
+    tech: ["WordPress", "Responsive design", "Hosting", "DNS"],
     description:
-      "Built a 10+ page responsive WordPress site for a church organization in the US — events, forms and dynamic content — and an interactive game web app with an in-browser 3D runtime. Handled theme optimization, DNS, hosting and SSL for both, and shipped them on Vercel.",
+      "Built a multi-page responsive web solution for an organization in the United States: over 10 responsive pages covering church events, staff directories and dynamic content, with theme optimization, hosting setup and DNS configuration.",
     img: "/art/work_exp1.png",
     alt: "Celestial Church of Christ, Miracle Parish website project",
+  },
+  {
+    year: "2025",
+    period: "Mar 2025",
+    role: "Front-End Web Developer (Freelance)",
+    org: "Game Project · Pakistan",
+    icon: "code",
+    tech: ["HTML · CSS", "JavaScript", "3D runtime (iframe)", "Responsive layouts"],
+    description:
+      "Developed a single-page interactive game website designed for browser play: integrated an in-browser 3D game runtime using an iframe, handled front-end animations and optimized responsive layouts across devices.",
   },
   {
     year: "2026",
     period: "Jun 2026 – Aug 2026",
     role: "DevOps & Backend Engineer",
-    org: "Healthcare clinic web platform · Freelance, remote (US client)",
+    org: "ThinkWell / Healthcare Clinic Web Platform · Remote, US client",
     icon: "ops",
-    tech: ["AWS EC2 (Ubuntu)", "Nginx", "PM2", "Redis", "SSL/TLS · DNS"],
+    tech: ["AWS EC2 (Ubuntu)", "Nginx", "PM2", "Redis", "Certbot · DNS"],
     description:
-      "Operated a production Node.js/TypeScript backend on AWS: Nginx reverse proxy, PM2, Redis, SSL/TLS certificates and DNS. Fixed live incidents — an out-of-memory build failure on a 908 MB instance and a service startup error traced through PM2 logs — then migrated the server with an EC2 AMI snapshot, sequencing DNS and SSL cutover for minimal downtime. Documented deploys and recovery so the client could run the stack solo.",
+      "Operated a production Node.js and TypeScript backend on an AWS EC2 Ubuntu instance: Nginx reverse proxy, PM2 supervision, Redis, SSL/TLS certificates with Certbot and DNS records. Resolved out-of-memory build failures on a 908 MB server by adjusting compilation strategies, traced startup errors through logs to fix entry path configuration, migrated the server with AWS AMI snapshots and sequenced DNS and SSL cutovers to minimize downtime, and documented deployment and recovery steps for client handoff.",
   },
   {
     year: "Now",
@@ -49,9 +59,9 @@ const JOBS: Job[] = [
     role: "Backend AI Engineer (Intern)",
     org: "FlyRank AI · Remote",
     icon: "code",
-    tech: ["Python", "Django / DRF", "REST APIs", "AWS"],
+    tech: ["Python", "Django / DRF", "REST APIs", "Cloud deployments"],
     description:
-      "Building and maintaining backend services for an AI product: REST APIs and data flows, plus supporting the cloud deployment. Working with the team to ship features and keep the backend reliable.",
+      "Contributing to backend integration, data flows and AI product engineering within a remote team: building and maintaining backend services, writing robust REST APIs and supporting cloud deployments to ensure high reliability.",
     img: "/art/work_exp3.png",
     alt: "FlyRank AI Backend internship platform",
   },
