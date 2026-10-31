@@ -70,27 +70,18 @@ export default function About() {
             </h2>
             <div className="about__body lead" data-reveal>
               <p>
-                <span className="hi">Hi, I&rsquo;m Saad.</span> I&rsquo;m a cloud
-                and DevOps practitioner with hands-on freelance and remote
-                development experience. I focus on operating Linux backends in
-                production on AWS, writing infrastructure as code with
-                Terraform, automating workflows through GitHub Actions CI/CD,
-                and managing containerized deployments with Docker, Nginx, and
-                Redis.
+                <span className="hi">Hi, I&rsquo;m Saad.</span> I&rsquo;m a
+                cloud and DevOps practitioner operating Linux backends in
+                production on AWS: infrastructure as code with Terraform,
+                CI/CD with GitHub Actions, and containerized deployments with
+                Docker, Nginx, and Redis. Backend APIs (Python, Django) are my
+                supporting skill.
               </p>
               <p>
-                My core expertise centers on cloud infrastructure, system
-                reliability, and deployment automation, supported by a solid
-                background in building APIs with Python and Django. I am
-                currently expanding my experience as a Backend AI Engineer
-                Intern at FlyRank AI while handling remote freelance deployment
-                and engineering tasks.
-              </p>
-              <p>
-                I am looking for Cloud, DevOps, or Backend engineering roles
-                where I can contribute operational ownership and practical
-                execution to a dynamic team, whether remote or on site in
-                Lahore.
+                Currently a Backend AI Engineer Intern at FlyRank AI while
+                handling remote freelance deployment work. I&rsquo;m looking
+                for Cloud, DevOps, or Backend engineering roles, remote or on
+                site in Lahore.
               </p>
             </div>
             <ul className="about__tools" data-reveal>
