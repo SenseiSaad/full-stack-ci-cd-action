@@ -29,20 +29,20 @@ export default function Logs() {
             </h2>
           </div>
           <p className="note" data-reveal>
-            Short write-ups on real problems I ran into and how I solved them.
+            Short write-ups on real problems and the small steps that fixed them.
           </p>
         </div>
 
         <div className="logs__grid" data-reveal>
           {LOGS.map((l) => (
-            <article className="log-card" key={l.title}>
+            <article className="log-card" key={l.slug}>
               <div className="log-card__top">
                 <span className="log-card__tag">{l.tag}</span>
                 <span className="log-card__date">{l.date}</span>
               </div>
               <h3 className="log-card__title">{l.title}</h3>
               <p className="log-card__summary">{l.summary}</p>
-              <a className="log-card__link" href="/logs/">
+              <a className="log-card__link" href={`/logs/${l.slug}/`}>
                 Read <span className="arr">→</span>
               </a>
             </article>

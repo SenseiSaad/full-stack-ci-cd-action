@@ -22,19 +22,22 @@ export default function LogsPage() {
             Notes from the terminal.
           </h1>
           <p className="note" style={{ marginTop: 14, maxWidth: "56ch" }}>
-            Short write-ups on real problems and how I solved them. Full posts
-            are coming soon.
+            Short write-ups on real problems and the small steps that fixed
+            them. Open one to read the details.
           </p>
 
           <div className="loglist">
             {LOGS.map((l) => (
-              <article className="loglist__item" key={l.title}>
+              <article className="loglist__item" key={l.slug}>
                 <div className="loglist__meta">
                   <span className="log-card__tag">{l.tag}</span>
                   <span className="log-card__date">{l.date}</span>
                 </div>
-                <h3>{l.title}</h3>
+                <h3><Link href={`/logs/${l.slug}/`}>{l.title}</Link></h3>
                 <p>{l.summary}</p>
+                <Link href={`/logs/${l.slug}/`} className="subcard__link">
+                  Read more &rarr;
+                </Link>
               </article>
             ))}
           </div>
