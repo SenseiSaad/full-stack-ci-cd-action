@@ -77,8 +77,7 @@ export default function Hero() {
             Linux backends in production on AWS: Terraform and CI/CD to build
             the infrastructure, Nginx, Docker and PM2 to keep services online.
             In plain terms: I set servers up, keep them online, and make deploys
-            boring and repeatable. Backend code (Django, Node.js) is the
-            supporting act.
+            boring and repeatable.
           </p>
 
           <div className="hero__cta" data-hero>

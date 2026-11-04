@@ -1193,10 +1193,6 @@ html.lenis body {
   border: 1px solid var(--ink);
   margin-top: clamp(40px, 6vh, 70px);
 }
-/* five cards: the last one spans the full row so the grid closes cleanly */
-.cap__card:last-child {
-  grid-column: 1 / -1;
-}
 .cap__card {
   position: relative;
   padding: clamp(26px, 3vw, 46px);

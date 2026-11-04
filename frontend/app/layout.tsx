@@ -14,7 +14,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Saad Waseem · Cloud / DevOps Engineer",
   description:
-    "Portfolio of Saad Waseem, a Cloud and DevOps engineer who runs Linux backends in production on AWS with Terraform, GitHub Actions CI/CD, Docker and Nginx, supported by backend development in Django and Node.js.",
+    "Portfolio of Saad Waseem, a Cloud and DevOps engineer deploying and supporting Linux applications on AWS with Terraform, GitHub Actions CI/CD, Docker and Nginx.",
 };
 
 export const viewport: Viewport = {

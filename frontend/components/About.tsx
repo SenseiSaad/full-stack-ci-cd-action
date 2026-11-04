@@ -69,18 +69,13 @@ export default function About() {
             </h2>
             <div className="about__body lead" data-reveal>
               <p>
-                <span className="hi">Hi, I&rsquo;m Saad.</span> I&rsquo;m a
-                cloud and DevOps practitioner operating Linux backends in
-                production on AWS: infrastructure as code with Terraform,
-                CI/CD with GitHub Actions, and containerized deployments with
-                Docker, Nginx, and Redis. Backend APIs (Python, Django) are my
-                supporting skill.
-              </p>
-              <p>
-                Currently a Backend AI Engineer Intern at FlyRank AI while
-                handling remote freelance deployment work. I&rsquo;m looking
-                for Cloud, DevOps, or Backend engineering roles, remote or on
-                site in Lahore.
+                <span className="hi">Hi, I&rsquo;m Saad.</span> Cloud and DevOps
+                engineer deploying Linux applications on AWS with Terraform
+                and GitHub Actions, and resolving production incidents from
+                out-of-memory builds to EC2 migrations with DNS and SSL
+                cutover. Light Python/Django support for application teams.
+                Currently a Backend AI Engineer Intern at FlyRank AI, open to
+                Cloud and DevOps roles, remote or on site in Lahore.
               </p>
             </div>
             <ul className="about__tools" data-reveal>

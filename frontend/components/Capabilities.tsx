@@ -8,7 +8,7 @@ const CARDS = [
     idx: "01",
     title: "Cloud (AWS)",
     desc: "Production AWS: compute, storage, networking and secrets management I can stand behind when something goes wrong at night.",
-    list: ["EC2", "S3", "RDS PostgreSQL", "ECR", "Route 53", "IAM", "CloudWatch", "Secrets Manager"],
+    list: ["EC2", "S3", "RDS PostgreSQL", "ECR", "Route 53", "IAM", "CloudWatch", "Secrets Manager", "VPC", "Security Groups", "AMI"],
   },
   {
     idx: "02",
@@ -25,7 +25,7 @@ const CARDS = [
   {
     idx: "04",
     title: "Backend Development",
-    desc: "The supporting layer: robust REST APIs other people can run, with typed contracts and JWT authentication.",
+    desc: "A light supporting skill: simple REST APIs that help application teams ship features.",
     list: ["Python", "Django", "Django REST Framework", "REST APIs", "JWT authentication", "Node.js", "TypeScript"],
   },
   {
@@ -33,6 +33,12 @@ const CARDS = [
     title: "Databases & Caching",
     desc: "Data modelled properly and served fast: ORM discipline, schema migrations and caching where it counts.",
     list: ["PostgreSQL", "Redis", "SQLite", "Django ORM", "Database migrations"],
+  },
+  {
+    idx: "06",
+    title: "Monitoring & Troubleshooting",
+    desc: "Incidents become documented fixes, not repeated surprises: metrics, logs and written runbooks.",
+    list: ["CloudWatch", "Log analysis", "Incident diagnosis", "Root cause analysis", "Runbook documentation"],
   },
 ];
 
