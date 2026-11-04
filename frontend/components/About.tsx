@@ -73,8 +73,8 @@ export default function About() {
                 engineer deploying Linux applications on AWS with Terraform
                 and GitHub Actions, and resolving production incidents from
                 out-of-memory builds to EC2 migrations with DNS and SSL
-                cutover. Light Python/Django support for application teams.
-                Currently a Backend AI Engineer Intern at FlyRank AI, open to
+                cutover. Currently a Backend AI Engineer Intern at FlyRank AI,
+                open to
                 Cloud and DevOps roles, remote or on site in Lahore.
               </p>
             </div>
@@ -84,7 +84,6 @@ export default function About() {
               <li>Docker</li>
               <li>GitHub Actions</li>
               <li>Nginx</li>
-              <li>PM2</li>
               <li>PostgreSQL</li>
               <li>Redis</li>
               <li>Django</li>

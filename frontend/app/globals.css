@@ -638,7 +638,8 @@ html.lenis body {
   min-height: 100svh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: space-between;
+  padding-top: clamp(150px, 19vh, 220px);
   padding-bottom: clamp(24px, 4vh, 48px);
   overflow: clip;
 }
@@ -668,7 +669,7 @@ html.lenis body {
   position: relative;
   padding-inline: var(--gut);
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: space-between;
   gap: clamp(28px, 5vw, 88px);
 }
@@ -688,8 +689,8 @@ html.lenis body {
   display: block;
 }
 .hero__side {
-  max-width: 46ch;
-  padding-bottom: 6px;
+  max-width: 48ch;
+  padding-top: 6px;
 }
 .hero__sub {
   position: relative;
@@ -1750,6 +1751,9 @@ html.no-anim [data-reveal] {
   .hero__kicker::before {
     display: none;
   }
+  .hero {
+    padding-top: clamp(96px, 13vh, 150px);
+  }
   .hero__title-wrap {
     flex-direction: column;
     align-items: flex-start;
@@ -2591,3 +2595,61 @@ body::after {
     grid-template-columns: 1fr;
   }
 }
+
+/* ---------- LOG POST (dedicated page per write-up) ---------- */
+.logpost__title {
+  font-family: var(--font-d);
+  font-weight: 700;
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  margin-top: 18px;
+  max-width: 24ch;
+}
+.logpost__meta {
+  font-family: var(--font-m);
+  font-size: 11.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+  margin-top: 18px;
+}
+.logpost__lead {
+  margin-top: clamp(30px, 5vh, 52px);
+  max-width: 64ch;
+  font-size: clamp(1.05rem, 1.45vw, 1.3rem);
+  line-height: 1.8;
+  color: var(--fg);
+}
+.logpost {
+  margin-top: clamp(38px, 6vh, 68px);
+  max-width: 68ch;
+  border-top: 1px solid var(--hair);
+}
+.logpost__section {
+  padding: clamp(26px, 4vh, 42px) 0;
+  border-bottom: 1px solid var(--hair);
+}
+.logpost__section h2 {
+  font-family: var(--font-d);
+  font-weight: 700;
+  font-size: clamp(1.25rem, 2vw, 1.65rem);
+  color: var(--fg);
+  margin-bottom: 14px;
+}
+.logpost__section p {
+  color: var(--fg-dim);
+  line-height: 1.85;
+}
+.logpost__back {
+  display: inline-block;
+  margin-top: clamp(36px, 6vh, 60px);
+  font-family: var(--font-m);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--fg-dim);
+}
+.logpost__back:hover { color: var(--fg); }
+.loglist__item h3 a { color: var(--fg); }
+.loglist__item h3 a:hover { color: var(--accent-teal); }

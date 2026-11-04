@@ -20,7 +20,7 @@ const CARDS = [
     idx: "03",
     title: "Linux & Web Servers",
     desc: "Boring servers on purpose: hardened, supervised, logged and easy to recover.",
-    list: ["Ubuntu administration", "Nginx reverse proxy", "PM2", "Systemd", "SSH", "SSL/TLS Certbot", "DNS"],
+    list: ["Ubuntu administration", "Nginx reverse proxy", "Systemd", "SSH", "SSL/TLS Certbot", "DNS"],
   },
   {
     idx: "04",
